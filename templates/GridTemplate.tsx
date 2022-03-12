@@ -6,8 +6,6 @@ interface GridTemplateProps {
 
 export const GridTemplate = ({ children }: GridTemplateProps) => {
   return (
-    <div className="grid grid-cols-12 p-10 border-2 border-red-500">
-      {children}
-    </div>
+    <div className="grid grid-cols-12 p-4 h-screen w-screen">{children}</div>
   );
 };

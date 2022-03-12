@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface ProductDetails {
   id: number;
@@ -22,18 +24,27 @@ export const ProductDetails = ({
   thumbnailUrl,
   title
 }: ProductListItem) => {
+  const { query } = useRouter();
+
   return (
-    <div className="flex-col min-w-full min-h-full p-4 ease-in-out duration-300  hover:scale-105 hover:shadow-2xl bg-neutral-800 rounded-xl justify-center items-center">
-      <div className="flex max-h-40 w-40 mx-auto border-4 border-blue-400">
-        <img
-          className="min-h-full min-w-full"
+    <div className="relative grid gap-4 border-2 border-sky-700 w-80 h-80 lg:w-96 lg:h-96 ease-in-out duration-300  hover:scale-105 shadow-2xl hover:shadow-4xl bg-white justify-center items-center overflow-hidden rounded-xl">
+      <div className="absolute top-5 left-0 flex w-full h-2/3 opacity-90 hover:opacity-100">
+        <Image
+          layout="fill"
+          width={16}
+          height={9}
+          objectFit="contain"
           src={thumbnailUrl}
           alt={thumbnailAlt}
         />
       </div>
-      <Link href={`products/${id}`}>
-        <h3 className="text-center my-2 text-white">{title}</h3>
-      </Link>
+      <div className="flex items-center justify-center mt-auto z-999 w-96 h-20 hover:bg-sky-700">
+        <Link href={`/products/details/${id}/`}>
+          <h3 className="text-center h-full w-full  my-2 text-black cursor-pointer ease-in-out duration-300 hover:scale-125 hover:text-white h-max text-lg">
+            {title}
+          </h3>
+        </Link>
+      </div>
     </div>
   );
 };

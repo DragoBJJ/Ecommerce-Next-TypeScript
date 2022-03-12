@@ -2,10 +2,8 @@ interface AboutProps {}
 
 const About = () => {
   return (
-    <div className="min-h-screen col-span-6 col-start-4">
-      <div className="grid  border-2 border-red-500 place-items-center p-2">
-        <h1 className="text-center">Zaiste nigdy się nie poddawaj</h1>
-      </div>
+    <div className="flex flex-grow w-screen h-screen justify-center p-2">
+      <h1 className="text-center">Zaiste Programuj</h1>
     </div>
   );
 };

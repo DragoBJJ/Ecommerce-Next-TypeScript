@@ -9,11 +9,11 @@ export const Header = () => {
   const linksArray = [
     { name: "Home", href: "/" },
     { name: "about", href: "/about" },
-    { name: "products", href: "/products" }
+    { name: "products", href: "/products/1" }
   ];
 
   return (
-    <header className="w-full h-full p-6 bg-neutral-800">
+    <header className="w-full h-30 p-6 bg-sky-700">
       <nav
         className={`grid grid-cols-3 h-full w-full place-items-center  text-white mx-auto `}
       >
@@ -22,7 +22,9 @@ export const Header = () => {
             <Link href={href} key={href}>
               <a
                 className={
-                  href === router.pathname ? "border-b-2 border-red-500" : ""
+                  href.split("/")[1] === router.pathname.split("/")[1]
+                    ? "border-b-2 border-white"
+                    : ""
                 }
               >
                 {name}
