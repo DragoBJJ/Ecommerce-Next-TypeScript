@@ -1,11 +1,9 @@
 import { InferGetStaticPropsType } from "next";
 import React from "react";
 import { ProductDetails } from "../../components/Product";
-import { StoreApiResponse } from "../products";
 import { Pagination } from "../../components/Pagination";
 import { getProducts, getPaths } from "../../utils/getData";
 import { InferGetStaticPaths } from "../../utils/type";
-import { GridTemplate } from "../../templates/GridTemplate";
 
 const pageId = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!data) return <div>you dont have Data</div>;
