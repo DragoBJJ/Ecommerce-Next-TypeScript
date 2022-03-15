@@ -8,7 +8,7 @@ export const getProducts = async (pageId: string) => {
   const nextPage = Number(pageId) * 25 - 25;
 
   try {
-    const response = await fetch(`${API_URL}?take=25&offset=${nextPage}`);
+    const response = await fetch(`${API_URL}?take=200&offset=${nextPage}`);
     const products: StoreApiResponse[] = await response.json();
     return products;
   } catch (error) {
