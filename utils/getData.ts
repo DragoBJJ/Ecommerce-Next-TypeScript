@@ -2,15 +2,32 @@ import { StoreApiResponse } from "../pages/products";
 
 const API_URL = `https://naszsklep-api.vercel.app/api/products`;
 
+const currentTableData = (
+  products: StoreApiResponse[],
+  pageId: number,
+  PageSize: number
+) => {
+  const firstPageIndex = (pageId - 1) * PageSize;
+  const lastPageIndex = firstPageIndex + PageSize;
+  return products.slice(firstPageIndex, lastPageIndex);
+};
+
 export const getProducts = async (pageId: string) => {
   if (!pageId) return null;
 
-  const nextPage = Number(pageId) * 25 - 25;
+  const pageSize = 25;
 
   try {
-    const response = await fetch(`${API_URL}?take=200&offset=${nextPage}`);
+    const response = await fetch(`${API_URL}?take=250&offset=0`);
     const products: StoreApiResponse[] = await response.json();
-    return products;
+    const pageProducts = currentTableData(products, Number(pageId), pageSize);
+
+    return {
+      pageProducts,
+      currentPage: Number(pageId),
+      totalCount: products.length,
+      pageSize
+    };
   } catch (error) {
     console.log("Error", error);
     return null;
