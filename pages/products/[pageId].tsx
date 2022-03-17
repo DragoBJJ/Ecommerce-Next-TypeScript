@@ -8,11 +8,10 @@ import { InferGetStaticPaths } from "../../utils/type";
 const pageId = ({
   paginationData
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (!paginationData) return <div>you dont have Data</div>;
+  if (!paginationData) return <div>you dont have paginationData</div>;
 
   const { pageProducts, pageSize, totalCount, currentPage } = paginationData;
 
-  console.log("currentTableData", pageProducts);
   return (
     <>
       <Pagination

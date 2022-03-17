@@ -24,8 +24,6 @@ export const Pagination = ({
     pageSize
   });
 
-  const { query } = useRouter();
-
   if (!paginationRange) return null;
 
   if (currentPage === 0 || paginationRange.length < 2) {
@@ -52,7 +50,7 @@ export const Pagination = ({
                   <a
                     href="#"
                     className={`${
-                      pageNumber === query.productId
+                      Number(pageNumber) == currentPage
                         ? "border-sky-700 border-t-2 text-sky-700 "
                         : null
                     }  border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-md font-medium`}
