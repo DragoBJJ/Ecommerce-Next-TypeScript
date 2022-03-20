@@ -1,16 +1,14 @@
 import { InferGetStaticPropsType } from "next";
-import React, { useState, useMemo } from "react";
+import React from "react";
 import { ProductDetails } from "../../components/Product";
 import { Pagination } from "../../components/Pagination";
 import { getProducts, getPaths } from "../../utils/getData";
 import { InferGetStaticPaths } from "../../utils/type";
 
-const pageId = ({
-  paginationData
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (!paginationData) return <div>you dont have paginationData</div>;
+const pageId = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  if (!data) return <div>you dont have paginationData</div>;
 
-  const { pageProducts, pageSize, totalCount, currentPage } = paginationData;
+  const { pageProducts, pageSize, totalCount, currentPage } = data;
 
   return (
     <>
@@ -19,7 +17,7 @@ const pageId = ({
         totalCount={totalCount}
         pageSize={pageSize}
       />
-      <div className="grid grid-cols-1 h-auto w-100 gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
+      <div className="grid grid-cols-1  h-100 w-100 gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
         {pageProducts &&
           pageProducts.map(({ id, title, image }) => {
             return (
@@ -45,22 +43,22 @@ export const getStaticProps = async ({
   if (!params?.pageId)
     return {
       props: {
-        data: undefined
+        data: null
       }
     };
 
-  const paginationData = await getProducts(params.pageId);
+  const data = await getProducts(params.pageId);
 
-  if (!paginationData)
+  if (!data)
     return {
       props: {
-        data: undefined
+        data: null
       }
     };
 
   return {
     props: {
-      paginationData
+      data
     },
     revalidate: 100
   };

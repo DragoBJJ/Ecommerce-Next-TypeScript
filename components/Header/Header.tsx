@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Image from "next/image";
 
-interface HeaderProps {}
+import { useRouter } from "next/router";
+import { UserNav } from "./UserNav";
+
+[];
 
 export const Header = () => {
   const router = useRouter();
@@ -13,9 +16,18 @@ export const Header = () => {
   ];
 
   return (
-    <header className="w-full h-30 p-6 bg-sky-700">
+    <header className="flex w-full h-[120px] p-6 justify-center items-center bg-neutral-800 overflow-hidden">
+      <div className="relative h-28 w-28 shadow-2xl shadow-stone-700 rounded-full">
+        <Image
+          layout="fill"
+          className="inline rounded-full"
+          objectFit="cover"
+          src="/Mathilda1.png"
+          alt="Leon"
+        />
+      </div>
       <nav
-        className={`grid grid-cols-3 h-full w-full place-items-center  text-white mx-auto `}
+        className={`grid grid-cols-3 h-full w-2/4 p-4 rounded-xl place-items-center mx-auto text-[#E1B989] border-2 border-[#E1B989]`}
       >
         {linksArray.map(({ href, name }) => {
           return (
@@ -33,6 +45,7 @@ export const Header = () => {
           );
         })}
       </nav>
+      <UserNav />
     </header>
   );
 };

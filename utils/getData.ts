@@ -1,4 +1,4 @@
-import { StoreApiResponse } from "../pages/products";
+import { StoreApiResponse } from "../utils/type";
 
 const API_URL = `https://naszsklep-api.vercel.app/api/products`;
 
@@ -20,6 +20,7 @@ export const getProducts = async (pageId: string) => {
   try {
     const response = await fetch(`${API_URL}?take=250&offset=0`);
     const products: StoreApiResponse[] = await response.json();
+
     const pageProducts = currentTableData(products, Number(pageId), pageSize);
 
     return {
