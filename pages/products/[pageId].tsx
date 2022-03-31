@@ -2,34 +2,38 @@ import { InferGetStaticPropsType } from "next";
 import React from "react";
 import { ProductDetails } from "../../components/Product";
 import { Pagination } from "../../components/Pagination";
-import { getProducts, getPaths } from "../../utils/getData";
+import { getPaths, getPaginationData } from "../../utils/getData";
 import { InferGetStaticPaths } from "../../utils/type";
 
-const pageId = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (!data) return <div>you dont have paginationData</div>;
+import { Fade } from "react-awesome-reveal";
 
-  const { pageProducts, pageSize, totalCount, currentPage } = data;
+const pageId = ({
+  pageProducts,
+  paginationRange,
+  currentPage
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  if (!paginationRange) return <div>you dont have paginationData</div>;
+  if (!pageProducts) return <div>you dont have pageProducts</div>;
+  if (!currentPage) return <div>Error with your CurrentPage</div>;
 
+  // console.log("pagination", paginationRange);
   return (
     <>
-      <Pagination
-        currentPage={currentPage}
-        totalCount={totalCount}
-        pageSize={pageSize}
-      />
-      <div className="grid grid-cols-1  h-100 w-100 gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
-        {pageProducts &&
-          pageProducts.map(({ id, title, image }) => {
-            return (
+      <Pagination paginationRange={paginationRange} currentPage={currentPage} />
+      <div className="grid grid-cols-1  min-h-screen min-w-screen gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
+        {pageProducts.map(({ id, name, images, price }) => {
+          return (
+            <Fade triggerOnce key={id}>
               <ProductDetails
-                key={id}
                 id={id}
-                thumbnailAlt={title}
-                thumbnailUrl={image}
-                title={title}
+                price={price}
+                thumbnailAlt={name}
+                thumbnailUrl={images[0].url}
+                title={name}
               />
-            );
-          })}
+            </Fade>
+          );
+        })}
       </div>
     </>
   );
@@ -47,18 +51,21 @@ export const getStaticProps = async ({
       }
     };
 
-  const data = await getProducts(params.pageId);
+  const data = await getPaginationData(params.pageId);
 
-  if (!data)
+  if (!data.paginationRange || !data.pageProducts) {
     return {
       props: {
-        data: null
+        data: []
       }
     };
+  }
 
   return {
     props: {
-      data
+      pageProducts: data.pageProducts,
+      paginationRange: data.paginationRange,
+      currentPage: data.currentPage
     },
     revalidate: 100
   };

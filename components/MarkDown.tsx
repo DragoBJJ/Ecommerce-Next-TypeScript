@@ -2,16 +2,19 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { MarkDownResult } from "../utils/type";
 import ReactMarkdown from "react-markdown";
+import { ReactNode } from "react";
 
 export const MarkDownNext = ({ children }: { children: string }) => {
+  const domain = process.env.LOCAL_DOMAIN;
+  console.log("DOMAIN", domain);
   return (
     <ReactMarkdown
       components={{
         a: ({ href, ...props }) => {
           if (!href) return <a {...props}></a>;
 
-          if (!href.includes("NASZA_DOMENA")) {
-            return <a rel="noopener noreferrer" {...props}></a>;
+          if (domain && !href.includes(domain) && href.startsWith("/")) {
+            return <a href={href} rel="noopener noreferrer" {...props}></a>;
           }
 
           return (

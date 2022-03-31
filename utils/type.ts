@@ -6,23 +6,24 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
   ? { params?: R }
   : never;
 
-export interface StoreApiResponse {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  longDescription: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
+// export interface StoreApiResponse {
+//   id: number;
+//   title: string;
+//   price: number;
+//   description: string;
+//   longDescription: string;
+//   category: string;
+//   images: [];
+//   // rating: {
+//   //   rate: number;
+//   //   count: number;
+//   // };
+// }
 
 export interface ProductDetailsType {
-  id: number;
+  id: string;
   title: string;
+  price: number;
   description: string;
   longDescription: MarkDownResult;
   thumbnailUrl: string;
@@ -31,3 +32,10 @@ export interface ProductDetailsType {
 }
 
 export type MarkDownResult = MDXRemoteSerializeResult<Record<string, unknown>>;
+
+export interface CartType {
+  readonly id: ProductDetailsType["id"];
+  readonly title: ProductDetailsType["title"];
+  readonly price: ProductDetailsType["price"];
+  readonly count: number;
+}

@@ -1,23 +1,32 @@
-import Link from "next/link";
+import { useState } from "react";
 import Image from "next/image";
 
-import { useRouter } from "next/router";
-import { UserNav } from "./UserNav";
-
-[];
+import { UserStatus } from "./UserStatus";
+import { Fade } from "react-awesome-reveal";
+import { CartBar } from "../CartBar/CartBar";
+import { MobileIcon } from "./MobileIcon";
+import { MobileNav } from "./MobileNav";
+import { NavLinks } from "./NavLinks";
 
 export const Header = () => {
-  const router = useRouter();
+  const [isOpen, setOpen] = useState(false);
 
   const linksArray = [
     { name: "Home", href: "/" },
     { name: "about", href: "/about" },
     { name: "products", href: "/products/1" }
   ];
-
   return (
-    <header className="flex w-full h-[120px] p-6 justify-center items-center bg-neutral-800 overflow-hidden">
-      <div className="relative h-28 w-28 shadow-2xl shadow-stone-700 rounded-full">
+    <header
+      style={{ zIndex: 9999 }}
+      className={`flex w-screen ${isOpen &&
+        "fixed t-0 b-0 l-0 min-h-screen opacity-95 ease-in-out duration-500"} h-[120px]
+      p-4  lg:justify-center items-center bg-neutral-800  `}
+    >
+      <div
+        className={` ${isOpen &&
+          "hidden"} relative h-28  w-28 mr-4 shadow-2xl shadow-stone-700 rounded-full`}
+      >
         <Image
           layout="fill"
           className="inline rounded-full"
@@ -27,25 +36,18 @@ export const Header = () => {
         />
       </div>
       <nav
-        className={`grid grid-cols-3 h-full w-2/4 p-4 rounded-xl place-items-center mx-auto text-[#E1B989] border-2 border-[#E1B989]`}
+        className={` grid-cols-3 h-full  hidden md:grid  w-2/4 p-4 rounded-xl place-items-center mx-auto text-[#E1B989]`}
       >
-        {linksArray.map(({ href, name }) => {
-          return (
-            <Link href={href} key={href}>
-              <a
-                className={
-                  href.split("/")[1] === router.pathname.split("/")[1]
-                    ? "border-b-2 border-white"
-                    : ""
-                }
-              >
-                {name}
-              </a>
-            </Link>
-          );
-        })}
+        <NavLinks navLinks={linksArray} setOpen={setOpen} />
       </nav>
-      <UserNav />
+
+      <MobileNav linksArray={linksArray} isOpen={isOpen} setOpen={setOpen} />
+
+      <Fade triggerOnce direction="right">
+        <UserStatus />
+      </Fade>
+      <MobileIcon isOpen={isOpen} setOpen={setOpen} />
+      <CartBar />
     </header>
   );
 };
