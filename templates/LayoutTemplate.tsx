@@ -10,10 +10,10 @@ interface LayoutTemplateProps {
 
 export const LayoutTemplate = ({ children }: LayoutTemplateProps) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col w-screen  min-h-screen">
       <NextSeo title="E-commerce" description="Algorytm Luhna" />
       <Header />
-      <div className="flex-grow">{children}</div>
+      <div className="flex flex-grow ">{children}</div>
       <Footer />
     </div>
   );

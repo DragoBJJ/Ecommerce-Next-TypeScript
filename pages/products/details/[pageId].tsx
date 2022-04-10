@@ -37,7 +37,8 @@ const ProductID = ({
             <article className="prose prose-stone  -lg:prose-sm text-sky-700 text-center">
               <h1>{product.name}</h1>
               <MDXRemote {...product.description} />
-              <MarkDownNext children={product.images[0].url} />
+              {/* <MarkDownNext children={product.images[0].url} /> */}
+
               <p className="text-black text-2xl">{product.price}$</p>
               <div className="flex my-4 justify-center items-center w-full max-w-[180px]  ease-in-out duration-300 hover:bg-sky-700 hover:border-none h-[48px] border-2 border-sky-700 text-black rounded-lg cursor-pointer mx-auto">
                 BUY

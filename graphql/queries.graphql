@@ -28,3 +28,11 @@ query getProductsPath {
     id
   }
 }
+
+mutation createProduct {
+  createProduct(data: { name: "Face Mask", slug: "face-mask", price: 1000 }) {
+    id
+    name
+    slug
+    price
+  }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { MarkDownResult } from "../utils/type";
 import ReactMarkdown from "react-markdown";
-import { ReactNode } from "react";
+import { ReactChild, ReactNode } from "react";
 
 export const MarkDownNext = ({ children }: { children: string }) => {
   const domain = process.env.LOCAL_DOMAIN;

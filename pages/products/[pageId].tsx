@@ -16,11 +16,11 @@ const pageId = ({
   if (!pageProducts) return <div>you dont have pageProducts</div>;
   if (!currentPage) return <div>Error with your CurrentPage</div>;
 
-  // console.log("pagination", paginationRange);
+  console.log("products", pageProducts.length);
   return (
     <>
       <Pagination paginationRange={paginationRange} currentPage={currentPage} />
-      <div className="grid grid-cols-1  min-h-screen min-w-screen gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
+      <div className="grid grid-cols-1  min-h-screen w-screen gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
         {pageProducts.map(({ id, name, images, price }) => {
           return (
             <Fade triggerOnce key={id}>
@@ -28,7 +28,7 @@ const pageId = ({
                 id={id}
                 price={price}
                 thumbnailAlt={name}
-                thumbnailUrl={images[0].url}
+                thumbnailUrl={images[0]?.url ? images[0].url : ""}
                 title={name}
               />
             </Fade>

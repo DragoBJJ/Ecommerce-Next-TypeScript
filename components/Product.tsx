@@ -18,13 +18,13 @@ export const ProductDetails = ({
 }: ProductListItem) => {
   const { addItemToCart } = UseCartContext();
   return (
-    <div className="relative grid gap-4  w-100  max-w-80 h-80 lg:max-w-96 lg:h-96 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-sky-700/50  ease-in-out duration-500  bg-white justify-center items-center overflow-hidden rounded-xl">
+    <div className="relative grid  max-w-[350px]  md:max-w-xs  xl:max-w-lg  h-96 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-sky-700/50  ease-in-out duration-300  bg-white justify-center items-center overflow-hidden rounded-xl">
       <Link href={`/products/details/${id}/`}>
         <div className="absolute top-0 left-0 flex w-full h-2/3 opacity-90 hover:opacity-100 cursor-pointer">
           <Image
             layout="fill"
             objectFit="contain"
-            src={thumbnailUrl}
+            src={thumbnailUrl ? thumbnailUrl : "/shopBag.jpg"}
             alt={thumbnailAlt}
           />
         </div>
