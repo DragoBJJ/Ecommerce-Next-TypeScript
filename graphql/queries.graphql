@@ -11,8 +11,8 @@ query getProductList {
   }
 }
 
-query getProductDetails($productID: ID) {
-  product(where: { id: $productID }) {
+query getProductDetails($id: ID) {
+  product(where: { id: $id }) {
     slug
     name
     price
@@ -29,10 +29,10 @@ query getProductsPath {
   }
 }
 
-mutation createProduct {
-  createProduct(data: { name: "Face Mask", slug: "face-mask", price: 1000 }) {
-    id
-    name
-    slug
-    price
-  }
+# mutation createProduct {
+#   createProduct(data: { name: "Face Mask", slug: "face-mask", price: 1000 }) {
+#     id
+#     name
+#     slug
+#     price
+#   }

@@ -12,6 +12,10 @@
 /.next/
 /out/
 
+# my folder
+
+/pages/api/data.js
+
 # production
 /build
 
@@ -36,3 +40,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+

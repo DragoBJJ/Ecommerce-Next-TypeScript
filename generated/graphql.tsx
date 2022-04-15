@@ -7295,13 +7295,19 @@ export type ProductUpdateManyInput = {
   description?: InputMaybe<Scalars['String']>;
   /** Optional updates to localizations */
   localizations?: InputMaybe<ProductUpdateManyLocalizationsInput>;
+  /** name input for default locale (en) */
+  name?: InputMaybe<Scalars['String']>;
   /** price input for default locale (en) */
   price?: InputMaybe<Scalars['Int']>;
+  /** slug input for default locale (en) */
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type ProductUpdateManyLocalizationDataInput = {
   description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Int']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type ProductUpdateManyLocalizationInput = {
@@ -10351,13 +10357,20 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CreateProductReviewMutationVariables = Exact<{
+  review: ReviewCreateInput;
+}>;
+
+
+export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string } | null };
+
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProductListQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, slug: string, name: string, price: number, images: Array<{ __typename?: 'Asset', id: string, url: string }> }> };
 
 export type GetProductDetailsQueryVariables = Exact<{
-  productID?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -10369,6 +10382,39 @@ export type GetProductsPathQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetProductsPathQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string }> };
 
 
+export const CreateProductReviewDocument = gql`
+    mutation CreateProductReview($review: ReviewCreateInput!) {
+  createReview(data: $review) {
+    id
+  }
+}
+    `;
+export type CreateProductReviewMutationFn = Apollo.MutationFunction<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
+
+/**
+ * __useCreateProductReviewMutation__
+ *
+ * To run a mutation, you first call `useCreateProductReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProductReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProductReviewMutation, { data, loading, error }] = useCreateProductReviewMutation({
+ *   variables: {
+ *      review: // value for 'review'
+ *   },
+ * });
+ */
+export function useCreateProductReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductReviewMutation, CreateProductReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProductReviewMutation, CreateProductReviewMutationVariables>(CreateProductReviewDocument, options);
+      }
+export type CreateProductReviewMutationHookResult = ReturnType<typeof useCreateProductReviewMutation>;
+export type CreateProductReviewMutationResult = Apollo.MutationResult<CreateProductReviewMutation>;
+export type CreateProductReviewMutationOptions = Apollo.BaseMutationOptions<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
 export const GetProductListDocument = gql`
     query getProductList {
   products {
@@ -10411,8 +10457,8 @@ export type GetProductListQueryHookResult = ReturnType<typeof useGetProductListQ
 export type GetProductListLazyQueryHookResult = ReturnType<typeof useGetProductListLazyQuery>;
 export type GetProductListQueryResult = Apollo.QueryResult<GetProductListQuery, GetProductListQueryVariables>;
 export const GetProductDetailsDocument = gql`
-    query getProductDetails($productID: ID) {
-  product(where: {id: $productID}) {
+    query getProductDetails($id: ID) {
+  product(where: {id: $id}) {
     slug
     name
     price
@@ -10436,7 +10482,7 @@ export const GetProductDetailsDocument = gql`
  * @example
  * const { data, loading, error } = useGetProductDetailsQuery({
  *   variables: {
- *      productID: // value for 'productID'
+ *      id: // value for 'id'
  *   },
  * });
  */

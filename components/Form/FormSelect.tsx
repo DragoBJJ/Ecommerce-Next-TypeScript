@@ -1,31 +1,27 @@
 import { ErrorMessage } from "@hookform/error-message";
-import { ReactNode } from "react";
 
 import {
   UseFormRegister,
-  RegisterOptions,
   Path,
   FieldValues,
   DeepMap,
   FieldError
 } from "react-hook-form";
 
-type FormSelectProps<TFormData extends FieldValues> = {
+export type FormSelectProps<TFormData extends FieldValues> = {
   register: UseFormRegister<TFormData>;
   id: Path<TFormData>;
   label: string;
   errors?: Partial<DeepMap<TFormData, FieldError>>;
   options: string[];
-  rules?: RegisterOptions;
 };
 
-const FormSelect = <TFormData extends Record<string, unknown>>({
+const FormSelect = <TFormData extends FieldValues>({
   register,
   id,
   label,
   errors,
-  options,
-  rules
+  options
 }: FormSelectProps<TFormData>) => {
   return (
     <>
@@ -36,10 +32,10 @@ const FormSelect = <TFormData extends Record<string, unknown>>({
         {label}
       </label>
       <select
-        className="appearance-none block w-full
-       bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500"
+        className="appearance-none block w-1/3 py-4 px-6 bg-transparent 
+       bg-gray-200 text-gray-700 border border-gray-200 rounded-lg  leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500"
         id={id}
-        {...register(id, rules)}
+        {...register(id)}
       >
         {options.map(item => {
           return <option>{item}</option>;

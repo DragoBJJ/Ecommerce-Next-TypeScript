@@ -9,9 +9,9 @@ type CartContentProps = {
 export const CartContent: FC<CartContentProps> = ({ cartItems }) => {
   const { removeItemFromCart } = UseCartContext();
   return (
-    <div className="col-span-2 border-r-2 border-neutral-800 ">
+    <div className="w-full h-full">
       {cartItems.length ? (
-        <ul>
+        <ul className="bg-scroll">
           {cartItems.map((item, index) => {
             return (
               <li
