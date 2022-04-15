@@ -16,6 +16,7 @@ import {
 import { AreaInputs } from "./AreaInputs";
 import { CartContent } from "../CartBar/CartContent";
 import { UseCartContext } from "../context/CartContext";
+import { FormEvent } from "react";
 
 export const CheckoutForm = () => {
   const {
@@ -33,13 +34,15 @@ export const CheckoutForm = () => {
   //   e.preventDefault();
   //   console.log("E", e);
   // };
-  const onSubmit = (data: FormData) => data;
+  const onSubmit = (data: FormData) => {
+    console.log("data", data, cartItems);
+  };
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-4 place-items-center">
-          <div className="flex w-full flex-wrap col-span-2 justify-center">
+        <div className="grid  grid-cols-2 md:grid-cols-4">
+          <div className="flex w-full flex-wrap col-span-2  justify-center">
             <AreaInputs<FormData>
               title="Contact Information"
               inputs={personalData}
@@ -64,16 +67,9 @@ export const CheckoutForm = () => {
               inputs={homeAddress}
               register={register}
               errors={errors}
+              selectOptions={["Arizona", "Idaho", "Massachusetts"]}
             />
-            <div className="w-full pl-[6rem] justify-start">
-              <FormSelect<FormData>
-                id="state"
-                label="State"
-                register={register}
-                errors={errors}
-                options={["Missipi", "Arizona", "Idaho"]}
-              />
-            </div>
+
             <AreaInputs<FormData>
               title="Billing Information"
               register={register}
@@ -89,11 +85,8 @@ export const CheckoutForm = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col col-span-2 w-full h-full bg-[#E1B989]">
-            {/* <div className="w-full h-full">
-              <CartContent cartItems={cartItems} />
-            </div> */}
-            <div className="w-full h-full top-0">
+          <div className="flex flex-col col-span-2">
+            <div className="w-full h-full top-0 hidden md:block">
               <Image
                 src="/family.jpeg"
                 height={16 / 7}
@@ -102,8 +95,8 @@ export const CheckoutForm = () => {
                 objectFit="cover"
                 quality={100}
               />
+              <CartContent cartItems={cartItems} />
             </div>
-            <CartContent cartItems={cartItems} />
           </div>
         </div>
       </form>

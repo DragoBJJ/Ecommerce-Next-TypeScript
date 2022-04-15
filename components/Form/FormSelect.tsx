@@ -12,11 +12,11 @@ export type FormSelectProps<TFormData extends FieldValues> = {
   register: UseFormRegister<TFormData>;
   id: Path<TFormData>;
   label: string;
-  errors?: Partial<DeepMap<TFormData, FieldError>>;
+  errors: Partial<DeepMap<TFormData, FieldError>>;
   options: string[];
 };
 
-const FormSelect = <TFormData extends FieldValues>({
+export const FormSelect = <TFormData extends FieldValues>({
   register,
   id,
   label,
@@ -32,8 +32,10 @@ const FormSelect = <TFormData extends FieldValues>({
         {label}
       </label>
       <select
-        className="appearance-none block w-1/3 py-4 px-6 bg-transparent 
-       bg-gray-200 text-gray-700 border border-gray-200 rounded-lg  leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500"
+        className={`appearance-none block  
+        "max-w-full py-4 px-6"}  text-gray-700 border-2 border-[#E1B989] 
+        ${errors[id]?.ref &&
+          "bg-red-500 border-black"}  rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500 `}
         id={id}
         {...register(id)}
       >
@@ -55,5 +57,3 @@ const FormSelect = <TFormData extends FieldValues>({
     </>
   );
 };
-
-export default FormSelect;

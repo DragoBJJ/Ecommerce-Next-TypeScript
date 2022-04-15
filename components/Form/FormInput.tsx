@@ -20,7 +20,7 @@ type InputType = {
 export type FormInputProps<TFormData extends FieldValues> = {
   register?: UseFormRegister<TFormData>;
   id: Path<TFormData>;
-  type: Path<InputType>;
+  type?: Path<InputType>;
   placeholder?: string;
   label: string;
   errors?: Partial<DeepMap<TFormData, FieldError>>;
@@ -40,7 +40,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
   return (
     <>
       <label
-        className="block uppercase w-100 tracking-wide text-gray-700 text-xs font-bold my-2"
+        className="block uppercase w-100 tracking-wide text-gray-700 text-xs font-bold my-2 tracking-wider"
         htmlFor={id}
       >
         {label}
@@ -51,9 +51,9 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
           type === "checkbox" ? "max-w-[50px] p-3" : "max-w-full py-4 px-6"
         }  text-gray-700 border-2 border-[#E1B989] 
         ${errors[id]?.ref &&
-          "bg-red-500"}  rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500 `}
+          "bg-red-500 border-black"}  rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500 `}
         id={id}
-        type={type}
+        type={type && type}
         placeholder={placeholder}
         {...register(id)}
       />

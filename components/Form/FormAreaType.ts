@@ -102,7 +102,7 @@ export const shippingAddress: FormInputProps<
 ];
 
 export const homeAddress: FormInputProps<
-  Pick<FormData, "city" | "postalCode">
+  Pick<FormData, "city" | "postalCode" | "state">
 >[] = [
   {
     id: "city",
@@ -115,6 +115,10 @@ export const homeAddress: FormInputProps<
     type: "text",
     placeholder: "63-430",
     label: "Postal Code"
+  },
+  {
+    id: "state",
+    label: "Idaho"
   }
 ];
 
