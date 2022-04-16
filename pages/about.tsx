@@ -1,5 +1,3 @@
-interface AboutProps {}
-
 const About = () => {
   return (
     <div className="flex flex-grow w-screen h-screen justify-center p-2">
