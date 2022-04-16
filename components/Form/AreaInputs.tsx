@@ -34,7 +34,7 @@ export const AreaInputs = <FormData extends Record<string, unknown>>({
         {inputs.map(({ id, type, label, placeholder }) => {
           if (id === "state" && selectOptions) {
             return (
-              <div className="w-full flex flex-col">
+              <div key={`${id}-${type}`} className="w-full flex flex-col">
                 <FormSelect<FormData>
                   id={id as Path<FormData>}
                   label={label}
@@ -47,7 +47,7 @@ export const AreaInputs = <FormData extends Record<string, unknown>>({
           }
 
           return (
-            <div className="w-full flex flex-col">
+            <div key={`${id}-${type}`} className="w-full flex flex-col">
               <FormInput<FormData>
                 id={id as Path<FormData>}
                 type={type}

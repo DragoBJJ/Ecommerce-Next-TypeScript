@@ -21,8 +21,8 @@ const currentPageData = (
   return product.slice(firstPageIndex, lastPageIndex);
 };
 
-export const getProducts = async (pageId: string) => {
-  if (!pageId) return null;
+export const getProducts = async () => {
+  // if (!pageId) return null;
 
   // try {
   //   const response = await fetch(`${API_URL}?take=350&offset=0`);
@@ -92,7 +92,7 @@ export const getPaths = async () => {
 };
 
 export const getPaginationData = async (pageId: string) => {
-  const data = await getProducts(pageId);
+  const data = await getProducts();
   if (!data)
     return {
       pageProducts: []

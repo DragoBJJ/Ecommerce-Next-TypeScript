@@ -12,9 +12,8 @@
 /.next/
 /out/
 
-# my folder
-
-/pages/api/data.js
+# my file
+.data_api
 
 # production
 /build

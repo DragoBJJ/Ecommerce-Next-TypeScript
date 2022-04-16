@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 import { NextApiRequest, NextApiResponse } from "next";
-import { GRAPHQL_API, TOKEN_KEY } from "./data";
+import { GRAPHQL_API, TOKEN_KEY } from "./data_api";
 
 export default async ({ body }: NextApiRequest, res: NextApiResponse) => {
   const graphCMS = new GraphQLClient(GRAPHQL_API, {

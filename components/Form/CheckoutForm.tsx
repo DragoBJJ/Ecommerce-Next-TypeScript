@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import FormSelect from "./FormSelect";
 import Image from "next/image";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,6 +17,9 @@ import { CartContent } from "../CartBar/CartContent";
 import { UseCartContext } from "../context/CartContext";
 import { FormEvent } from "react";
 
+import { useCreateOrderItemMutation } from "../../generated/graphql";
+import { addItem } from "../context/actions";
+
 export const CheckoutForm = () => {
   const {
     register,
@@ -29,13 +31,42 @@ export const CheckoutForm = () => {
   });
 
   const { cartItems } = UseCartContext();
+  console.log("cartItem", cartItems);
+  const [
+    createOrderItem,
+    { data, loading, error }
+  ] = useCreateOrderItemMutation();
 
-  // const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   console.log("E", e);
-  // };
+  console.log("data", data);
+  console.log("loading", loading);
+  console.log("error", error);
+
+  const addItemsOrder = () => {
+    cartItems.map(({ title, price, count }) => {
+      createOrderItem({
+        variables: {
+          data: {
+            quantity: count,
+            total: count,
+            product: {
+              create: {
+                name: title,
+                slug: title,
+                description: title,
+                price: price
+              }
+            }
+          }
+        }
+      });
+    });
+  };
+
+  const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   const onSubmit = (data: FormData) => {
-    console.log("data", data, cartItems);
+    addItemsOrder();
   };
 
   return (
@@ -67,7 +98,7 @@ export const CheckoutForm = () => {
               inputs={homeAddress}
               register={register}
               errors={errors}
-              selectOptions={["Arizona", "Idaho", "Massachusetts"]}
+              selectOptions={["Arizona", "Kujawsko/Pomorski", "Massachusetts"]}
             />
 
             <AreaInputs<FormData>
@@ -93,7 +124,6 @@ export const CheckoutForm = () => {
                 width={16 / 9}
                 layout="responsive"
                 objectFit="cover"
-                quality={100}
               />
               <CartContent cartItems={cartItems} />
             </div>

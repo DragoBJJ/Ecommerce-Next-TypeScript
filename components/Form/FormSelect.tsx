@@ -40,7 +40,7 @@ export const FormSelect = <TFormData extends FieldValues>({
         {...register(id)}
       >
         {options.map(item => {
-          return <option>{item}</option>;
+          return <option key={item}>{item}</option>;
         })}
       </select>
       <div className="w-full mt-2 h-[25px]">

@@ -16,7 +16,6 @@ const pageId = ({
   if (!pageProducts) return <div>you dont have pageProducts</div>;
   if (!currentPage) return <div>Error with your CurrentPage</div>;
 
-  console.log("products", pageProducts.length);
   return (
     <>
       <Pagination paginationRange={paginationRange} currentPage={currentPage} />
