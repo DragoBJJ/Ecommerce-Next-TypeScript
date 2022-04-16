@@ -2,15 +2,15 @@ import { GraphQLClient } from "graphql-request";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async ({ body }: NextApiRequest, res: NextApiResponse) => {
-  const graphCMS = new GraphQLClient(process.env.API!, {
+  const graphCMS = new GraphQLClient(process.env.NEXT_ENDPOINT!, {
     headers: {
-      authorization: `Bearer ${process.env.TOKEN}`
+      authorization: `Bearer ${process.env.NEXT_MUTATION_TOKEN}`
     }
   });
 
   const { createProduct } = await graphCMS.request(
     `mutation{
-  createProduct(data: { name: "Jakub", slug: "face-mask",description: "the best random product in World", price: 650 }) {
+  createProduct(data: { name: "Matylda", slug: "face-mask",description: "the best random product in Europe", price: 650 }) {
     id
     name
     slug
