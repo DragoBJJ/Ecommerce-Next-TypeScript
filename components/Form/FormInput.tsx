@@ -2,13 +2,11 @@ import { ErrorMessage } from "@hookform/error-message";
 
 import {
   UseFormRegister,
-  RegisterOptions,
   Path,
   FieldValues,
   DeepMap,
   FieldError
 } from "react-hook-form";
-import { StringKeys } from "./AreaInputs";
 
 type InputType = {
   text: number;
@@ -48,10 +46,12 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
       <input
         className={`appearance-none block  
         ${
-          type === "checkbox" ? "max-w-[50px] p-3" : "max-w-full py-4 px-6"
+          type === "checkbox" || id === "rating"
+            ? "max-w-[60px] p-3"
+            : "max-w-full py-4 px-6"
         }  text-gray-700 border-2 border-[#E1B989] 
         ${errors[id]?.ref &&
-          "bg-red-500 border-black"}  rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500 `}
+          "bg-red-500 border-black border-2"}  rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500 `}
         id={id}
         type={type && type}
         placeholder={placeholder}

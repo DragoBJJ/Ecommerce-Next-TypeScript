@@ -23,109 +23,21 @@ export const schema = yup
   })
   .required();
 
+export const reviewSchema = yup.object({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  headline: yup.string().required(),
+  name: yup.string().required(),
+  content: yup.string().required(),
+  rating: yup
+    .number()
+    .min(1)
+    .max(5)
+    .required()
+});
+
 export type FormData = yup.InferType<typeof schema>;
 
-export const cardData: FormInputProps<
-  Pick<FormData, "cardNumber" | "nameCard" | "cvc" | "expirationDate">
->[] = [
-  {
-    id: "cardNumber",
-    label: "Card Number",
-    placeholder: "123-123-123",
-    type: "text"
-  },
-  {
-    id: "nameCard",
-    label: "Name Cards",
-    placeholder: "Visa",
-    type: "text"
-  },
-  {
-    id: "cvc",
-    label: "CVC",
-    placeholder: "123",
-    type: "text"
-  },
-  {
-    id: "expirationDate",
-    label: " expirationDate",
-    placeholder: "22/03/2024",
-    type: "date"
-  }
-];
-
-export const personalData: FormInputProps<
-  Pick<FormData, "firstName" | "lastName" | "email">
->[] = [
-  {
-    id: "email",
-    label: "E-mail",
-    placeholder: "Aleksander@gmail.com",
-    type: "text"
-  },
-  {
-    id: "firstName",
-    label: "First Name",
-    placeholder: "Aleksander",
-    type: "text"
-  },
-  {
-    id: "lastName",
-    label: "Last Name",
-    placeholder: "Macedonian",
-    type: "text"
-  }
-];
-
-export const shippingAddress: FormInputProps<
-  Pick<FormData, "address" | "company" | "apartament">
->[] = [
-  {
-    id: "company",
-    type: "text",
-    label: "Company",
-    placeholder: "Apple"
-  },
-
-  {
-    id: "address",
-    label: "Address",
-    type: "text",
-    placeholder: "Słoneczna"
-  },
-  {
-    id: "apartament",
-    label: "Apartament",
-    type: "text",
-    placeholder: "Hilton"
-  }
-];
-
-export const homeAddress: FormInputProps<
-  Pick<FormData, "city" | "postalCode" | "state">
->[] = [
-  {
-    id: "city",
-    type: "text",
-    label: "City",
-    placeholder: "Poznan"
-  },
-  {
-    id: "postalCode",
-    type: "text",
-    placeholder: "63-430",
-    label: "Postal Code"
-  },
-  {
-    id: "state",
-    label: "Idaho"
-  }
-];
-
-export const billingData: FormInputProps<Pick<FormData, "billing">>[] = [
-  {
-    id: "billing",
-    type: "checkbox",
-    label: "Same information as a Shipping Address"
-  }
-];
+export type ReviewData = yup.InferType<typeof reviewSchema>;

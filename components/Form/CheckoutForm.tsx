@@ -2,15 +2,14 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 import { yupResolver } from "@hookform/resolvers/yup";
+import { FormData, schema } from "./FormAreaType";
 import {
-  FormData,
-  schema,
   personalData,
   shippingAddress,
   billingData,
   homeAddress,
   cardData
-} from "./FormAreaType";
+} from "./FormAreaData";
 
 import { AreaInputs } from "./AreaInputs";
 import { CartContent } from "../CartBar/CartContent";
@@ -38,22 +37,17 @@ export const CheckoutForm = () => {
   ] = useCreateOrderItemMutation();
 
   console.log("data", data);
-  console.log("loading", loading);
-  console.log("error", error);
 
   const addItemsOrder = () => {
-    cartItems.map(({ title, price, count }) => {
+    cartItems.map(({ id, count }) => {
       createOrderItem({
         variables: {
           data: {
             quantity: count,
             total: count,
             product: {
-              create: {
-                name: title,
-                slug: title,
-                description: title,
-                price: price
+              connect: {
+                id
               }
             }
           }
@@ -62,12 +56,13 @@ export const CheckoutForm = () => {
     });
   };
 
-  const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
   const onSubmit = (data: FormData) => {
     addItemsOrder();
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error...</div>;
+  if (data) return <div>Your OrderItem has beed created</div>;
 
   return (
     <>
@@ -86,13 +81,13 @@ export const CheckoutForm = () => {
               register={register}
               errors={errors}
             />
+
             <AreaInputs<FormData>
               title="Shipping Address"
               inputs={shippingAddress}
               register={register}
               errors={errors}
             />
-
             <AreaInputs<FormData>
               title="Home Address"
               inputs={homeAddress}
@@ -100,7 +95,6 @@ export const CheckoutForm = () => {
               errors={errors}
               selectOptions={["Arizona", "Kujawsko/Pomorski", "Massachusetts"]}
             />
-
             <AreaInputs<FormData>
               title="Billing Information"
               register={register}
@@ -119,6 +113,7 @@ export const CheckoutForm = () => {
           <div className="flex flex-col col-span-2">
             <div className="w-full h-full top-0 hidden md:block">
               <Image
+                priority={true}
                 src="/family.jpeg"
                 height={16 / 7}
                 width={16 / 9}

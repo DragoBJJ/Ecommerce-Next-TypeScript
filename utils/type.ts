@@ -6,20 +6,6 @@ export type InferGetStaticPaths<T> = T extends () => Promise<{
   ? { params?: R }
   : never;
 
-// export interface StoreApiResponse {
-//   id: number;
-//   title: string;
-//   price: number;
-//   description: string;
-//   longDescription: string;
-//   category: string;
-//   images: [];
-//   // rating: {
-//   //   rate: number;
-//   //   count: number;
-//   // };
-// }
-
 export interface ProductDetailsType {
   id: string;
   title: string;

@@ -13,6 +13,7 @@ query getProductList {
 
 query getProductDetails($id: ID) {
   product(where: { id: $id }) {
+    id
     slug
     name
     price
@@ -29,10 +30,18 @@ query getProductsPath {
   }
 }
 
-# mutation createProduct {
-#   createProduct(data: { name: "Face Mask", slug: "face-mask", price: 1000 }) {
-#     id
-#     name
-#     slug
-#     price
-#   }
+fragment ReviewContent on Review {
+  id
+  name
+  content
+  headline
+  rating
+}
+
+query getReviewsFromProduct($id: ID) {
+  product(where: { id: $id }) {
+    reviews {
+      ...ReviewContent
+    }
+  }
+}

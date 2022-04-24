@@ -9,14 +9,14 @@ type CartContentProps = {
 export const CartContent: FC<CartContentProps> = ({ cartItems }) => {
   const { removeItemFromCart } = UseCartContext();
   return (
-    <div className="flex flex-col h-screen flex-grow w-full  border-[1px] border-blue">
+    <div className="flex flex-col h-screen flex-grow w-full  border-2 border-[#E1B989]">
       {cartItems.length ? (
         <ul className="bg-scroll">
           {cartItems.map((item, index) => {
             return (
               <li
                 key={`${item.title}_${index}`}
-                className="flex justify-between p-4 border-b-[1px] border-black"
+                className="flex justify-between p-4 border-b-2 border-[#E1B989]"
               >
                 <div>{item.title}</div>
                 <div className="flex w-[180px] justify-end   items-center">

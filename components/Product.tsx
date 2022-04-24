@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { CartType, ProductDetailsType } from "../utils/type";
+import { ProductDetailsType } from "../utils/type";
 import Image from "next/image";
 import { UseCartContext } from "./context/CartContext";
 

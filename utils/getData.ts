@@ -6,7 +6,8 @@ import {
   GetProductListDocument,
   GetProductListQuery,
   GetProductsPathDocument,
-  GetProductsPathQuery
+  GetProductsPathQuery,
+  useGetProductDetailsQuery
 } from "../generated/graphql";
 
 const API_URL = `https://naszsklep-api.vercel.app/api/products`;
@@ -39,6 +40,7 @@ export const getProducts = async () => {
   const { data } = await apolloClient.query<GetProductListQuery>({
     query: GetProductListDocument
   });
+
   const { products } = data;
   return {
     products
@@ -58,7 +60,7 @@ export const getCurrentProduct = async (productId: string) => {
   // }
   const { data } = await apolloClient.query<GetProductDetailsQuery>({
     variables: {
-      productID: productId
+      id: productId
     },
     query: GetProductDetailsDocument
   });

@@ -10362,7 +10362,7 @@ export type CreateProductReviewMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string } | null };
+export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string, name: string, content: string, headline: string, rating?: number | null } | null };
 
 export type CreateOrderItemMutationVariables = Exact<{
   data: OrderItemCreateInput;
@@ -10370,6 +10370,11 @@ export type CreateOrderItemMutationVariables = Exact<{
 
 
 export type CreateOrderItemMutation = { __typename?: 'Mutation', createOrderItem?: { __typename?: 'OrderItem', id: string, publishedAt?: any | null, publishedBy?: { __typename?: 'User', id: string } | null } | null };
+
+export type PublishManyReviewsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublishManyReviewsMutation = { __typename?: 'Mutation', publishManyReviews: { __typename?: 'BatchPayload', count: any } };
 
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10381,21 +10386,38 @@ export type GetProductDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsQuery = { __typename?: 'Query', product?: { __typename?: 'Product', slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string }> } | null };
+export type GetProductDetailsQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string }> } | null };
 
 export type GetProductsPathQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProductsPathQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string }> };
 
+export type ReviewContentFragment = { __typename?: 'Review', id: string, name: string, content: string, headline: string, rating?: number | null };
 
+export type GetReviewsFromProductQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type GetReviewsFromProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', reviews: Array<{ __typename?: 'Review', id: string, name: string, content: string, headline: string, rating?: number | null }> } | null };
+
+export const ReviewContentFragmentDoc = gql`
+    fragment ReviewContent on Review {
+  id
+  name
+  content
+  headline
+  rating
+}
+    `;
 export const CreateProductReviewDocument = gql`
     mutation CreateProductReview($review: ReviewCreateInput!) {
   createReview(data: $review) {
-    id
+    ...ReviewContent
   }
 }
-    `;
+    ${ReviewContentFragmentDoc}`;
 export type CreateProductReviewMutationFn = Apollo.MutationFunction<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
 
 /**
@@ -10459,6 +10481,38 @@ export function useCreateOrderItemMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateOrderItemMutationHookResult = ReturnType<typeof useCreateOrderItemMutation>;
 export type CreateOrderItemMutationResult = Apollo.MutationResult<CreateOrderItemMutation>;
 export type CreateOrderItemMutationOptions = Apollo.BaseMutationOptions<CreateOrderItemMutation, CreateOrderItemMutationVariables>;
+export const PublishManyReviewsDocument = gql`
+    mutation PublishManyReviews {
+  publishManyReviews(to: PUBLISHED) {
+    count
+  }
+}
+    `;
+export type PublishManyReviewsMutationFn = Apollo.MutationFunction<PublishManyReviewsMutation, PublishManyReviewsMutationVariables>;
+
+/**
+ * __usePublishManyReviewsMutation__
+ *
+ * To run a mutation, you first call `usePublishManyReviewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishManyReviewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishManyReviewsMutation, { data, loading, error }] = usePublishManyReviewsMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePublishManyReviewsMutation(baseOptions?: Apollo.MutationHookOptions<PublishManyReviewsMutation, PublishManyReviewsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishManyReviewsMutation, PublishManyReviewsMutationVariables>(PublishManyReviewsDocument, options);
+      }
+export type PublishManyReviewsMutationHookResult = ReturnType<typeof usePublishManyReviewsMutation>;
+export type PublishManyReviewsMutationResult = Apollo.MutationResult<PublishManyReviewsMutation>;
+export type PublishManyReviewsMutationOptions = Apollo.BaseMutationOptions<PublishManyReviewsMutation, PublishManyReviewsMutationVariables>;
 export const GetProductListDocument = gql`
     query getProductList {
   products {
@@ -10503,6 +10557,7 @@ export type GetProductListQueryResult = Apollo.QueryResult<GetProductListQuery, 
 export const GetProductDetailsDocument = gql`
     query getProductDetails($id: ID) {
   product(where: {id: $id}) {
+    id
     slug
     name
     price
@@ -10575,3 +10630,40 @@ export function useGetProductsPathLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetProductsPathQueryHookResult = ReturnType<typeof useGetProductsPathQuery>;
 export type GetProductsPathLazyQueryHookResult = ReturnType<typeof useGetProductsPathLazyQuery>;
 export type GetProductsPathQueryResult = Apollo.QueryResult<GetProductsPathQuery, GetProductsPathQueryVariables>;
+export const GetReviewsFromProductDocument = gql`
+    query getReviewsFromProduct($id: ID) {
+  product(where: {id: $id}) {
+    reviews {
+      ...ReviewContent
+    }
+  }
+}
+    ${ReviewContentFragmentDoc}`;
+
+/**
+ * __useGetReviewsFromProductQuery__
+ *
+ * To run a query within a React component, call `useGetReviewsFromProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetReviewsFromProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetReviewsFromProductQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetReviewsFromProductQuery(baseOptions?: Apollo.QueryHookOptions<GetReviewsFromProductQuery, GetReviewsFromProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetReviewsFromProductQuery, GetReviewsFromProductQueryVariables>(GetReviewsFromProductDocument, options);
+      }
+export function useGetReviewsFromProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetReviewsFromProductQuery, GetReviewsFromProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetReviewsFromProductQuery, GetReviewsFromProductQueryVariables>(GetReviewsFromProductDocument, options);
+        }
+export type GetReviewsFromProductQueryHookResult = ReturnType<typeof useGetReviewsFromProductQuery>;
+export type GetReviewsFromProductLazyQueryHookResult = ReturnType<typeof useGetReviewsFromProductLazyQuery>;
+export type GetReviewsFromProductQueryResult = Apollo.QueryResult<GetReviewsFromProductQuery, GetReviewsFromProductQueryVariables>;

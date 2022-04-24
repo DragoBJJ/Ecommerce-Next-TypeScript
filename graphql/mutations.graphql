@@ -1,6 +1,6 @@
 mutation CreateProductReview($review: ReviewCreateInput!) {
   createReview(data: $review) {
-    id
+    ...ReviewContent
   }
 }
 
@@ -11,5 +11,11 @@ mutation CreateOrderItem($data: OrderItemCreateInput!) {
     publishedBy {
       id
     }
+  }
+}
+
+mutation PublishManyReviews {
+  publishManyReviews(to: PUBLISHED) {
+    count
   }
 }
