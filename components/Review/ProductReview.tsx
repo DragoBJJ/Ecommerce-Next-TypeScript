@@ -1,9 +1,6 @@
 import { reverse } from "dns";
 import { memo } from "react";
-import {
-  useGetReviewsFromProductQuery,
-  usePublishReviewMutation
-} from "../../generated/graphql";
+import { useGetReviewsFromProductQuery } from "../../generated/graphql";
 
 type ProductReviewProps = {
   productID: string;

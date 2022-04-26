@@ -1,4 +1,4 @@
-import { CheckoutForm } from "../components/Form/CheckoutForm";
+import { CheckoutForm } from "../../components/Form/CheckoutForm";
 
 const Checkout = () => {
   return (

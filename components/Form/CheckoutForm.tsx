@@ -29,7 +29,7 @@ export const CheckoutForm = () => {
     resolver: yupResolver(schema)
   });
 
-  const { cartItems } = UseCartContext();
+  const { cartItems, removeItemFromCart } = UseCartContext();
   console.log("cartItem", cartItems);
   const [
     createOrderItem,
@@ -120,7 +120,10 @@ export const CheckoutForm = () => {
                 layout="responsive"
                 objectFit="cover"
               />
-              <CartContent cartItems={cartItems} />
+              <CartContent
+                removeItem={removeItemFromCart}
+                cartItems={cartItems}
+              />
             </div>
           </div>
         </div>

@@ -39,7 +39,7 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
       });
 
       if (errors) {
-        alert("Error");
+        return alert("Error");
       }
 
       if (
@@ -60,7 +60,7 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
       cache.writeQuery({
         query: GetReviewsFromProductDocument,
         variables: { id: productID },
-        data: !errors ? newQuery : orginalQuery
+        data: errors ? orginalQuery : newQuery
       });
     }
   });

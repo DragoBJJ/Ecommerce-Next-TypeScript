@@ -19,3 +19,48 @@ mutation PublishManyReviews {
     count
   }
 }
+mutation createOrder(
+  $email: String!
+  $total: Int!
+  $stripeCheckoutId: String!
+  $orderItems: OrderItemCreateManyInlineInput!
+) {
+  createOrder(
+    data: {
+      email: $email
+      total: $total
+      stripeCheckoutId: $stripeCheckoutId
+      orderItems: $orderItems
+    }
+  ) {
+    id
+    stripeCheckoutId
+    orderItems {
+      quantity
+      product {
+        id
+        name
+        price
+      }
+    }
+  }
+}
+
+mutation updateOrder($orderID: ID, $stripID: String!) {
+  updateOrder(where: { id: $orderID }, data: { stripeCheckoutId: $stripID }) {
+    id
+    updatedAt
+    stripeCheckoutId
+  }
+}
+
+query getOrderItemsByOrderID($id: ID!) {
+  orderItems(where: { order: { id: $id } }) {
+    product {
+      id
+      name
+      price
+    }
+    quantity
+  }
+}

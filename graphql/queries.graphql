@@ -23,7 +23,6 @@ query getProductDetails($id: ID) {
     }
   }
 }
-
 query getProductsPath {
   products {
     id

@@ -18,7 +18,6 @@ const ProductID = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!product) return <h2>You dont have this product</h2>;
 
-  console.log("PRODUCT", product);
   return (
     <GridTemplate>
       <Fade triggerOnce direction="down">
