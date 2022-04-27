@@ -25,3 +25,22 @@ export interface CartType {
   readonly price: ProductDetailsType["price"];
   readonly count: number;
 }
+
+export type CheckoutReqest = {
+  id: CartType["id"];
+  count: CartType["count"];
+}[];
+
+export type OrderItemsType = {
+  __typename?: "OrderItem" | undefined;
+  quantity: number;
+  product?:
+    | {
+        __typename?: "Product" | undefined;
+        id: string;
+        name: string;
+        price: number;
+      }
+    | null
+    | undefined;
+}[];

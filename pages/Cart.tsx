@@ -12,6 +12,7 @@ const CartPage = () => {
     return <div>You don't have publish Strip Key</div>;
   }
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+
   const sendProductToStripe = (cartItems: CartType[]) => {
     return cartItems.map(({ id, count }) => {
       return {
