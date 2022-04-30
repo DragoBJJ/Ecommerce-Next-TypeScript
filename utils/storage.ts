@@ -5,10 +5,9 @@ export const getItemFromLocalStorage = () => {
   if (!localData) return [];
   try {
     const cartItems: CartType[] = JSON.parse(localData);
-    console.log("JSON_PARSE", cartItems);
     return cartItems;
   } catch (error) {
-    console.error(error);
+    console.log("Error", error);
     return [];
   }
 };

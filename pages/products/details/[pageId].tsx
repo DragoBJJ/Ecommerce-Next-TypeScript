@@ -97,6 +97,6 @@ export const getStaticProps = async ({
         description
       }
     },
-    revalidate: 60
+    revalidate: 60 * 60
   };
 };

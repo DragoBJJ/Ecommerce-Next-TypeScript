@@ -1,0 +1,17 @@
+query GetOrderItems($id: ID) {
+  order(where: { id: $id }) {
+    orderItems {
+      id
+      quantity
+      product {
+        id
+        images {
+          url
+        }
+        name
+        description
+        price
+      }
+    }
+  }
+}

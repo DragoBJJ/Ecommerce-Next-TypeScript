@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-graphql": "graphql-codegen --config codegen.yml"
+    "generate-graphql": "graphql-codegen --config codegen.yml --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -16,6 +16,7 @@
     "@heroicons/react": "^1.0.6",
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.8.8",
+    "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
     "graphql": "^16.3.0",
     "init": "^0.1.2",

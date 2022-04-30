@@ -1,4 +1,7 @@
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Image from "next/image";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,10 +17,32 @@ import {
 import { AreaInputs } from "./AreaInputs";
 import { CartContent } from "../CartBar/CartContent";
 import { UseCartContext } from "../context/CartContext";
-import { FormEvent } from "react";
 
-import { useCreateOrderItemMutation } from "../../generated/graphql";
-import { addItem } from "../context/actions";
+import { sendOrder } from "../../utils/apiCheckout";
+import { loadStripe, StripeCardElementChangeEvent } from "@stripe/stripe-js";
+import { OrderContent } from "../Order/OrderContent";
+import { UseClientContext } from "../context/ClientContext";
+
+const cardStyle = {
+  style: {
+    base: {
+      color: "#32325d",
+      fontFamily: "Arial, sans-serif",
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#32325d"
+      }
+    },
+    invalid: {
+      fontFamily: "Arial, sans-serif",
+      color: "#fa755a",
+      iconColor: "#fa755a"
+    }
+  }
+};
+
+// const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
 
 export const CheckoutForm = () => {
   const {
@@ -29,44 +54,60 @@ export const CheckoutForm = () => {
     resolver: yupResolver(schema)
   });
 
-  const { cartItems, removeItemFromCart } = UseCartContext();
-  console.log("cartItem", cartItems);
-  const [
-    createOrderItem,
-    { data, loading, error }
-  ] = useCreateOrderItemMutation();
+  const [succeeded, setSucceeded] = useState(false);
+  const [errorPayment, setError] = useState<string | null>(null);
+  const [processing, setProcessing] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState(true);
 
-  console.log("data", data);
+  const { clientID, setClientID, setOrderID } = UseClientContext();
 
-  const addItemsOrder = () => {
-    cartItems.map(({ id, count }) => {
-      createOrderItem({
-        variables: {
-          data: {
-            quantity: count,
-            total: count,
-            product: {
-              connect: {
-                id
-              }
-            }
-          }
-        }
-      });
+  if (!useStripe || !useElements || !clientID)
+    throw Error("You dont have access to stripeElements");
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  console.log("elements", elements);
+  console.log("stripe", stripe);
+  console.log("Stripe", clientID);
+
+  if (!stripe || !elements) {
+    throw Error("You dont have access to stripe or stripeElement");
+  }
+
+  const handleCardSubmit = async () => {
+    const paypalCard = elements.getElement(CardElement);
+    if (!paypalCard) {
+      throw Error("You dont have access to  paypalCard");
+    }
+    const payload = await stripe.confirmCardPayment(clientID, {
+      payment_method: {
+        card: paypalCard
+      }
     });
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
+    } else {
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
+    }
+  };
+
+  const handleChange = async (event: StripeCardElementChangeEvent) => {
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : null);
   };
 
   const onSubmit = (data: FormData) => {
-    addItemsOrder();
+    handleCardSubmit();
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
-  if (data) return <div>Your OrderItem has beed created</div>;
-
+  console.log("processing", processing);
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id="payment-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid  grid-cols-2 md:grid-cols-4">
           <div className="flex w-full flex-wrap col-span-2  justify-center">
             <AreaInputs<FormData>
@@ -75,12 +116,19 @@ export const CheckoutForm = () => {
               register={register}
               errors={errors}
             />
-            <AreaInputs<FormData>
+            {/* <AreaInputs<FormData>
               title="Payment Default"
               inputs={cardData}
               register={register}
               errors={errors}
-            />
+            /> */}
+            <div className=" w-full h-auto lg:w-5/6 m-2 justify-center border-2 border-red-500">
+              <CardElement
+                options={cardStyle}
+                id="card-element"
+                onChange={handleChange}
+              />
+            </div>
 
             <AreaInputs<FormData>
               title="Shipping Address"
@@ -103,6 +151,7 @@ export const CheckoutForm = () => {
             />
             <div className="w-full  px-3 mx-3 mb-6">
               <button
+                id="submit"
                 type="submit"
                 className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px]"
               >
@@ -120,10 +169,7 @@ export const CheckoutForm = () => {
                 layout="responsive"
                 objectFit="cover"
               />
-              <CartContent
-                removeItem={removeItemFromCart}
-                cartItems={cartItems}
-              />
+              <OrderContent />
             </div>
           </div>
         </div>

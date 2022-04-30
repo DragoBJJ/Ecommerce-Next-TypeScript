@@ -66,7 +66,7 @@ export const getStaticProps = async ({
       paginationRange: data.paginationRange,
       currentPage: data.currentPage
     },
-    revalidate: 100
+    revalidate: 86400
   };
 };
 

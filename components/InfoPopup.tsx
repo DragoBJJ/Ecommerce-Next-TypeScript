@@ -1,11 +1,12 @@
+import { memo } from "react";
 import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
 
-type Props = {
+type StatusProps = {
   status: "success" | "cancell";
 };
 
-export const InfoPopup = ({ status }: Props) => {
+export const InfoPopup = memo(({ status }: StatusProps) => {
   return (
     <Fade triggerOnce>
       <div className="flex flex-col my-4 mx-auto w-full h-full max-w-[350px]   sm:max-w-[400px] max-h-[450px]  lg:max-w-[500px] lg:max-h-[500px] bg-[#E1B989] rounded-xl shadow-2xl">
@@ -31,4 +32,4 @@ export const InfoPopup = ({ status }: Props) => {
       </div>
     </Fade>
   );
-};
+});

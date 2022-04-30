@@ -57,9 +57,9 @@ export const cardData: FormInputProps<
   },
   {
     id: "expirationDate",
-    label: " expirationDate",
-    placeholder: "22/03/2024",
-    type: "date"
+    label: " Expiration Date",
+    placeholder: "07/24",
+    type: "text"
   }
 ];
 

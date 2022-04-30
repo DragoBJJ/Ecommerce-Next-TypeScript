@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 import { addItem, deleteItem } from "./actions";
 import {
   getItemFromLocalStorage,
@@ -10,6 +17,7 @@ interface CartState {
   cartItems: CartType[];
   addItemToCart: (item: CartType) => void;
   removeItemFromCart: (id: CartType["id"]) => void;
+  setCartItems: Dispatch<SetStateAction<[] | CartType[]>>;
 }
 
 export const CartContext = createContext<CartState | null>(null);
@@ -19,7 +27,7 @@ export const CartContextProvider = ({
 }: {
   children: JSX.Element;
 }) => {
-  const [cartItems, setCartItems] = useState<CartType[]>([]);
+  const [cartItems, setCartItems] = useState<CartType[] | []>([]);
 
   useEffect(() => {
     setCartItems(getItemFromLocalStorage());
@@ -37,7 +45,7 @@ export const CartContextProvider = ({
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addItemToCart, removeItemFromCart }}
+      value={{ cartItems, addItemToCart, removeItemFromCart, setCartItems }}
     >
       {children}
     </CartContext.Provider>

@@ -10394,12 +10394,31 @@ export type UpdateOrderMutationVariables = Exact<{
 
 export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder?: { __typename?: 'Order', id: string, updatedAt: any, stripeCheckoutId: string } | null };
 
-export type GetOrderItemsByOrderIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+export type PublishOrdersMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublishOrdersMutation = { __typename?: 'Mutation', publishManyOrdersConnection: { __typename?: 'OrderConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } }, publishManyOrderItemsConnection: { __typename?: 'OrderItemConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } } };
+
+export type RemoveOrderItemFromOrderMutationVariables = Exact<{
+  orderItemID?: InputMaybe<Scalars['ID']>;
 }>;
 
 
-export type GetOrderItemsByOrderIdQuery = { __typename?: 'Query', orderItems: Array<{ __typename?: 'OrderItem', quantity: number, product?: { __typename?: 'Product', id: string, name: string, price: number } | null }> };
+export type RemoveOrderItemFromOrderMutation = { __typename?: 'Mutation', deleteOrderItem?: { __typename?: 'OrderItem', id: string, publishedAt?: any | null } | null };
+
+export type RemoveOrderByIdMutationVariables = Exact<{
+  orderID?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type RemoveOrderByIdMutation = { __typename?: 'Mutation', deleteOrder?: { __typename?: 'Order', id: string } | null };
+
+export type GetOrderItemsQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type GetOrderItemsQuery = { __typename?: 'Query', order?: { __typename?: 'Order', orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', id: string, name: string, description: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10621,46 +10640,159 @@ export function useUpdateOrderMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateOrderMutationHookResult = ReturnType<typeof useUpdateOrderMutation>;
 export type UpdateOrderMutationResult = Apollo.MutationResult<UpdateOrderMutation>;
 export type UpdateOrderMutationOptions = Apollo.BaseMutationOptions<UpdateOrderMutation, UpdateOrderMutationVariables>;
-export const GetOrderItemsByOrderIdDocument = gql`
-    query getOrderItemsByOrderID($id: ID!) {
-  orderItems(where: {order: {id: $id}}) {
-    product {
-      id
-      name
-      price
+export const PublishOrdersDocument = gql`
+    mutation PublishOrders {
+  publishManyOrdersConnection {
+    pageInfo {
+      pageSize
     }
-    quantity
+  }
+  publishManyOrderItemsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+    `;
+export type PublishOrdersMutationFn = Apollo.MutationFunction<PublishOrdersMutation, PublishOrdersMutationVariables>;
+
+/**
+ * __usePublishOrdersMutation__
+ *
+ * To run a mutation, you first call `usePublishOrdersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishOrdersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishOrdersMutation, { data, loading, error }] = usePublishOrdersMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePublishOrdersMutation(baseOptions?: Apollo.MutationHookOptions<PublishOrdersMutation, PublishOrdersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishOrdersMutation, PublishOrdersMutationVariables>(PublishOrdersDocument, options);
+      }
+export type PublishOrdersMutationHookResult = ReturnType<typeof usePublishOrdersMutation>;
+export type PublishOrdersMutationResult = Apollo.MutationResult<PublishOrdersMutation>;
+export type PublishOrdersMutationOptions = Apollo.BaseMutationOptions<PublishOrdersMutation, PublishOrdersMutationVariables>;
+export const RemoveOrderItemFromOrderDocument = gql`
+    mutation RemoveOrderItemFromOrder($orderItemID: ID) {
+  deleteOrderItem(where: {id: $orderItemID}) {
+    id
+    publishedAt
+  }
+}
+    `;
+export type RemoveOrderItemFromOrderMutationFn = Apollo.MutationFunction<RemoveOrderItemFromOrderMutation, RemoveOrderItemFromOrderMutationVariables>;
+
+/**
+ * __useRemoveOrderItemFromOrderMutation__
+ *
+ * To run a mutation, you first call `useRemoveOrderItemFromOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveOrderItemFromOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeOrderItemFromOrderMutation, { data, loading, error }] = useRemoveOrderItemFromOrderMutation({
+ *   variables: {
+ *      orderItemID: // value for 'orderItemID'
+ *   },
+ * });
+ */
+export function useRemoveOrderItemFromOrderMutation(baseOptions?: Apollo.MutationHookOptions<RemoveOrderItemFromOrderMutation, RemoveOrderItemFromOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveOrderItemFromOrderMutation, RemoveOrderItemFromOrderMutationVariables>(RemoveOrderItemFromOrderDocument, options);
+      }
+export type RemoveOrderItemFromOrderMutationHookResult = ReturnType<typeof useRemoveOrderItemFromOrderMutation>;
+export type RemoveOrderItemFromOrderMutationResult = Apollo.MutationResult<RemoveOrderItemFromOrderMutation>;
+export type RemoveOrderItemFromOrderMutationOptions = Apollo.BaseMutationOptions<RemoveOrderItemFromOrderMutation, RemoveOrderItemFromOrderMutationVariables>;
+export const RemoveOrderByIdDocument = gql`
+    mutation removeOrderByID($orderID: ID) {
+  deleteOrder(where: {id: $orderID}) {
+    id
+  }
+}
+    `;
+export type RemoveOrderByIdMutationFn = Apollo.MutationFunction<RemoveOrderByIdMutation, RemoveOrderByIdMutationVariables>;
+
+/**
+ * __useRemoveOrderByIdMutation__
+ *
+ * To run a mutation, you first call `useRemoveOrderByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveOrderByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeOrderByIdMutation, { data, loading, error }] = useRemoveOrderByIdMutation({
+ *   variables: {
+ *      orderID: // value for 'orderID'
+ *   },
+ * });
+ */
+export function useRemoveOrderByIdMutation(baseOptions?: Apollo.MutationHookOptions<RemoveOrderByIdMutation, RemoveOrderByIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveOrderByIdMutation, RemoveOrderByIdMutationVariables>(RemoveOrderByIdDocument, options);
+      }
+export type RemoveOrderByIdMutationHookResult = ReturnType<typeof useRemoveOrderByIdMutation>;
+export type RemoveOrderByIdMutationResult = Apollo.MutationResult<RemoveOrderByIdMutation>;
+export type RemoveOrderByIdMutationOptions = Apollo.BaseMutationOptions<RemoveOrderByIdMutation, RemoveOrderByIdMutationVariables>;
+export const GetOrderItemsDocument = gql`
+    query GetOrderItems($id: ID) {
+  order(where: {id: $id}) {
+    orderItems {
+      id
+      quantity
+      product {
+        id
+        images {
+          url
+        }
+        name
+        description
+        price
+      }
+    }
   }
 }
     `;
 
 /**
- * __useGetOrderItemsByOrderIdQuery__
+ * __useGetOrderItemsQuery__
  *
- * To run a query within a React component, call `useGetOrderItemsByOrderIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrderItemsByOrderIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetOrderItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetOrderItemsByOrderIdQuery({
+ * const { data, loading, error } = useGetOrderItemsQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetOrderItemsByOrderIdQuery(baseOptions: Apollo.QueryHookOptions<GetOrderItemsByOrderIdQuery, GetOrderItemsByOrderIdQueryVariables>) {
+export function useGetOrderItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetOrderItemsQuery, GetOrderItemsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrderItemsByOrderIdQuery, GetOrderItemsByOrderIdQueryVariables>(GetOrderItemsByOrderIdDocument, options);
+        return Apollo.useQuery<GetOrderItemsQuery, GetOrderItemsQueryVariables>(GetOrderItemsDocument, options);
       }
-export function useGetOrderItemsByOrderIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderItemsByOrderIdQuery, GetOrderItemsByOrderIdQueryVariables>) {
+export function useGetOrderItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderItemsQuery, GetOrderItemsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrderItemsByOrderIdQuery, GetOrderItemsByOrderIdQueryVariables>(GetOrderItemsByOrderIdDocument, options);
+          return Apollo.useLazyQuery<GetOrderItemsQuery, GetOrderItemsQueryVariables>(GetOrderItemsDocument, options);
         }
-export type GetOrderItemsByOrderIdQueryHookResult = ReturnType<typeof useGetOrderItemsByOrderIdQuery>;
-export type GetOrderItemsByOrderIdLazyQueryHookResult = ReturnType<typeof useGetOrderItemsByOrderIdLazyQuery>;
-export type GetOrderItemsByOrderIdQueryResult = Apollo.QueryResult<GetOrderItemsByOrderIdQuery, GetOrderItemsByOrderIdQueryVariables>;
+export type GetOrderItemsQueryHookResult = ReturnType<typeof useGetOrderItemsQuery>;
+export type GetOrderItemsLazyQueryHookResult = ReturnType<typeof useGetOrderItemsLazyQuery>;
+export type GetOrderItemsQueryResult = Apollo.QueryResult<GetOrderItemsQuery, GetOrderItemsQueryVariables>;
 export const GetProductListDocument = gql`
     query getProductList {
   products {

@@ -44,3 +44,7 @@ export type OrderItemsType = {
     | null
     | undefined;
 }[];
+
+export type ProductCalculate = {
+  price: number;
+}[];

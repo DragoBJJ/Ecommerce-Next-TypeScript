@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import Stripe from "stripe";
 import {
   CreateOrderDocument,
@@ -8,7 +9,12 @@ import {
   UpdateOrderMutationVariables
 } from "../generated/graphql";
 import { apolloClient } from "../graphql/apolloClient";
-import { CheckoutReqest, OrderItemsType } from "./type";
+import {
+  CartType,
+  CheckoutReqest,
+  OrderItemsType,
+  ProductCalculate
+} from "./type";
 
 const SUCCESS_STRIPE_URL =
   "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}";
@@ -87,4 +93,40 @@ export const stripeSessionCreate = async (
     })
   });
   return stripeSession;
+};
+
+export const sendProductToStripe = (cartItems: CartType[]) => {
+  return cartItems.map(({ id, count }) => {
+    return {
+      id,
+      count
+    };
+  });
+};
+
+export const sendOrder = async (
+  cartItems: CartType[],
+  setClientSecret: Dispatch<SetStateAction<string | undefined>>,
+  setOrderID: Dispatch<SetStateAction<string | undefined>>
+) => {
+  await fetch("/api/create-payment-intent", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(sendProductToStripe(cartItems))
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      setClientSecret(data.clientSecret);
+      setOrderID(data.orderID);
+    });
+};
+
+export const calculateOrderAmount = (productsPrice: ProductCalculate) => {
+  return productsPrice.reduce((prev, current) => {
+    return prev + current.price;
+  }, 0);
 };

@@ -54,13 +54,29 @@ mutation updateOrder($orderID: ID, $stripID: String!) {
   }
 }
 
-query getOrderItemsByOrderID($id: ID!) {
-  orderItems(where: { order: { id: $id } }) {
-    product {
-      id
-      name
-      price
+mutation PublishOrders {
+  publishManyOrdersConnection {
+    pageInfo {
+      pageSize
     }
-    quantity
+  }
+
+  publishManyOrderItemsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+
+mutation RemoveOrderItemFromOrder($orderItemID: ID) {
+  deleteOrderItem(where: { id: $orderItemID }) {
+    id
+    publishedAt
+  }
+}
+
+mutation removeOrderByID($orderID: ID) {
+  deleteOrder(where: { id: $orderID }) {
+    id
   }
 }
