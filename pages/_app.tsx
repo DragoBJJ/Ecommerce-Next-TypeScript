@@ -14,6 +14,8 @@ import { Elements } from '@stripe/react-stripe-js'
 
 
 
+const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
+
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new QueryClient()
   return  (
@@ -23,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
        <LayoutTemplate>
           <DefaultSeo {...NextSeo}/>
     <QueryClientProvider client={client}>
+        <Elements stripe={promise}>
        <Component  {...pageProps}  />
+       </Elements>
     </QueryClientProvider>
        </LayoutTemplate>
        </CartContextProvider>

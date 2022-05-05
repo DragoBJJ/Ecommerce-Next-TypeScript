@@ -1,11 +1,11 @@
-import { CheckoutPaymentForm } from "../../components/Form/checkoutPayment";
+import { OrderSummary } from "../../components/Summary/OrderSummary";
 import { CheckoutTemplate } from "../../templates/CheckoutTemplate";
 
 const PaymentForm = () => {
   return (
     <>
-      <CheckoutTemplate>
-        <h1>Elegnacko</h1>
+      <CheckoutTemplate imageName="celebrating">
+        <OrderSummary />
       </CheckoutTemplate>
     </>
   );

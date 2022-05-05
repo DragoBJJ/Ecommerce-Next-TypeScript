@@ -16,7 +16,7 @@ import {
 export type Client = {
   clientID: string | undefined;
   orderID: string | undefined;
-  setClientID: Dispatch<SetStateAction<string | undefined>>;
+  setClientID: Dispatch<SetStateAction<string | undefined>> | undefined;
   setOrderID: Dispatch<SetStateAction<string | undefined>> | undefined;
 };
 

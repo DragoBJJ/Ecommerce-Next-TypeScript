@@ -1,6 +1,4 @@
-import React, { FC, useEffect } from "react";
-import { CartType } from "../../utils/type";
-import { UseCartContext } from "../context/CartContext";
+import React, { FC } from "react";
 import { UseClientContext } from "../context/ClientContext";
 import { useRouter } from "next/router";
 import {
@@ -79,16 +77,15 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
       }
     });
 
-    if (removeOrderData && setOrderID && setClientID) {
+    if (removeOrderData && setOrderID) {
       setOrderID(undefined);
-      setClientID(undefined);
     }
   };
 
   if (!data || !data.order || !data.order.orderItems || error) {
     return <div>Error...</div>;
   }
-  if (data!.order!.orderItems.length === 0 && orderID && setOrderID) {
+  if (data!.order!.orderItems.length === 0 && orderID) {
     removeOrderByID(orderID);
     route.push({
       pathname: "/Cart"

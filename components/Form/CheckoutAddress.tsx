@@ -1,8 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { useCreateShippingAddressMutation } from "../../generated/graphql";
+import {
+  useCreateShippingAddressMutation,
+  usePublishShippingAddressMutation
+} from "../../generated/graphql";
 import { createStripePayment } from "../../utils/apiCheckout";
 import { UseClientContext } from "../context/ClientContext";
 import { AreaInputs } from "./AreaInputs";
@@ -22,6 +25,7 @@ export const CheckoutAddress = () => {
   });
 
   const [createShipping, { data, error }] = useCreateShippingAddressMutation();
+  const [publishShippingAddress] = usePublishShippingAddressMutation();
 
   console.log("error", error);
 
@@ -39,8 +43,9 @@ export const CheckoutAddress = () => {
       }
     });
     if (!shippingData || !orderID) return;
+    await publishShippingAddress();
     const { clientSecret } = await createStripePayment(orderID);
-    if (!clientSecret) return;
+    if (!clientSecret || !setClientID) return;
     setClientID(clientSecret);
     router.push({
       pathname: "/checkout/payment"

@@ -1,18 +1,22 @@
-import { Elements } from "@stripe/react-stripe-js";
-import { CheckoutPaymentForm } from "../../components/Form/checkoutPayment";
+import { CheckoutPaymentForm } from "../../components/Form/CheckoutPayment";
 import { CheckoutTemplate } from "../../templates/CheckoutTemplate";
-
-import { loadStripe } from "@stripe/stripe-js";
-
-const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
+import { ElementsConsumer } from "@stripe/react-stripe-js";
+import { InfoPopup } from "../../components/InfoPopup";
 
 const PaymentForm = () => {
   return (
     <>
       <CheckoutTemplate imageName="card">
-        <Elements stripe={promise}>
-          <CheckoutPaymentForm />
-        </Elements>
+        <ElementsConsumer>
+          {({ stripe, elements }) => {
+            if (stripe && elements) {
+              return (
+                <CheckoutPaymentForm stripe={stripe} elements={elements} />
+              );
+            }
+            return <InfoPopup status="cancell" />;
+          }}
+        </ElementsConsumer>
       </CheckoutTemplate>
     </>
   );

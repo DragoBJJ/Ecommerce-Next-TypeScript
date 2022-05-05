@@ -1,22 +1,16 @@
-import Stripe from "stripe";
 import {
-  CreateOrderDocument,
-  GetOrder,
-  CreateOrderMutationVariables,
-  UpdateOrderDocument,
-  UpdateOrderMutation,
-  UpdateOrderMutationVariables,
   GetOrderItemsQuery,
   GetOrderItemsQueryVariables,
-  GetOrderItemsDocument
+  GetOrderItemsDocument,
+  OrderItem
 } from "../generated/graphql";
 import { apolloClient } from "../graphql/apolloClient";
-import { CartType, OrderItemsType, ProductCalculate } from "./type";
+import { ProductCalculate } from "./type";
 
-const SUCCESS_STRIPE_URL =
-  "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}";
+// const SUCCESS_STRIPE_URL =
+//   "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}";
 
-const CANCEL_URL = "http://localhost:3000/checkout/cancel";
+// const CANCEL_URL = "http://localhost:3000/checkout/cancel";
 
 export const getOrderItems = async (orderID: string) => {
   const { data } = await apolloClient.query<
@@ -31,60 +25,60 @@ export const getOrderItems = async (orderID: string) => {
   return data;
 };
 
-export const updateOrderStripeIDMutation = async (
-  orderID: string,
-  stripeSessionID: Stripe.Checkout.Session["id"]
-) => {
-  const { data } = await apolloClient.mutate<
-    UpdateOrderMutation,
-    UpdateOrderMutationVariables
-  >({
-    mutation: UpdateOrderDocument,
-    variables: {
-      orderID,
-      stripID: stripeSessionID
-    }
-  });
-  return data;
-};
+// export const updateOrderStripeIDMutation = async (
+//   orderID: string,
+//   stripeSessionID: Stripe.Checkout.Session["id"]
+// ) => {
+//   const { data } = await apolloClient.mutate<
+//     UpdateOrderMutation,
+//     UpdateOrderMutationVariables
+//   >({
+//     mutation: UpdateOrderDocument,
+//     variables: {
+//       orderID,
+//       stripID: stripeSessionID
+//     }
+//   });
+//   return data;
+// };
 
-export const stripeSessionCreate = async (
-  stripe: Stripe,
-  orderItems: OrderItemsType
-) => {
-  const stripeSession = await stripe.checkout.sessions.create({
-    mode: "payment",
-    locale: "pl",
-    payment_method_types: ["p24", "card"],
-    success_url: SUCCESS_STRIPE_URL,
-    cancel_url: CANCEL_URL,
-    line_items: orderItems.map(orderItem => {
-      return {
-        price_data: {
-          currency: "PLN",
-          unit_amount: orderItem.product!.price * 100,
-          product_data: {
-            name: orderItem.product!.name,
-            metadata: {
-              id: orderItem.product!.id
-            }
-          }
-        },
-        quantity: orderItem.quantity
-      };
-    })
-  });
-  return stripeSession;
-};
+// export const stripeSessionCreate = async (
+//   stripe: Stripe,
+//   orderItems: OrderItemsType
+// ) => {
+//   const stripeSession = await stripe.checkout.sessions.create({
+//     mode: "payment",
+//     locale: "pl",
+//     payment_method_types: ["p24", "card"],
+//     success_url: SUCCESS_STRIPE_URL,
+//     cancel_url: CANCEL_URL,
+//     line_items: orderItems.map(orderItem => {
+//       return {
+//         price_data: {
+//           currency: "PLN",
+//           unit_amount: orderItem.product!.price * 100,
+//           product_data: {
+//             name: orderItem.product!.name,
+//             metadata: {
+//               id: orderItem.product!.id
+//             }
+//           }
+//         },
+//         quantity: orderItem.quantity
+//       };
+//     })
+//   });
+//   return stripeSession;
+// };
 
-export const sendProductToStripe = (cartItems: CartType[]) => {
-  return cartItems.map(({ id, count }) => {
-    return {
-      id,
-      count
-    };
-  });
-};
+// export const sendProductToStripe = (cartItems: CartType[]) => {
+//   return cartItems.map(({ id, count }) => {
+//     return {
+//       id,
+//       count
+//     };
+//   });
+// };
 
 export const createStripePayment = async (orderID: string) => {
   return await fetch("/api/create-payment-intent", {
@@ -104,7 +98,7 @@ export const createStripePayment = async (orderID: string) => {
     });
 };
 
-export const getProductsPrice = (orderItems: any) => {
+export const getProductsPrice = (orderItems: OrderItem[]) => {
   const productsPrice = orderItems.map(({ quantity, product }) => {
     if (product) {
       return {

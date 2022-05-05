@@ -29,9 +29,10 @@ export const ProductDetails = ({
           />
         </div>
       </Link>
-      <div className="flex-col items-center justify-center  mt-auto  w-96 h-26 hover:bg-[#E1B989]  ease-in-out duration-500">
+      <div className="flex-col items-center justify-center  mt-auto  w-96 h-[140px] hover:bg-[#E1B989]  ease-in-out duration-500">
         <h3 className="text-center h-full w-full  my-2 text-neutral-800  ease-in-out duration-500 hover:scale-125 h-max text-lg">
-          {title}
+          {title} <br />
+          {price} $
         </h3>
 
         <div

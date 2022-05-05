@@ -44,3 +44,28 @@ query getReviewsFromProduct($id: ID) {
     }
   }
 }
+
+query GetOrderAndShippingAddress($orderID: ID) {
+  order(where: { id: $orderID }) {
+    orderItems {
+      id
+      product {
+        name
+        price
+        images {
+          url
+        }
+      }
+    }
+    shippingAddress {
+      id
+      email
+      firstName
+      lastName
+      state
+      city
+      streetAddress
+      postalCode
+    }
+  }
+}

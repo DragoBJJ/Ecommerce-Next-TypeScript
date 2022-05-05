@@ -4545,6 +4545,7 @@ export type Order = Node & {
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
+  shippingAddress?: Maybe<ShippingAddress>;
   /** System stage field */
   stage: Stage;
   stripeCheckoutId: Scalars['String'];
@@ -4603,6 +4604,11 @@ export type OrderScheduledInArgs = {
 };
 
 
+export type OrderShippingAddressArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
 export type OrderUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
@@ -4625,10 +4631,10 @@ export type OrderConnection = {
 };
 
 export type OrderCreateInput = {
-  cl2pybnd2520201xucyhle1zf?: InputMaybe<ShippingAddressCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
   orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
+  shippingAddress?: InputMaybe<ShippingAddressCreateOneInlineInput>;
   stripeCheckoutId: Scalars['String'];
   total: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -5191,6 +5197,7 @@ export type OrderManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  shippingAddress?: InputMaybe<ShippingAddressWhereInput>;
   stripeCheckoutId?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   stripeCheckoutId_contains?: InputMaybe<Scalars['String']>;
@@ -5261,9 +5268,9 @@ export enum OrderOrderByInput {
 }
 
 export type OrderUpdateInput = {
-  cl2pybnd2520201xucyhle1zf?: InputMaybe<ShippingAddressUpdateManyInlineInput>;
   email?: InputMaybe<Scalars['String']>;
   orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
+  shippingAddress?: InputMaybe<ShippingAddressUpdateOneInlineInput>;
   stripeCheckoutId?: InputMaybe<Scalars['String']>;
   total?: InputMaybe<Scalars['Int']>;
 };
@@ -5420,6 +5427,7 @@ export type OrderWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  shippingAddress?: InputMaybe<ShippingAddressWhereInput>;
   stripeCheckoutId?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   stripeCheckoutId_contains?: InputMaybe<Scalars['String']>;
@@ -11316,6 +11324,11 @@ export type CreateShippingAddressMutationVariables = Exact<{
 
 export type CreateShippingAddressMutation = { __typename?: 'Mutation', createShippingAddress?: { __typename?: 'ShippingAddress', id: string, firstName: string, email: string, streetAddress: string } | null };
 
+export type PublishShippingAddressMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublishShippingAddressMutation = { __typename?: 'Mutation', publishManyShippingAddressesConnection: { __typename?: 'ShippingAddressConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } } };
+
 export type GetOrderItemsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
@@ -11348,6 +11361,13 @@ export type GetReviewsFromProductQueryVariables = Exact<{
 
 
 export type GetReviewsFromProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', reviews: Array<{ __typename?: 'Review', id: string, name: string, content: string, headline: string, rating?: number | null }> } | null };
+
+export type GetOrderAndShippingAddressQueryVariables = Exact<{
+  orderID?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type GetOrderAndShippingAddressQuery = { __typename?: 'Query', order?: { __typename?: 'Order', orderItems: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }>, shippingAddress?: { __typename?: 'ShippingAddress', id: string, email: string, firstName: string, lastName: string, state: string, city: string, streetAddress: string, postalCode: string } | null } | null };
 
 export const ReviewContentFragmentDoc = gql`
     fragment ReviewContent on Review {
@@ -11685,6 +11705,40 @@ export function useCreateShippingAddressMutation(baseOptions?: Apollo.MutationHo
 export type CreateShippingAddressMutationHookResult = ReturnType<typeof useCreateShippingAddressMutation>;
 export type CreateShippingAddressMutationResult = Apollo.MutationResult<CreateShippingAddressMutation>;
 export type CreateShippingAddressMutationOptions = Apollo.BaseMutationOptions<CreateShippingAddressMutation, CreateShippingAddressMutationVariables>;
+export const PublishShippingAddressDocument = gql`
+    mutation PublishShippingAddress {
+  publishManyShippingAddressesConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+    `;
+export type PublishShippingAddressMutationFn = Apollo.MutationFunction<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>;
+
+/**
+ * __usePublishShippingAddressMutation__
+ *
+ * To run a mutation, you first call `usePublishShippingAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishShippingAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishShippingAddressMutation, { data, loading, error }] = usePublishShippingAddressMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePublishShippingAddressMutation(baseOptions?: Apollo.MutationHookOptions<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>(PublishShippingAddressDocument, options);
+      }
+export type PublishShippingAddressMutationHookResult = ReturnType<typeof usePublishShippingAddressMutation>;
+export type PublishShippingAddressMutationResult = Apollo.MutationResult<PublishShippingAddressMutation>;
+export type PublishShippingAddressMutationOptions = Apollo.BaseMutationOptions<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>;
 export const GetOrderItemsDocument = gql`
     query GetOrderItems($id: ID) {
   order(where: {id: $id}) {
@@ -11886,3 +11940,57 @@ export function useGetReviewsFromProductLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetReviewsFromProductQueryHookResult = ReturnType<typeof useGetReviewsFromProductQuery>;
 export type GetReviewsFromProductLazyQueryHookResult = ReturnType<typeof useGetReviewsFromProductLazyQuery>;
 export type GetReviewsFromProductQueryResult = Apollo.QueryResult<GetReviewsFromProductQuery, GetReviewsFromProductQueryVariables>;
+export const GetOrderAndShippingAddressDocument = gql`
+    query GetOrderAndShippingAddress($orderID: ID) {
+  order(where: {id: $orderID}) {
+    orderItems {
+      id
+      product {
+        name
+        price
+        images {
+          url
+        }
+      }
+    }
+    shippingAddress {
+      id
+      email
+      firstName
+      lastName
+      state
+      city
+      streetAddress
+      postalCode
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetOrderAndShippingAddressQuery__
+ *
+ * To run a query within a React component, call `useGetOrderAndShippingAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderAndShippingAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrderAndShippingAddressQuery({
+ *   variables: {
+ *      orderID: // value for 'orderID'
+ *   },
+ * });
+ */
+export function useGetOrderAndShippingAddressQuery(baseOptions?: Apollo.QueryHookOptions<GetOrderAndShippingAddressQuery, GetOrderAndShippingAddressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrderAndShippingAddressQuery, GetOrderAndShippingAddressQueryVariables>(GetOrderAndShippingAddressDocument, options);
+      }
+export function useGetOrderAndShippingAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderAndShippingAddressQuery, GetOrderAndShippingAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrderAndShippingAddressQuery, GetOrderAndShippingAddressQueryVariables>(GetOrderAndShippingAddressDocument, options);
+        }
+export type GetOrderAndShippingAddressQueryHookResult = ReturnType<typeof useGetOrderAndShippingAddressQuery>;
+export type GetOrderAndShippingAddressLazyQueryHookResult = ReturnType<typeof useGetOrderAndShippingAddressLazyQuery>;
+export type GetOrderAndShippingAddressQueryResult = Apollo.QueryResult<GetOrderAndShippingAddressQuery, GetOrderAndShippingAddressQueryVariables>;

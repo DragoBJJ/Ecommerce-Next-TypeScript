@@ -1,5 +1,3 @@
-import { reverse } from "dns";
-import { memo } from "react";
 import { useGetReviewsFromProductQuery } from "../../generated/graphql";
 
 type ProductReviewProps = {
@@ -17,13 +15,13 @@ export const ProductReview = ({ productID }: ProductReviewProps) => {
   if (error) return <div>Error with your Review...</div>;
 
   return (
-    <div className=" w-full min-h-[300px]">
+    <div className="w-full">
       <ul className="w-full">
-        {data &&
+        {data?.product?.reviews.length ? (
           data.product?.reviews.map((review, index) => {
             return (
               <li
-                className="border-2 border-[#E1B989] min-h-[80px] w-full my-2  rounded-xl p-2"
+                className="border-2 border-[#E1B989] mx-auto h-full  w-3/4 my-4  rounded-xl p-2"
                 key={review.id}
               >
                 <p className="text-lg uppercase text-[#E1B989]">
@@ -40,7 +38,12 @@ export const ProductReview = ({ productID }: ProductReviewProps) => {
                 )}
               </li>
             );
-          })}
+          })
+        ) : (
+          <div className="text-2xl text-center">
+            This product doesn't have any reviews...
+          </div>
+        )}
       </ul>
     </div>
   );

@@ -1,31 +1,38 @@
 import { FormEvent, useLayoutEffect, useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { CardElement } from "@stripe/react-stripe-js";
 import { useRouter } from "next/router";
 
 import { UseClientContext } from "../context/ClientContext";
-import { StripeCardElementOptions } from "@stripe/stripe-js";
+import {
+  Stripe,
+  StripeCardElementChangeEvent,
+  StripeCardElementOptions,
+  StripeElements
+} from "@stripe/stripe-js";
 import { useUpdateOrderMutation } from "../../generated/graphql";
 import { getClientStripeID } from "../../utils/storage";
 
-export const CheckoutPaymentForm = () => {
+type PaymentType = {
+  stripe: Stripe;
+  elements: StripeElements;
+};
+
+export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState(true);
-  const [useUpdateStripeID, { data }] = useUpdateOrderMutation();
+  const [UseUpdateStripeID] = useUpdateOrderMutation();
 
   const { orderID, clientID, setClientID } = UseClientContext();
   const router = useRouter();
 
   useLayoutEffect(() => {
-    if (clientID) return;
+    if (clientID || !setClientID) return;
     setClientID(getClientStripeID());
-  }, []);
+  }, [clientID, setClientID]);
 
   if (!clientID) throw Error("You dont have access to clientID");
-
-  const stripe = useStripe();
-  const elements = useElements();
 
   const cardStyle: StripeCardElementOptions = {
     style: {
@@ -39,7 +46,10 @@ export const CheckoutPaymentForm = () => {
         },
         letterSpacing: "2px",
         iconColor: "#E1B989",
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        ":hover": {
+          backgroundColor: "#1d1d1d"
+        }
       },
       invalid: {
         fontFamily: "Arial, sans-serif",
@@ -52,7 +62,7 @@ export const CheckoutPaymentForm = () => {
   if (!stripe || !elements) {
     throw Error("You dont have access to stripe or stripeElement");
   }
-  const handleChange = async event => {
+  const handleChange = async (event: StripeCardElementChangeEvent) => {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
   };
@@ -76,7 +86,7 @@ export const CheckoutPaymentForm = () => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      await useUpdateStripeID({
+      await UseUpdateStripeID({
         variables: {
           orderID,
           stripID: payload.paymentIntent.id
@@ -89,10 +99,9 @@ export const CheckoutPaymentForm = () => {
   };
 
   return (
-    <div className="w-full h-auto">
-      <h1>dasdasd</h1>
+    <div className="w-full h-full">
       <form id="payment-form" onSubmit={handleSubmit}>
-        <div className=" mx-auto  w-full mt-10">
+        <div className=" mx-auto  w-3/4 mt-10">
           <div className="border-2  b-b-0 border-[#E1B989] rounded-t-lg p-3 mx-auto w-full h-[48px]">
             <CardElement
               id="card-element"
@@ -101,7 +110,7 @@ export const CheckoutPaymentForm = () => {
             />
           </div>
           <button
-            className="mx-auto flex bg-[#E1B989] w-full  h-[38px]  items-center justify-center rounded-b-lg"
+            className="mx-auto flex bg-[#E1B989] w-full cursor-pointer h-[38px] items-center justify-center rounded-b-lg"
             disabled={processing || disabled || succeeded}
             id="submit"
           >
@@ -131,7 +140,6 @@ export const CheckoutPaymentForm = () => {
             <a href={`https://dashboard.stripe.com/test/payments`}>
               Stripe dashboard.
             </a>
-            Refresh the page to pay again.
           </p>
         </div>
       </form>

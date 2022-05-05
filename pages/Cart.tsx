@@ -1,10 +1,7 @@
-import { loadStripe } from "@stripe/stripe-js";
-import { redirect } from "next/dist/server/api-utils";
-import Stripe from "stripe";
 import { CartContent } from "../components/CartBar/CartContent";
 import { CartSummary } from "../components/CartBar/CartSummary";
 import { UseCartContext } from "../components/context/CartContext";
-import { getProductsPrice, sendOrder } from "../utils/apiCheckout";
+
 import { useRouter } from "next/router";
 import { UseClientContext } from "../components/context/ClientContext";
 import {
@@ -19,11 +16,6 @@ const CartPage = () => {
   const { cartItems, setCartItems } = UseCartContext();
   const [sendOrder, { data, loading, error }] = useCreateOrderMutation();
   const [publishOrders] = UsePublishOrders();
-  // if (!process.env.NEXT_PUBLIC_STRIPE_KEY) {
-  //   return <div>You don't have publish Strip Key</div>;
-  // }
-
-  // const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
   const createOrder = async () => {
     if (!setOrderID) return;

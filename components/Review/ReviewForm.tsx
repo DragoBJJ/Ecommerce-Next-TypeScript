@@ -39,7 +39,9 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
       });
 
       if (errors) {
-        throw new Error("Error", errors[0].message);
+        errors.map(item => {
+          throw new Error(item.originalError?.message);
+        });
       }
 
       if (

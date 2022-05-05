@@ -31927,6 +31927,39 @@
             "deprecationReason": null
           },
           {
+            "name": "shippingAddress",
+            "description": null,
+            "args": [
+              {
+                "name": "locales",
+                "description": "Allows to optionally override locale filtering behaviour in the query's subtree.\n\nNote that `shippingAddress` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.\nFor related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.\n\nThis argument will overwrite any existing locale filtering defined in the query's tree for the subtree.",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "Locale",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ShippingAddress",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "stage",
             "description": "System stage field",
             "args": [],
@@ -32148,18 +32181,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "cl2pybnd2520201xucyhle1zf",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ShippingAddressCreateManyInlineInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "createdAt",
             "description": null,
             "type": {
@@ -32193,6 +32214,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "OrderItemCreateManyInlineInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ShippingAddressCreateOneInlineInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -36287,6 +36320,18 @@
             "deprecationReason": null
           },
           {
+            "name": "shippingAddress",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ShippingAddressWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "stripeCheckoutId",
             "description": null,
             "type": {
@@ -36765,18 +36810,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "cl2pybnd2520201xucyhle1zf",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ShippingAddressUpdateManyInlineInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "email",
             "description": null,
             "type": {
@@ -36794,6 +36827,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "OrderItemUpdateManyInlineInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ShippingAddressUpdateOneInlineInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -37946,6 +37991,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "ScheduledOperationWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ShippingAddressWhereInput",
               "ofType": null
             },
             "defaultValue": null,

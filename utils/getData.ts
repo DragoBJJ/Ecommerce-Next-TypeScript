@@ -69,20 +69,6 @@ export const getCurrentProduct = async (productId: string) => {
 };
 
 export const getPaths = async () => {
-  // try {
-  //   const response = await fetch(`${API_URL}/`);
-  //   const products: StoreApiResponse[] = await response.json();
-  //   const paths = products
-  //     .map(item => {
-  //       return { params: { pageId: item.id.toString() } };
-  //     })
-  //     .slice(0, 10);
-  //   return paths;
-  // } catch (error) {
-  //   console.log("Error", error);
-  //   return null;
-  // }
-
   const { data } = await apolloClient.query<GetProductsPathQuery>({
     query: GetProductsPathDocument
   });

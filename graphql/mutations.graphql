@@ -89,3 +89,11 @@ mutation CreateShippingAddress($data: ShippingAddressCreateInput!) {
     streetAddress
   }
 }
+
+mutation PublishShippingAddress {
+  publishManyShippingAddressesConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}

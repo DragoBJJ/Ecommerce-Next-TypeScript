@@ -1,9 +1,9 @@
-import React from "react";
 import { InferGetStaticPaths } from "../../../utils/type";
 import { getPaths, getCurrentProduct } from "../../../utils/getData";
 import { InferGetStaticPropsType } from "next";
 import { GridTemplate } from "../../../templates/GridTemplate";
 import Image from "next/image";
+import { UseCartContext } from "../../../components/context/CartContext";
 
 import { MarkDownNext } from "../../../components/MarkDown";
 
@@ -17,6 +17,8 @@ const ProductID = ({
   product
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!product) return <h2>You dont have this product</h2>;
+
+  const { addItemToCart } = UseCartContext();
 
   return (
     <GridTemplate>
@@ -39,7 +41,17 @@ const ProductID = ({
               <MDXRemote {...product.description} />
 
               <p className="text-black text-2xl">{product.price}$</p>
-              <div className="flex  md:my-4 justify-center items-center w-full hover:border-none border-[1px] text-black rounded-lg cursor-pointer mx-auto ease-in-out duration-300 bg-white border-black hover:bg-[#E1B989]  w-full  max-w-[180px]  h-[48px]">
+              <div
+                onClick={() =>
+                  addItemToCart({
+                    price: product.price,
+                    title: product.name,
+                    count: 1,
+                    id: product.id
+                  })
+                }
+                className="flex  md:my-4 justify-center items-center w-full hover:border-none border-[1px] text-black rounded-lg cursor-pointer mx-auto ease-in-out duration-300 bg-white border-black hover:bg-[#E1B989]  w-full  max-w-[180px]  h-[48px]"
+              >
                 BUY
               </div>
             </article>

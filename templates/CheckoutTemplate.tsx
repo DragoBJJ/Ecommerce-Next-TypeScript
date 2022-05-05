@@ -13,18 +13,18 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
   const { orderID } = UseClientContext();
 
   return (
-    <div className="w-screen  h-auto">
+    <div className="w-screen min-h-screen border-red-600">
       {orderID ? (
         <>
           <NavPayment />
-          <div className="flex justify-center">
-            <div className="flex w-3/4 h-full">{children}</div>
+          <div className="flex-column md:flex justify-center p-4">
+            <div className="flex w-full h-full">{children}</div>
 
-            <div className=" hidden md:flex w-3/4 h-full">
-              <div className="w-full h-full">
+            <div className="md:flex w-full h-full mx-auto justify-center items-center">
+              <div className="w-full h-full mx-auto justify-center items-center">
                 <Image
                   src={`/${imageName}.svg`}
-                  height={16 / 9}
+                  height={imageName === "card" ? 16 / 16 : 16 / 9}
                   width={16 / 9}
                   layout="responsive"
                   objectFit="contain"
