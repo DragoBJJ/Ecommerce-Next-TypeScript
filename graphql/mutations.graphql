@@ -80,3 +80,12 @@ mutation removeOrderByID($orderID: ID) {
     id
   }
 }
+
+mutation CreateShippingAddress($data: ShippingAddressCreateInput!) {
+  createShippingAddress(data: $data) {
+    id
+    firstName
+    email
+    streetAddress
+  }
+}

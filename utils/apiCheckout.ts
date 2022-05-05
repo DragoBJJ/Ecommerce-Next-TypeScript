@@ -1,55 +1,37 @@
-import { Dispatch, SetStateAction } from "react";
 import Stripe from "stripe";
 import {
   CreateOrderDocument,
-  CreateOrderMutation,
+  GetOrder,
   CreateOrderMutationVariables,
   UpdateOrderDocument,
   UpdateOrderMutation,
-  UpdateOrderMutationVariables
+  UpdateOrderMutationVariables,
+  GetOrderItemsQuery,
+  GetOrderItemsQueryVariables,
+  GetOrderItemsDocument
 } from "../generated/graphql";
 import { apolloClient } from "../graphql/apolloClient";
-import {
-  CartType,
-  CheckoutReqest,
-  OrderItemsType,
-  ProductCalculate
-} from "./type";
+import { CartType, OrderItemsType, ProductCalculate } from "./type";
 
 const SUCCESS_STRIPE_URL =
   "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}";
 
 const CANCEL_URL = "http://localhost:3000/checkout/cancel";
 
-export const createOrderMutation = async (orders: CheckoutReqest) => {
-  const { data } = await apolloClient.mutate<
-    CreateOrderMutation,
-    CreateOrderMutationVariables
+export const getOrderItems = async (orderID: string) => {
+  const { data } = await apolloClient.query<
+    GetOrderItemsQuery,
+    GetOrderItemsQueryVariables
   >({
-    mutation: CreateOrderDocument,
+    query: GetOrderItemsDocument,
     variables: {
-      email: "j.pawelski.it@gmail.com",
-      total: 1,
-      stripeCheckoutId: (-Math.random()).toString(25),
-      orderItems: {
-        create: orders.map(product => {
-          return {
-            quantity: product.count,
-            total: product.count,
-            product: {
-              connect: {
-                id: product.id
-              }
-            }
-          };
-        })
-      }
+      id: orderID
     }
   });
   return data;
 };
 
-export const updateOrderMutation = async (
+export const updateOrderStripeIDMutation = async (
   orderID: string,
   stripeSessionID: Stripe.Checkout.Session["id"]
 ) => {
@@ -104,25 +86,36 @@ export const sendProductToStripe = (cartItems: CartType[]) => {
   });
 };
 
-export const sendOrder = async (
-  cartItems: CartType[],
-  setClientSecret: Dispatch<SetStateAction<string | undefined>>,
-  setOrderID: Dispatch<SetStateAction<string | undefined>>
-) => {
-  await fetch("/api/create-payment-intent", {
+export const createStripePayment = async (orderID: string) => {
+  return await fetch("/api/create-payment-intent", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(sendProductToStripe(cartItems))
+    body: JSON.stringify(orderID)
   })
     .then(res => {
       return res.json();
     })
-    .then(data => {
-      setClientSecret(data.clientSecret);
-      setOrderID(data.orderID);
+    .then((data: { clientSecret: string }) => {
+      return {
+        clientSecret: data.clientSecret
+      };
     });
+};
+
+export const getProductsPrice = (orderItems: any) => {
+  const productsPrice = orderItems.map(({ quantity, product }) => {
+    if (product) {
+      return {
+        price: quantity * product.price
+      };
+    }
+    return {
+      price: 0
+    };
+  });
+  return productsPrice;
 };
 
 export const calculateOrderAmount = (productsPrice: ProductCalculate) => {

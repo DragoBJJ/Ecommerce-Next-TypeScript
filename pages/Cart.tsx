@@ -4,19 +4,20 @@ import Stripe from "stripe";
 import { CartContent } from "../components/CartBar/CartContent";
 import { CartSummary } from "../components/CartBar/CartSummary";
 import { UseCartContext } from "../components/context/CartContext";
-import { sendOrder } from "../utils/apiCheckout";
+import { getProductsPrice, sendOrder } from "../utils/apiCheckout";
 import { useRouter } from "next/router";
 import { UseClientContext } from "../components/context/ClientContext";
 import {
-  usePublishOrdersMutation as UsePublishOrders,
-  useGetOrderItemsQuery
+  useCreateOrderMutation,
+  usePublishOrdersMutation as UsePublishOrders
 } from "../generated/graphql";
 
 const CartPage = () => {
-  const { clientID, orderID, setClientID, setOrderID } = UseClientContext();
+  const { orderID, setOrderID } = UseClientContext();
 
   const route = useRouter();
   const { cartItems, setCartItems } = UseCartContext();
+  const [sendOrder, { data, loading, error }] = useCreateOrderMutation();
   const [publishOrders] = UsePublishOrders();
   // if (!process.env.NEXT_PUBLIC_STRIPE_KEY) {
   //   return <div>You don't have publish Strip Key</div>;
@@ -25,46 +26,47 @@ const CartPage = () => {
   // const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
   const createOrder = async () => {
-    if (!setClientID || !setOrderID) return;
-    if (!clientID && !orderID) {
-      await sendOrder(cartItems, setClientID, setOrderID);
+    if (!setOrderID) return;
+    if (!orderID && cartItems.length) {
+      // const { clientSecret, orderID } = await sendOrder(cartItems);
+      const { data } = await sendOrder({
+        variables: {
+          email: "j.pawelski.it@gmail.com",
+          total: 1,
+          stripeCheckoutId: (-Math.random()).toString(25),
+          orderItems: {
+            create: cartItems.map(product => {
+              return {
+                quantity: product.count,
+                total: product.count,
+                product: {
+                  connect: {
+                    id: product.id
+                  }
+                }
+              };
+            })
+          }
+        }
+      });
+      if (!data?.createOrder) return;
+
+      // setClientID(clientSecret);
+      setOrderID(data.createOrder?.id);
+      setCartItems([]);
       await publishOrders();
     }
-    setCartItems([]);
-    route.push({
-      pathname: "/checkout"
-    });
 
-    // await publishOrders();
-    // const stripe = await stripePromise;
-    // if (!stripe) throw Error("Something went wrong with your Stripe");
-    // const response = await fetch("/api/checkout", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(sendProductToStripe(cartItems))
-    // });
-    // const {
-    //   session
-    // }: {
-    //   session: Stripe.Response<Stripe.Checkout.Session>;
-    // } = await response.json();
-    // console.log("SESSION", session);
-    // stripe.redirectToCheckout({
-    //   sessionId: session.id
-    // });
+    route.push({
+      pathname: "/checkout/address"
+    });
   };
 
   return (
     <div className="flex justify-center  items-center  h-screen w-screen">
       <div className="grid grid-cols-3 h-full w-full gap-8">
         <CartContent />
-        <CartSummary
-          pay={createOrder}
-          clientID={clientID}
-          itemsAmount={cartItems.length}
-        />
+        <CartSummary pay={createOrder} itemsAmount={cartItems.length} />
       </div>
     </div>
   );

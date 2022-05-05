@@ -7,9 +7,11 @@ import { CartBar } from "../CartBar/CartBar";
 import { MobileIcon } from "./MobileIcon";
 import { MobileNav } from "./MobileNav";
 import { NavLinks } from "./NavLinks";
+import { UseClientContext } from "../context/ClientContext";
 
 export const Header = () => {
   const [isOpen, setOpen] = useState(false);
+  const { orderID } = UseClientContext();
 
   const linksArray = [
     { name: "Home", href: "/" },
@@ -19,7 +21,7 @@ export const Header = () => {
   return (
     <header
       style={{ zIndex: 9999 }}
-      className={`flex w-screen ${isOpen &&
+      className={`flex ${orderID && "hidden"} w-screen ${isOpen &&
         "fixed t-0 b-0 l-0 min-h-screen opacity-95 ease-in-out duration-500"} h-[120px]
       p-4  lg:justify-center items-center bg-neutral-800  `}
     >

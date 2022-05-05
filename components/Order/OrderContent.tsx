@@ -7,22 +7,30 @@ import {
   useGetOrderItemsQuery,
   useRemoveOrderItemFromOrderMutation,
   GetOrderItemsQuery,
-  GetOrderItemsDocument
+  GetOrderItemsDocument,
+  useRemoveOrderByIdMutation
 } from "../../generated/graphql";
 
 type OrderContentProps = {};
 
 export const OrderContent: FC<OrderContentProps> = ({}) => {
-  const { orderID, setOrderItems } = UseClientContext();
+  const { orderID, setOrderID, setClientID } = UseClientContext();
   const route = useRouter();
 
-  const { data, loading, error } = useGetOrderItemsQuery({
+  const { data } = useGetOrderItemsQuery({
     variables: {
       id: orderID
     }
   });
+  const [
+    removeOrder,
+    { data: dataRemovedOrder, error }
+  ] = useRemoveOrderByIdMutation();
 
-  const [removeOrderItem] = useRemoveOrderItemFromOrderMutation({
+  const [
+    removeOrderItem,
+    { data: removedOrderData }
+  ] = useRemoveOrderItemFromOrderMutation({
     update(cache, { data, errors }) {
       const orginalQuery = cache.readQuery<GetOrderItemsQuery>({
         query: GetOrderItemsDocument,
@@ -64,17 +72,24 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     }
   });
 
-  if (
-    !data ||
-    !data.order ||
-    !data.order.orderItems ||
-    !setOrderItems ||
-    error
-  ) {
+  const removeOrderByID = async (orderID: string) => {
+    const removeOrderData = await removeOrder({
+      variables: {
+        orderID: orderID
+      }
+    });
+
+    if (removeOrderData && setOrderID && setClientID) {
+      setOrderID(undefined);
+      setClientID(undefined);
+    }
+  };
+
+  if (!data || !data.order || !data.order.orderItems || error) {
     return <div>Error...</div>;
   }
-
-  if (data.order.orderItems.length === 0) {
+  if (data!.order!.orderItems.length === 0 && orderID && setOrderID) {
+    removeOrderByID(orderID);
     route.push({
       pathname: "/Cart"
     });

@@ -1,9 +1,6 @@
 import { NextApiHandler } from "next";
 import { Stripe } from "stripe";
-import {
-  calculateOrderAmount,
-  createOrderMutation
-} from "../../utils/apiCheckout";
+import { calculateOrderAmount, getOrderItems } from "../../utils/apiCheckout";
 import { CartType, OrderItemsType } from "../../utils/type";
 const SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
@@ -12,19 +9,17 @@ const createPaymentIntent: NextApiHandler = async (req, res) => {
     return res.status(500).json({ Error: "Missing Stripe Secret Key" });
   }
 
-  const orderData = await createOrderMutation(req.body);
+  console.log("req.body", req.body);
 
-  if (
-    !orderData ||
-    !orderData.createOrder ||
-    !orderData.createOrder.orderItems
-  ) {
+  const orderData = await getOrderItems(req.body);
+
+  if (!orderData || !orderData.order || !orderData.order.orderItems) {
     return res
       .status(500)
       .json({ Error: "Something went wrong with your Order" });
   }
 
-  const { orderItems } = orderData.createOrder;
+  const { orderItems } = orderData.order;
   const productsPrice = orderItems.map(({ quantity, product }) => {
     if (product) {
       return {
@@ -43,8 +38,7 @@ const createPaymentIntent: NextApiHandler = async (req, res) => {
   });
 
   res.send({
-    clientSecret: paymentIntent.client_secret,
-    orderID: orderData.createOrder.id
+    clientSecret: paymentIntent.client_secret
   });
 };
 

@@ -8,16 +8,14 @@ import  NextSeo from "../next-seo-config"
 import { CartContextProvider } from '../components/context/CartContext'
 import { ApolloProvider } from '@apollo/client'
 import {apolloClient} from "../graphql/apolloClient"
-import { ClientContextProvider, UseClientContext } from '../components/context/ClientContext'
+import { ClientContextProvider } from '../components/context/ClientContext'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 
-const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new QueryClient()
-
-   const { clientID } = UseClientContext();
   return  (
      <ApolloProvider client={apolloClient}>
         <ClientContextProvider>
@@ -25,9 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
        <LayoutTemplate>
           <DefaultSeo {...NextSeo}/>
     <QueryClientProvider client={client}>
-         <Elements stripe={promise}>
        <Component  {...pageProps}  />
-       </Elements>
     </QueryClientProvider>
        </LayoutTemplate>
        </CartContextProvider>

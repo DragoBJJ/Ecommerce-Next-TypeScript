@@ -1,6 +1,20 @@
 import * as yup from "yup";
 import { FormInputProps } from "./FormInput";
 
+const carDataType = yup.object({
+  cardNumber: yup.string().required(),
+  expirationDate: yup
+    .string()
+    .typeError("Not a valid expiration date. Example: MM/YY")
+    .max(5, "Not a valid expiration date. Example: MM/YY")
+    .matches(
+      /([0-9]{2})\/([0-9]{2})/,
+      "Not a valid expiration date. Example: MM/YY"
+    )
+    .required("Expiration date is required"),
+  cvc: yup.string().required()
+});
+
 export const schema = yup
   .object({
     email: yup
@@ -9,25 +23,14 @@ export const schema = yup
       .required(),
     firstName: yup.string().required(),
     lastName: yup.string().required(),
-    nameCard: yup.string().required(),
-    cardNumber: yup.string().required(),
-    expirationDate: yup
-      .string()
-      .typeError("Not a valid expiration date. Example: MM/YY")
-      .max(5, "Not a valid expiration date. Example: MM/YY")
-      .matches(
-        /([0-9]{2})\/([0-9]{2})/,
-        "Not a valid expiration date. Example: MM/YY"
-      )
-      .required("Expiration date is required"),
-    cvc: yup.string().required(),
-    company: yup.string().required(),
-    address: yup.string().required(),
-    apartament: yup.string().required(),
+    // nameCard: yup.string().required(),
+    // company: yup.string().required(),
+    // apartament: yup.string().required(),
+    streetAddress: yup.string().required(),
     city: yup.string().required(),
     state: yup.string().required(),
     postalCode: yup.string().required(),
-    billing: yup.boolean().required()
+    billingInformation: yup.boolean().required()
   })
   .required();
 

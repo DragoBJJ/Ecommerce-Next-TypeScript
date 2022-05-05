@@ -34,34 +34,34 @@ export const reviewInputData: FormInputProps<ReviewData>[] = [
   }
 ];
 
-export const cardData: FormInputProps<
-  Pick<FormData, "cardNumber" | "nameCard" | "cvc" | "expirationDate">
->[] = [
-  {
-    id: "cardNumber",
-    label: "Card Number",
-    placeholder: "123-123-123",
-    type: "text"
-  },
-  {
-    id: "nameCard",
-    label: "Name Cards",
-    placeholder: "Visa",
-    type: "text"
-  },
-  {
-    id: "cvc",
-    label: "CVC",
-    placeholder: "123",
-    type: "text"
-  },
-  {
-    id: "expirationDate",
-    label: " Expiration Date",
-    placeholder: "07/24",
-    type: "text"
-  }
-];
+// export const cardData: FormInputProps<
+//   Pick<FormData, "cardNumber" | "nameCard" | "cvc" | "expirationDate">
+// >[] = [
+//   {
+//     id: "cardNumber",
+//     label: "Card Number",
+//     placeholder: "123-123-123",
+//     type: "text"
+//   },
+//   {
+//     id: "nameCard",
+//     label: "Name Cards",
+//     placeholder: "Visa",
+//     type: "text"
+//   },
+//   {
+//     id: "cvc",
+//     label: "CVC",
+//     placeholder: "123",
+//     type: "text"
+//   },
+//   {
+//     id: "expirationDate",
+//     label: " Expiration Date",
+//     placeholder: "07/24",
+//     type: "text"
+//   }
+// ];
 
 export const personalData: FormInputProps<
   Pick<FormData, "firstName" | "lastName" | "email">
@@ -86,32 +86,32 @@ export const personalData: FormInputProps<
   }
 ];
 
+// export const shippingAddress: FormInputProps<
+//   Pick<FormData, "address" | "company" | "apartament">
+// >[] = [
+//   {
+//     id: "company",
+//     type: "text",
+//     label: "Company",
+//     placeholder: "Apple"
+//   },
+
+//   {
+//     id: "address",
+//     label: "Address",
+//     type: "text",
+//     placeholder: "Słoneczna"
+//   },
+//   {
+//     id: "apartament",
+//     label: "Apartament",
+//     type: "text",
+//     placeholder: "Hilton"
+//   }
+// ];
+
 export const shippingAddress: FormInputProps<
-  Pick<FormData, "address" | "company" | "apartament">
->[] = [
-  {
-    id: "company",
-    type: "text",
-    label: "Company",
-    placeholder: "Apple"
-  },
-
-  {
-    id: "address",
-    label: "Address",
-    type: "text",
-    placeholder: "Słoneczna"
-  },
-  {
-    id: "apartament",
-    label: "Apartament",
-    type: "text",
-    placeholder: "Hilton"
-  }
-];
-
-export const homeAddress: FormInputProps<
-  Pick<FormData, "city" | "postalCode" | "state">
+  Pick<FormData, "city" | "postalCode" | "state" | "streetAddress">
 >[] = [
   {
     id: "city",
@@ -126,14 +126,21 @@ export const homeAddress: FormInputProps<
     label: "Postal Code"
   },
   {
+    id: "streetAddress",
+    label: "streetAddress",
+    placeholder: "Zaiste 69"
+  },
+  {
     id: "state",
     label: "State"
   }
 ];
 
-export const billingData: FormInputProps<Pick<FormData, "billing">>[] = [
+export const billingData: FormInputProps<
+  Pick<FormData, "billingInformation">
+>[] = [
   {
-    id: "billing",
+    id: "billingInformation",
     type: "checkbox",
     label: "Same information as a Shipping Address"
   }
