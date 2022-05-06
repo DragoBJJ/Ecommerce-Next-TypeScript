@@ -9,13 +9,13 @@ type CartSummaryType = {
 export const CartSummary = memo<CartSummaryType>(({ itemsAmount, pay }) => {
   const { orderID } = UseClientContext();
   return (
-    <div className="col-span-1 border-blue">
-      <h1 className="text-2xl">basket summary</h1>
-      <h2>Items amount: {itemsAmount}</h2>
+    <div className="flex flex-col px-2 col-span-1 w-full  items-center">
+      <h1 className="text-2xl my-2">Basket Summary</h1>
+      <h2 className="text-xl my-2">Items amount: {itemsAmount}</h2>
       <button
         disabled={!itemsAmount}
         onClick={pay}
-        className="h-[48px] w-[420px] mt-4 bg-[#E1B989] rounded-xl"
+        className="h-[48px] w-full  max-w-[350px] mt-4 border-2 hover:bg-[#E1B989] border-[#E1B989] rounded-xl ease-in-out duration-300"
       >
         {orderID ? "Continue order" : "Confirm Order"}
       </button>

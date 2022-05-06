@@ -1,26 +1,39 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { GetOrderAndShippingAddressQuery } from "../../generated/graphql";
 import { Fade } from "react-awesome-reveal";
+import { InfoPopup } from "../InfoPopup";
+import { UseClientContext } from "../context/ClientContext";
+import { deleteOrderAndStripeFromLocalStorage } from "../../utils/storage";
 
 export const SummaryContent = ({
   data
 }: {
   data: GetOrderAndShippingAddressQuery | undefined;
 }) => {
+  const router = useRouter();
+
   if (
     !data ||
     !data.order ||
     !data.order.shippingAddress ||
     !data.order.orderItems
   )
-    return <div>you have some error with your OrderData</div>;
+    return <InfoPopup status="cancell" />;
   const { orderItems } = data.order;
 
+  const clearLocalData = () => {
+    deleteOrderAndStripeFromLocalStorage();
+    router.push({
+      pathname: "/products/1"
+    });
+  };
+
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-auto">
       <Fade triggerOnce>
         <div className="flex-col w-full h-full p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-lg shadow-neutral-800">
-          <h1 className="text-2xl tracking-widest text-center">
+          <h1 className="text-2xl mb-4 tracking-widest text-center">
             Shipping Address
           </h1>
           <ul>
@@ -36,7 +49,7 @@ export const SummaryContent = ({
         </div>
       </Fade>
       <Fade triggerOnce>
-        <div className="flex-col w-full mt-4 h-full p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-lg shadow-neutral-800">
+        <div className="overflow-y-auto flex-col w-full mt-4 h-[400px] p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-lg shadow-neutral-800">
           <h1 className="text-2xl tracking-widest text-center">Order Items</h1>
           <ul>
             {orderItems.map((item, index) => {
@@ -74,6 +87,12 @@ export const SummaryContent = ({
             })}
           </ul>
         </div>
+        <button
+          onClick={clearLocalData}
+          className="flex w-[180px] my-10 h-[48px] ease-in duration-300 cursor-pointer hover:bg-[#E1B989] border-2 border-[#E1B989] mx-auto justify-center items-center rounded-xl"
+        >
+          <p className="text-lg"> Go to Shop</p>
+        </button>
       </Fade>
     </div>
   );

@@ -23,6 +23,10 @@ export interface CartType {
   readonly id: ProductDetailsType["id"];
   readonly title: ProductDetailsType["title"];
   readonly price: ProductDetailsType["price"];
+  readonly image?: {
+    url: ProductDetailsType["thumbnailUrl"];
+    alt: ProductDetailsType["thumbnailAlt"];
+  };
   readonly count: number;
 }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { UserStatus } from "./UserStatus";
 import { Fade } from "react-awesome-reveal";
@@ -11,17 +12,22 @@ import { UseClientContext } from "../context/ClientContext";
 
 export const Header = () => {
   const [isOpen, setOpen] = useState(false);
-  const { orderID } = UseClientContext();
+  const { orderID, setOrderID } = UseClientContext();
+  const router = useRouter();
+  console.log("router", router);
 
   const linksArray = [
     { name: "Home", href: "/" },
-    { name: "about", href: "/about" },
-    { name: "products", href: "/products/1" }
+    { name: "Cart", href: "/Cart" },
+    { name: "Products", href: "/products/1" }
   ];
+
+  const orderPaths = ["address", "payment", "summary"];
   return (
     <header
       style={{ zIndex: 9999 }}
-      className={`flex ${orderID && "hidden"} w-screen ${isOpen &&
+      className={`flex ${orderPaths.filter(path => router.asPath.includes(path))
+        .length && "hidden"} w-screen ${isOpen &&
         "fixed t-0 b-0 l-0 min-h-screen opacity-95 ease-in-out duration-500"} h-[120px]
       p-4  lg:justify-center items-center bg-neutral-800  `}
     >

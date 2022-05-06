@@ -9,7 +9,7 @@ type ReviewProps = {
 export const ReviewContainer = memo<ReviewProps>(({ productID }) => {
   return (
     <>
-      <div className=" overflow-y-auto flex flex-col items-center w-3/4 h-[400px] mx-auto mt-12  shadow-md shadow-[#1d1d1d] rounded-lg">
+      <div className="overflow-y-auto flex flex-col items-center w-3/4 h-[400px] mx-auto mt-12  shadow-md shadow-[#1d1d1d] rounded-lg">
         <ProductReview productID={productID} />
       </div>
       <div

@@ -8,6 +8,8 @@ import {
 } from "../../generated/graphql";
 import { createStripePayment } from "../../utils/apiCheckout";
 import { UseClientContext } from "../context/ClientContext";
+import { InfoPopup } from "../InfoPopup";
+import { Spinner } from "../Spinner";
 import { AreaInputs } from "./AreaInputs";
 import { personalData, shippingAddress, billingData } from "./FormAreaData";
 import { FormData, schema } from "./FormAreaType";
@@ -24,10 +26,19 @@ export const CheckoutAddress = () => {
     resolver: yupResolver(schema)
   });
 
-  const [createShipping, { data, error }] = useCreateShippingAddressMutation();
-  const [publishShippingAddress] = usePublishShippingAddressMutation();
+  const [
+    createShipping,
+    { loading, error }
+  ] = useCreateShippingAddressMutation();
+  const [
+    publishShippingAddress,
+    { error: publishError, loading: publishLoading }
+  ] = usePublishShippingAddressMutation();
 
-  console.log("error", error);
+  if (error) return <InfoPopup status="cancell" />;
+  if (publishError) return <InfoPopup status="cancell" />;
+
+  if (loading || publishLoading) return <Spinner />;
 
   const onSubmit = async (data: FormData) => {
     const { data: shippingData } = await createShipping({

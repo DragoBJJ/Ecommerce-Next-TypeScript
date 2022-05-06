@@ -122,12 +122,12 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
                 <p>
                   {orderItem.product!.price}$ {orderItem.quantity}
                 </p>
-                <div
-                  onClick={() => deleteOrderItem(orderItem.id)}
-                  className="flex justify-center items-center  w-[100px]  ease-in-out duration-300 hover:bg-neutral-800  hover:text-white  hover:border-none h-[38px] border-2 border-neutral-800  text-black rounded-lg cursor-pointer ml-4"
-                >
-                  DELETE
-                </div>
+                <AiOutlineDelete
+                  className="hover:text-[#E1B989]"
+                  size="30px"
+                  cursor="pointer"
+                  onClick={() => removeItemFromCart(item.id)}
+                />
               </div>
             </li>
           );

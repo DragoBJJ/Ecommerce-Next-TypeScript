@@ -49,3 +49,8 @@ export const getClientOrderID = () => {
     return undefined;
   }
 };
+
+export const deleteOrderAndStripeFromLocalStorage = () => {
+  localStorage.removeItem("OrderID");
+  localStorage.removeItem("StripeID");
+};

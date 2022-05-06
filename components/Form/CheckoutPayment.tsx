@@ -11,6 +11,8 @@ import {
 } from "@stripe/stripe-js";
 import { useUpdateOrderMutation } from "../../generated/graphql";
 import { getClientStripeID } from "../../utils/storage";
+import { Spinner } from "../Spinner";
+import { InfoPopup } from "../InfoPopup";
 
 type PaymentType = {
   stripe: Stripe;
@@ -22,7 +24,10 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState(true);
-  const [UseUpdateStripeID] = useUpdateOrderMutation();
+  const [
+    UseUpdateStripeID,
+    { error: errorUpdateID, loading: loadingUpdateID }
+  ] = useUpdateOrderMutation();
 
   const { orderID, clientID, setClientID } = UseClientContext();
   const router = useRouter();
@@ -32,7 +37,9 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
     setClientID(getClientStripeID());
   }, [clientID, setClientID]);
 
-  if (!clientID) throw Error("You dont have access to clientID");
+  if (loadingUpdateID) return <Spinner />;
+  if (!clientID) return <InfoPopup status="cancell" />;
+  if (errorUpdateID) return <InfoPopup status="cancell" />;
 
   const cardStyle: StripeCardElementOptions = {
     style: {
@@ -59,9 +66,6 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
     }
   };
 
-  if (!stripe || !elements) {
-    throw Error("You dont have access to stripe or stripeElement");
-  }
   const handleChange = async (event: StripeCardElementChangeEvent) => {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
