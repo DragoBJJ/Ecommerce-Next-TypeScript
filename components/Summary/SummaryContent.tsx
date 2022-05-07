@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { GetOrderAndShippingAddressQuery } from "../../generated/graphql";
 import { Fade } from "react-awesome-reveal";
 import { InfoPopup } from "../InfoPopup";
-import { UseClientContext } from "../context/ClientContext";
 import { deleteOrderAndStripeFromLocalStorage } from "../../utils/storage";
+import { UseCartContext } from "../context/CartContext";
 
 export const SummaryContent = ({
   data
@@ -12,6 +12,7 @@ export const SummaryContent = ({
   data: GetOrderAndShippingAddressQuery | undefined;
 }) => {
   const router = useRouter();
+  const { setCartItems } = UseCartContext();
 
   if (
     !data ||
@@ -24,6 +25,7 @@ export const SummaryContent = ({
 
   const clearLocalData = () => {
     deleteOrderAndStripeFromLocalStorage();
+    setCartItems([]);
     router.push({
       pathname: "/products/1"
     });

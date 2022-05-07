@@ -4,7 +4,7 @@ import { ProductDetailsType } from "../utils/type";
 import Image from "next/image";
 import { UseCartContext } from "./context/CartContext";
 
-type ProductListItem = Pick<
+type PickProductDetails = Pick<
   ProductDetailsType,
   "title" | "thumbnailUrl" | "thumbnailAlt" | "id" | "price"
 >;
@@ -15,7 +15,7 @@ export const ProductDetails = ({
   thumbnailUrl,
   price,
   title
-}: ProductListItem) => {
+}: PickProductDetails) => {
   const { addItemToCart } = UseCartContext();
   return (
     <div className="relative cursor-pointer grid border-[1px] border-[#E1B989]  max-w-[350px]  md:max-w-xs  xl:max-w-lg  h-96 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-sky-700/50  ease-in-out duration-300  bg-white justify-center items-center overflow-hidden rounded-xl">
@@ -24,7 +24,11 @@ export const ProductDetails = ({
           <Image
             layout="fill"
             objectFit="contain"
-            src={thumbnailUrl ? thumbnailUrl : "/shopBag.jpg"}
+            src={
+              thumbnailUrl
+                ? thumbnailUrl
+                : "https://source.unsplash.com/random/900×700/?fruit"
+            }
             alt={thumbnailAlt}
           />
         </div>

@@ -5,7 +5,8 @@ const nextConfig = {
     domains: [
       "naszsklep-api.vercel.app",
       "media.graphcms.com",
-      "media.graphassets.com"
+      "media.graphassets.com",
+      "source.unsplash.com"
     ],
     formats: ["image/avif", "image/webp"]
   }

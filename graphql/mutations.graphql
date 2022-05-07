@@ -97,3 +97,18 @@ mutation PublishShippingAddress {
     }
   }
 }
+
+mutation PublishManyProducts {
+  publishManyProductsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+
+mutation CreateProduct($data: ProductCreateInput!) {
+  createProduct(data: $data) {
+    id
+    name
+  }
+}

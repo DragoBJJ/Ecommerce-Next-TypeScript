@@ -26,7 +26,7 @@ const CartPage = () => {
   if (error) return <InfoPopup status="cancell" />;
   if (publishError) return <InfoPopup status="cancell" />;
 
-  if ((loading || publishLoading) && cartItems) return <Spinner />;
+  if (loading || publishLoading) return <Spinner />;
 
   const createOrder = async () => {
     if (!setOrderID) return;
@@ -57,12 +57,11 @@ const CartPage = () => {
       pathname: "/checkout/address"
     });
     setOrderID(data.createOrder?.id);
-    setCartItems([]);
   };
 
   return (
     <div className="flex justify-center items-center  h-full min-h-screen w-screen">
-      <div className="grid  grid-cols-1  md:grid-cols-3 h-full w-full">
+      <div className="grid  place-items-stretch grid-cols-1  md:grid-cols-3 h-full w-full">
         <CartContent />
         <CartSummary pay={createOrder} itemsAmount={cartItems.length} />
       </div>

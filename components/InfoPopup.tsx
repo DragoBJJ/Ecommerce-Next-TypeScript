@@ -27,7 +27,7 @@ export const InfoPopup = memo(({ status }: StatusProps) => {
               : "text-[#EA604D]"
           }`}
         >
-          {status === "success" ? "Success !" : "Denied :("}
+          {status === "success" ? "Success !" : "You have some Error :("}
         </h1>
       </div>
     </Fade>

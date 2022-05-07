@@ -19,7 +19,7 @@ const pageId = ({
   return (
     <>
       <Pagination paginationRange={paginationRange} currentPage={currentPage} />
-      <div className="grid grid-cols-1  min-h-screen w-screen gap-y-8 mt-8 md:grid-cols-2 lg:grid-cols-3  place-items-center px-8">
+      <div className="grid grid-cols-1  min-h-screen w-screen mt-8  place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3  p-8">
         {pageProducts.map(({ id, name, images, price }) => {
           return (
             <Fade triggerOnce key={id}>

@@ -21,6 +21,7 @@
     "graphql": "^16.3.0",
     "init": "^0.1.2",
     "next": "12.1.0",
+    "next-auth": "^4.3.4",
     "next-mdx-remote": "^4.0.0",
     "next-seo": "^5.1.0",
     "react": "17.0.2",

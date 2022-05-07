@@ -13,7 +13,7 @@ export const CartContent: FC<CartContentProps> = ({}) => {
   const { cartItems, removeItemFromCart } = UseCartContext();
 
   return (
-    <div className="flex flex-col h-screen col-span-1 md:col-span-2  w-full  border-2 border-[#E1B989]">
+    <div className="flex  h-screen flex-col col-span-1 md:col-span-2  w-full  border-2 border-[#E1B989]">
       {cartItems.length ? (
         <ul className="w-full">
           {cartItems.map((item, index) => {

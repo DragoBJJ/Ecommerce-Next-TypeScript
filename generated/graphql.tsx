@@ -5515,6 +5515,7 @@ export type Product = Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  imageUrl?: Maybe<Scalars['String']>;
   images: Array<Asset>;
   /** System Locale field */
   locale: Locale;
@@ -6200,6 +6201,7 @@ export type ProductCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** description input for default locale (en) */
   description: Scalars['String'];
+  imageUrl?: InputMaybe<Scalars['String']>;
   images?: InputMaybe<AssetCreateManyInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<ProductCreateLocalizationsInput>;
@@ -6309,6 +6311,25 @@ export type ProductManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  imageUrl_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  imageUrl_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  imageUrl_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  imageUrl_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  imageUrl_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  imageUrl_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  imageUrl_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  imageUrl_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  imageUrl_starts_with?: InputMaybe<Scalars['String']>;
   images_every?: InputMaybe<AssetWhereInput>;
   images_none?: InputMaybe<AssetWhereInput>;
   images_some?: InputMaybe<AssetWhereInput>;
@@ -6362,6 +6383,8 @@ export enum ProductOrderByInput {
   DescriptionDesc = 'description_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  ImageUrlAsc = 'imageUrl_ASC',
+  ImageUrlDesc = 'imageUrl_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
   PriceAsc = 'price_ASC',
@@ -7409,6 +7432,7 @@ export type ProductUpdateInput = {
   collections?: InputMaybe<CollectionUpdateManyInlineInput>;
   /** description input for default locale (en) */
   description?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
   images?: InputMaybe<AssetUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<ProductUpdateLocalizationsInput>;
@@ -7465,6 +7489,7 @@ export type ProductUpdateManyInlineInput = {
 export type ProductUpdateManyInput = {
   /** description input for default locale (en) */
   description?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
   /** Optional updates to localizations */
   localizations?: InputMaybe<ProductUpdateManyLocalizationsInput>;
   /** name input for default locale (en) */
@@ -7707,6 +7732,25 @@ export type ProductWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  imageUrl_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  imageUrl_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  imageUrl_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  imageUrl_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  imageUrl_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  imageUrl_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  imageUrl_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  imageUrl_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  imageUrl_starts_with?: InputMaybe<Scalars['String']>;
   images_every?: InputMaybe<AssetWhereInput>;
   images_none?: InputMaybe<AssetWhereInput>;
   images_some?: InputMaybe<AssetWhereInput>;
@@ -11329,6 +11373,18 @@ export type PublishShippingAddressMutationVariables = Exact<{ [key: string]: nev
 
 export type PublishShippingAddressMutation = { __typename?: 'Mutation', publishManyShippingAddressesConnection: { __typename?: 'ShippingAddressConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } } };
 
+export type PublishManyProductsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublishManyProductsMutation = { __typename?: 'Mutation', publishManyProductsConnection: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } } };
+
+export type CreateProductMutationVariables = Exact<{
+  data: ProductCreateInput;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutation', createProduct?: { __typename?: 'Product', id: string, name: string } | null };
+
 export type GetOrderItemsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
@@ -11739,6 +11795,74 @@ export function usePublishShippingAddressMutation(baseOptions?: Apollo.MutationH
 export type PublishShippingAddressMutationHookResult = ReturnType<typeof usePublishShippingAddressMutation>;
 export type PublishShippingAddressMutationResult = Apollo.MutationResult<PublishShippingAddressMutation>;
 export type PublishShippingAddressMutationOptions = Apollo.BaseMutationOptions<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>;
+export const PublishManyProductsDocument = gql`
+    mutation PublishManyProducts {
+  publishManyProductsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+    `;
+export type PublishManyProductsMutationFn = Apollo.MutationFunction<PublishManyProductsMutation, PublishManyProductsMutationVariables>;
+
+/**
+ * __usePublishManyProductsMutation__
+ *
+ * To run a mutation, you first call `usePublishManyProductsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishManyProductsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishManyProductsMutation, { data, loading, error }] = usePublishManyProductsMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePublishManyProductsMutation(baseOptions?: Apollo.MutationHookOptions<PublishManyProductsMutation, PublishManyProductsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishManyProductsMutation, PublishManyProductsMutationVariables>(PublishManyProductsDocument, options);
+      }
+export type PublishManyProductsMutationHookResult = ReturnType<typeof usePublishManyProductsMutation>;
+export type PublishManyProductsMutationResult = Apollo.MutationResult<PublishManyProductsMutation>;
+export type PublishManyProductsMutationOptions = Apollo.BaseMutationOptions<PublishManyProductsMutation, PublishManyProductsMutationVariables>;
+export const CreateProductDocument = gql`
+    mutation CreateProduct($data: ProductCreateInput!) {
+  createProduct(data: $data) {
+    id
+    name
+  }
+}
+    `;
+export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
+
+/**
+ * __useCreateProductMutation__
+ *
+ * To run a mutation, you first call `useCreateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProductMutation, { data, loading, error }] = useCreateProductMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductMutation, CreateProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, options);
+      }
+export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
+export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
+export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
 export const GetOrderItemsDocument = gql`
     query GetOrderItems($id: ID) {
   order(where: {id: $id}) {
