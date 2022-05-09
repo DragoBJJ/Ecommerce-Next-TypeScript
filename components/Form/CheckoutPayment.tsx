@@ -41,6 +41,7 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
   if (!clientID) return <InfoPopup status="cancell" />;
   if (errorUpdateID) return <InfoPopup status="cancell" />;
 
+  if (succeeded) return <InfoPopup status="success" />;
   const cardStyle: StripeCardElementOptions = {
     style: {
       base: {

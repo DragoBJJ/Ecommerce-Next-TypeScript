@@ -11,14 +11,16 @@ import {apolloClient} from "../graphql/apolloClient"
 import { ClientContextProvider } from '../components/context/ClientContext'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
+import {SessionProvider} from "next-auth/react"
 
 
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: {session, ...pageProps},}: AppProps) {
   const client = new QueryClient()
   return  (
+     <SessionProvider session={session}>
      <ApolloProvider client={apolloClient}>
         <ClientContextProvider>
      <CartContextProvider>
@@ -33,8 +35,8 @@ function MyApp({ Component, pageProps }: AppProps) {
        </CartContextProvider>
        </ClientContextProvider>
        </ApolloProvider>
+       </SessionProvider>
   )
-    
 }
 
 export default MyApp

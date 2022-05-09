@@ -9,15 +9,16 @@ import { MobileIcon } from "./MobileIcon";
 import { MobileNav } from "./MobileNav";
 import { NavLinks } from "./NavLinks";
 import { UseClientContext } from "../context/ClientContext";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export const Header = () => {
   const [isOpen, setOpen] = useState(false);
-  const { orderID, setOrderID } = UseClientContext();
   const router = useRouter();
-  console.log("router", router);
+
+  const { data, status } = useSession();
 
   const linksArray = [
-    { name: "Home", href: "/" },
+    { name: "Profile", href: "/" },
     { name: "Cart", href: "/Cart" },
     { name: "Products", href: "/products/1" }
   ];
@@ -40,7 +41,7 @@ export const Header = () => {
           className="inline rounded-full"
           objectFit="cover"
           src="/Mathilda1.png"
-          alt="Leon"
+          alt="Mathilda"
         />
       </div>
       <nav
@@ -52,7 +53,24 @@ export const Header = () => {
       <MobileNav linksArray={linksArray} isOpen={isOpen} setOpen={setOpen} />
 
       <Fade triggerOnce direction="right">
-        <UserStatus />
+        {status === "authenticated" ? (
+          <>
+            <UserStatus />
+            <button
+              onClick={() => signOut()}
+              className="text-[#E1B989] text-xl mr-4"
+            >
+              Log Out
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => signIn()}
+            className="text-[#E1B989] text-xl mr-4"
+          >
+            Log In
+          </button>
+        )}
       </Fade>
       <MobileIcon isOpen={isOpen} setOpen={setOpen} />
       <CartBar />

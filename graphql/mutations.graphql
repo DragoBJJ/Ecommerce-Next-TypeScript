@@ -112,3 +112,12 @@ mutation CreateProduct($data: ProductCreateInput!) {
     name
   }
 }
+
+mutation CreateAccount($data: AccountCreateInput!) {
+  createAccount(data: $data) {
+    id
+    username
+    specialization
+    email
+  }
+}

@@ -1,19 +1,18 @@
 import * as yup from "yup";
-import { FormInputProps } from "./FormInput";
 
-const carDataType = yup.object({
-  cardNumber: yup.string().required(),
-  expirationDate: yup
-    .string()
-    .typeError("Not a valid expiration date. Example: MM/YY")
-    .max(5, "Not a valid expiration date. Example: MM/YY")
-    .matches(
-      /([0-9]{2})\/([0-9]{2})/,
-      "Not a valid expiration date. Example: MM/YY"
-    )
-    .required("Expiration date is required"),
-  cvc: yup.string().required()
-});
+// const carDataType = yup.object({
+//   cardNumber: yup.string().required(),
+//   expirationDate: yup
+//     .string()
+//     .typeError("Not a valid expiration date. Example: MM/YY")
+//     .max(5, "Not a valid expiration date. Example: MM/YY")
+//     .matches(
+//       /([0-9]{2})\/([0-9]{2})/,
+//       "Not a valid expiration date. Example: MM/YY"
+//     )
+//     .required("Expiration date is required"),
+//   cvc: yup.string().required()
+// });
 
 export const schema = yup
   .object({
@@ -48,6 +47,25 @@ export const reviewSchema = yup.object({
     .max(5)
     .required()
 });
+
+export const registerSchema = yup.object({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  username: yup.string().required(),
+  specialization: yup.string().required(),
+  password: yup
+    .string()
+    .min(8)
+    .required(),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")])
+    .required()
+});
+
+export type RegisterData = yup.InferType<typeof registerSchema>;
 
 export type FormData = yup.InferType<typeof schema>;
 

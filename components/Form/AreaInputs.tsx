@@ -32,11 +32,18 @@ export const AreaInputs = <FormData extends Record<string, unknown>>({
   return (
     <div className="flex flex-col w-full h-auto lg:w-5/6 my-4">
       <h1 className="text-xl mx-left my-2 tracking-widest">{title}</h1>
-      <div className="w-full grid grid-cols-1   md:grid-cols-2 gap-4 md:gap-y-0 md:gap-x-6 place-items-center">
+      <div
+        className={`w-full grid grid-cols-1    ${
+          title === "Register Form" ? "md:grid-cols-1" : "md:grid-cols-2"
+        } place-items-center`}
+      >
         {inputs.map(({ id, type, label, placeholder }) => {
           return (
-            <div key={`${id}-${type}`} className="w-full flex flex-col">
-              {id === "state" && selectOptions ? (
+            <div
+              key={`${id}-${type}`}
+              className="w-full flex flex-col h-[110px]"
+            >
+              {(id === "state" || id === "specialization") && selectOptions ? (
                 <FormSelect<FormData>
                   id={id as Path<FormData>}
                   label={label}

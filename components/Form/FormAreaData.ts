@@ -1,4 +1,4 @@
-import { ReviewData, FormData } from "./FormAreaType";
+import { ReviewData, FormData, RegisterData } from "./FormAreaType";
 import { FormInputProps } from "./FormInput";
 
 export const reviewInputData: FormInputProps<ReviewData>[] = [
@@ -143,5 +143,37 @@ export const billingData: FormInputProps<
     id: "billingInformation",
     type: "checkbox",
     label: "Same information as a Shipping Address"
+  }
+];
+
+export const registerData: FormInputProps<RegisterData>[] = [
+  {
+    id: "email",
+    label: "E-mail",
+    placeholder: "Aleksander@gmail.com",
+    type: "email"
+  },
+  {
+    id: "username",
+    label: "Username",
+    placeholder: "Aleksander",
+    type: "text"
+  },
+  {
+    id: "specialization",
+    label: "Specjalization",
+    placeholder: "AI Developer"
+  },
+  {
+    id: "password",
+    label: "Password",
+    placeholder: "********",
+    type: "password"
+  },
+  {
+    id: "confirmPassword",
+    label: "confirmPassword",
+    placeholder: "********",
+    type: "password"
   }
 ];

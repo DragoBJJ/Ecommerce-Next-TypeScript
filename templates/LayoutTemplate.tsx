@@ -14,7 +14,7 @@ export const LayoutTemplate = ({ children }: LayoutTemplateProps) => {
   const { orderID } = UseClientContext();
   return (
     <div className="flex flex-col w-screen  min-h-screen">
-      <NextSeo title="E-commerce" description="Algorytm Luhna" />
+      <NextSeo title="E-commerce" description="Very fast E-commerce" />
       <Header />
       <div className="flex flex-grow ">{children}</div>
       <Footer />

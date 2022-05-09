@@ -11,6 +11,7 @@ import {
 type InputType = {
   text: number;
   email: string;
+  password: string;
   date: string;
   checkbox: string;
 };
