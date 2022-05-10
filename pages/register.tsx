@@ -4,8 +4,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterData } from "../components/Form/FormAreaType";
 import { registerSchema } from "../components/Form/FormAreaType";
 import { registerData } from "../components/Form/FormAreaData";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const RegisterForm = () => {
+  const { status } = useSession();
+  const router = useRouter();
+
+  if (status === "authenticated") router.push("/");
+
   const {
     register,
     handleSubmit,

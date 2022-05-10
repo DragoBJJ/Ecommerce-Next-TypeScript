@@ -121,3 +121,9 @@ mutation CreateAccount($data: AccountCreateInput!) {
     email
   }
 }
+
+mutation publishAccount($id: ID!) {
+  publishAccount(where: { id: $id }) {
+    id
+  }
+}

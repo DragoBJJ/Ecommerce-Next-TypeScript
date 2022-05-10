@@ -12132,6 +12132,13 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount?: { __typename?: 'Account', id: string, username: string, specialization: string, email: string } | null };
 
+export type PublishAccountMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PublishAccountMutation = { __typename?: 'Mutation', publishAccount?: { __typename?: 'Account', id: string } | null };
+
 export type GetOrderItemsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
@@ -12171,6 +12178,13 @@ export type GetOrderAndShippingAddressQueryVariables = Exact<{
 
 
 export type GetOrderAndShippingAddressQuery = { __typename?: 'Query', order?: { __typename?: 'Order', orderItems: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }>, shippingAddress?: { __typename?: 'ShippingAddress', id: string, email: string, firstName: string, lastName: string, state: string, city: string, streetAddress: string, postalCode: string } | null } | null };
+
+export type GetUserByEmailQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type GetUserByEmailQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, username: string, specialization: string, password: string } | null };
 
 export const ReviewContentFragmentDoc = gql`
     fragment ReviewContent on Review {
@@ -12646,6 +12660,39 @@ export function useCreateAccountMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
 export type CreateAccountMutationResult = Apollo.MutationResult<CreateAccountMutation>;
 export type CreateAccountMutationOptions = Apollo.BaseMutationOptions<CreateAccountMutation, CreateAccountMutationVariables>;
+export const PublishAccountDocument = gql`
+    mutation publishAccount($id: ID!) {
+  publishAccount(where: {id: $id}) {
+    id
+  }
+}
+    `;
+export type PublishAccountMutationFn = Apollo.MutationFunction<PublishAccountMutation, PublishAccountMutationVariables>;
+
+/**
+ * __usePublishAccountMutation__
+ *
+ * To run a mutation, you first call `usePublishAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishAccountMutation, { data, loading, error }] = usePublishAccountMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePublishAccountMutation(baseOptions?: Apollo.MutationHookOptions<PublishAccountMutation, PublishAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishAccountMutation, PublishAccountMutationVariables>(PublishAccountDocument, options);
+      }
+export type PublishAccountMutationHookResult = ReturnType<typeof usePublishAccountMutation>;
+export type PublishAccountMutationResult = Apollo.MutationResult<PublishAccountMutation>;
+export type PublishAccountMutationOptions = Apollo.BaseMutationOptions<PublishAccountMutation, PublishAccountMutationVariables>;
 export const GetOrderItemsDocument = gql`
     query GetOrderItems($id: ID) {
   order(where: {id: $id}) {
@@ -12901,3 +12948,41 @@ export function useGetOrderAndShippingAddressLazyQuery(baseOptions?: Apollo.Lazy
 export type GetOrderAndShippingAddressQueryHookResult = ReturnType<typeof useGetOrderAndShippingAddressQuery>;
 export type GetOrderAndShippingAddressLazyQueryHookResult = ReturnType<typeof useGetOrderAndShippingAddressLazyQuery>;
 export type GetOrderAndShippingAddressQueryResult = Apollo.QueryResult<GetOrderAndShippingAddressQuery, GetOrderAndShippingAddressQueryVariables>;
+export const GetUserByEmailDocument = gql`
+    query GetUserByEmail($email: String!) {
+  account(where: {email: $email}) {
+    id
+    username
+    specialization
+    password
+  }
+}
+    `;
+
+/**
+ * __useGetUserByEmailQuery__
+ *
+ * To run a query within a React component, call `useGetUserByEmailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByEmailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByEmailQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetUserByEmailQuery(baseOptions: Apollo.QueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+      }
+export function useGetUserByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByEmailQuery, GetUserByEmailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByEmailQuery, GetUserByEmailQueryVariables>(GetUserByEmailDocument, options);
+        }
+export type GetUserByEmailQueryHookResult = ReturnType<typeof useGetUserByEmailQuery>;
+export type GetUserByEmailLazyQueryHookResult = ReturnType<typeof useGetUserByEmailLazyQuery>;
+export type GetUserByEmailQueryResult = Apollo.QueryResult<GetUserByEmailQuery, GetUserByEmailQueryVariables>;

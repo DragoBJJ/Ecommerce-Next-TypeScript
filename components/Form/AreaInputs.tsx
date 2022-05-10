@@ -41,7 +41,7 @@ export const AreaInputs = <FormData extends Record<string, unknown>>({
           return (
             <div
               key={`${id}-${type}`}
-              className="w-full flex flex-col h-[110px]"
+              className="w-full flex flex-col h-[115px] "
             >
               {(id === "state" || id === "specialization") && selectOptions ? (
                 <FormSelect<FormData>

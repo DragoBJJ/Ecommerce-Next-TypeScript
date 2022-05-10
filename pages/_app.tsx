@@ -17,7 +17,7 @@ import {SessionProvider} from "next-auth/react"
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
 
-function MyApp({ Component, pageProps: {session, ...pageProps},}: AppProps) {
+function MyApp({ Component, pageProps: {session, ...pageProps}}: AppProps) {
   const client = new QueryClient()
   return  (
      <SessionProvider session={session}>

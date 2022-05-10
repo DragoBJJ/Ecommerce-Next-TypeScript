@@ -8,7 +8,6 @@ import { CartBar } from "../CartBar/CartBar";
 import { MobileIcon } from "./MobileIcon";
 import { MobileNav } from "./MobileNav";
 import { NavLinks } from "./NavLinks";
-import { UseClientContext } from "../context/ClientContext";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export const Header = () => {
@@ -16,6 +15,8 @@ export const Header = () => {
   const router = useRouter();
 
   const { data, status } = useSession();
+
+  console.log("DATA_HEADER", data);
 
   const linksArray = [
     { name: "Profile", href: "/" },

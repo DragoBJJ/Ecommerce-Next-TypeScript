@@ -69,3 +69,12 @@ query GetOrderAndShippingAddress($orderID: ID) {
     }
   }
 }
+
+query GetUserByEmail($email: String!) {
+  account(where: { email: $email }) {
+    id
+    username
+    specialization
+    password
+  }
+}

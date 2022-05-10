@@ -8,8 +8,13 @@ import {
 import {
   CreateAccountMutation,
   CreateAccountMutationVariables,
-  CreateAccountDocument
+  CreateAccountDocument,
+  PublishAccountMutation,
+  PublishAccountMutationVariables,
+  PublishAccountDocument
 } from "../../generated/graphql";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const SignUpHandler: NextApiHandler = async (req, res) => {
   const {
@@ -25,7 +30,7 @@ const SignUpHandler: NextApiHandler = async (req, res) => {
   }
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  const { data } = await apolloAuthorizedClient.mutate<
+  const { data: createdUser } = await apolloAuthorizedClient.mutate<
     CreateAccountMutation,
     CreateAccountMutationVariables
   >({
@@ -39,7 +44,18 @@ const SignUpHandler: NextApiHandler = async (req, res) => {
       }
     }
   });
-  res.status(200).json({ useID: data?.createAccount?.id });
+  if (!createdUser || !createdUser.createAccount) return null;
+
+  await apolloAuthorizedClient.mutate<
+    PublishAccountMutation,
+    PublishAccountMutationVariables
+  >({
+    mutation: PublishAccountDocument,
+    variables: {
+      id: createdUser.createAccount.id
+    }
+  });
+  res.status(200).json({ userID: createdUser.createAccount.id });
 };
 
 export default SignUpHandler;
