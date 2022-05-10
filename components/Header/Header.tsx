@@ -14,15 +14,19 @@ export const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
 
-  const { data, status } = useSession();
-
-  console.log("DATA_HEADER", data);
+  const { status } = useSession();
 
   const linksArray = [
     { name: "Profile", href: "/" },
     { name: "Cart", href: "/Cart" },
     { name: "Products", href: "/products/1" }
   ];
+  const mobileFunc =
+    status === "authenticated"
+      ? { name: "Log Out", href: "/signin", authFunc: signOut }
+      : { name: "Log In", href: "/product/1", authFunc: signIn };
+
+  const MobileLinks = [...linksArray, mobileFunc];
 
   const orderPaths = ["address", "payment", "summary"];
   return (
@@ -38,6 +42,7 @@ export const Header = () => {
           "hidden"} relative h-28  w-28 mr-4 shadow-2xl shadow-stone-700 rounded-full`}
       >
         <Image
+          priority={true}
           layout="fill"
           className="inline rounded-full"
           objectFit="cover"
@@ -51,7 +56,7 @@ export const Header = () => {
         <NavLinks navLinks={linksArray} setOpen={setOpen} />
       </nav>
 
-      <MobileNav linksArray={linksArray} isOpen={isOpen} setOpen={setOpen} />
+      <MobileNav linksArray={MobileLinks} isOpen={isOpen} setOpen={setOpen} />
 
       <Fade triggerOnce direction="right">
         {status === "authenticated" ? (
@@ -59,7 +64,7 @@ export const Header = () => {
             <UserStatus />
             <button
               onClick={() => signOut()}
-              className="text-[#E1B989] text-xl mr-4"
+              className="text-[#E1B989] hidden md:flex text-xl mr-4"
             >
               Log Out
             </button>
@@ -67,7 +72,7 @@ export const Header = () => {
         ) : (
           <button
             onClick={() => signIn()}
-            className="text-[#E1B989] text-xl mr-4"
+            className="text-[#E1B989] text-xl mr-4 hidden md:flex"
           >
             Log In
           </button>

@@ -19,8 +19,9 @@ export const SummaryContent = ({
     !data.order ||
     !data.order.shippingAddress ||
     !data.order.orderItems
-  )
-    return <InfoPopup status="cancell" />;
+  ) {
+    return <InfoPopup status="cancell" description="Error with your Order" />;
+  }
   const { orderItems } = data.order;
 
   const clearLocalData = () => {
@@ -40,7 +41,7 @@ export const SummaryContent = ({
           </h1>
           <ul>
             {Object.values(data.order.shippingAddress).map((item, index) => {
-              if (index === 0) return;
+              if (index === 0 || index === 1) return;
               return (
                 <li key={index} className="text-lg text-[#1d1d1d]">
                   {item}
@@ -77,8 +78,6 @@ export const SummaryContent = ({
                     {item.product?.images[0].url && (
                       <Image
                         src={item.product?.images[0].url}
-                        height={16 / 9}
-                        width={16 / 9}
                         layout="fill"
                         objectFit="contain"
                       />

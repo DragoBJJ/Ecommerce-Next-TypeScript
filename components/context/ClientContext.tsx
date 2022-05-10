@@ -14,16 +14,16 @@ import {
 } from "../../utils/storage";
 
 export type Client = {
-  clientID: string | undefined;
+  clientStripeID: string | undefined;
   orderID: string | undefined;
-  setClientID: Dispatch<SetStateAction<string | undefined>> | undefined;
+  setClientStripeID: Dispatch<SetStateAction<string | undefined>> | undefined;
   setOrderID: Dispatch<SetStateAction<string | undefined>> | undefined;
 };
 
 export const ClientContext = createContext<Client>({
-  clientID: "",
+  clientStripeID: "",
   orderID: "",
-  setClientID: undefined,
+  setClientStripeID: undefined,
   setOrderID: undefined
 });
 
@@ -32,27 +32,27 @@ export const ClientContextProvider = ({
 }: {
   children: JSX.Element;
 }) => {
-  const [clientID, setClientID] = useState<Client["clientID"]>(undefined);
+  const [clientStripeID, setClientStripeID] = useState<
+    Client["clientStripeID"]
+  >(undefined);
   const [orderID, setOrderID] = useState<Client["orderID"]>(undefined);
 
   useEffect(() => {
-    setClientID(getClientStripeID());
+    setClientStripeID(getClientStripeID());
     setOrderID(getClientOrderID());
   }, [orderID, setOrderID]);
 
   useEffect(() => {
     if (orderID) setClientOrderID(orderID);
-    if (clientID) setClientStripeID(clientID);
-  }, [clientID, orderID]);
+    if (clientStripeID) setClientStripeID(clientStripeID);
+  }, [clientStripeID, orderID]);
 
-  // console.log("clientID", clientID);
-  console.log("orderID_Context", orderID);
   return (
     <ClientContext.Provider
       value={{
-        clientID,
+        clientStripeID,
         orderID,
-        setClientID,
+        setClientStripeID,
         setOrderID
       }}
     >

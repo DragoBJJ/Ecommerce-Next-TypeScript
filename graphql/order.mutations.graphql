@@ -15,3 +15,15 @@ query GetOrderItems($id: ID) {
     }
   }
 }
+
+mutation ConnectOrderToUser($userID: ID, $orderID: ID) {
+  updateAccount(
+    where: { id: $userID }
+    data: { orders: { connect: { where: { id: $orderID } } } }
+  ) {
+    orders {
+      id
+    }
+    username
+  }
+}

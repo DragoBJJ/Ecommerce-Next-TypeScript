@@ -37,6 +37,14 @@ fragment ReviewContent on Review {
   rating
 }
 
+fragment UserContent on Account {
+  id
+  username
+  email
+  specialization
+  password
+}
+
 query getReviewsFromProduct($id: ID) {
   product(where: { id: $id }) {
     reviews {
@@ -74,6 +82,7 @@ query GetUserByEmail($email: String!) {
   account(where: { email: $email }) {
     id
     username
+    email
     specialization
     password
   }

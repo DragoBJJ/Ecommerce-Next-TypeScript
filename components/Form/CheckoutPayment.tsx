@@ -29,19 +29,24 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
     { error: errorUpdateID, loading: loadingUpdateID }
   ] = useUpdateOrderMutation();
 
-  const { orderID, clientID, setClientID } = UseClientContext();
+  const { orderID, clientStripeID, setClientStripeID } = UseClientContext();
   const router = useRouter();
 
   useLayoutEffect(() => {
-    if (clientID || !setClientID) return;
-    setClientID(getClientStripeID());
-  }, [clientID, setClientID]);
+    if (clientStripeID || !setClientStripeID) return;
+    setClientStripeID(getClientStripeID());
+  }, [clientStripeID, setClientStripeID]);
 
   if (loadingUpdateID) return <Spinner />;
-  if (!clientID) return <InfoPopup status="cancell" />;
-  if (errorUpdateID) return <InfoPopup status="cancell" />;
+  if (!clientStripeID)
+    return (
+      <InfoPopup status="cancell" description="Error with your clientID" />
+    );
+  if (errorUpdateID)
+    return (
+      <InfoPopup status="cancell" description="Error with  your payment" />
+    );
 
-  if (succeeded) return <InfoPopup status="success" />;
   const cardStyle: StripeCardElementOptions = {
     style: {
       base: {
@@ -78,7 +83,7 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
     if (!card) {
       throw Error("You dont have access to  paypalCard");
     }
-    const payload = await stripe.confirmCardPayment(clientID, {
+    const payload = await stripe.confirmCardPayment(clientStripeID, {
       payment_method: {
         card
       }

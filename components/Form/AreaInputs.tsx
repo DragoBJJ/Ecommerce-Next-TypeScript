@@ -33,7 +33,7 @@ export const AreaInputs = <FormData extends Record<string, unknown>>({
     <div className="flex flex-col w-full h-auto lg:w-5/6 my-4">
       <h1 className="text-xl mx-left my-2 tracking-widest">{title}</h1>
       <div
-        className={`w-full grid grid-cols-1    ${
+        className={`w-full grid grid-cols-1 gap-x-4   ${
           title === "Register Form" ? "md:grid-cols-1" : "md:grid-cols-2"
         } place-items-center`}
       >

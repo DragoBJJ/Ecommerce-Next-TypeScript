@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, memo, SetStateAction } from "react";
+import { SignInResponse, SignOutResponse } from "next-auth/react";
 
 interface NavLinksProps {
-  navLinks: { name: string; href: string }[];
+  navLinks: {
+    name: string;
+    href: string;
+    authFunc?: () => SignInResponse | SignOutResponse;
+  }[];
   isMobile?: boolean;
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }
@@ -15,7 +20,7 @@ export const NavLinks = memo<NavLinksProps>(
     return (
       <>
         {navLinks &&
-          navLinks.map(({ href, name }) => {
+          navLinks.map(({ href, name, authFunc }) => {
             return (
               <div
                 key={href}
@@ -25,6 +30,7 @@ export const NavLinks = memo<NavLinksProps>(
               >
                 <Link href={href}>
                   <a
+                    onClick={authFunc ? () => authFunc() : undefined}
                     className={`text-[#E1B989]
                     ${href.split("/")[1] === router.pathname.split("/")[1] &&
                       "border-b-2 border-[#E1B989]"} `}

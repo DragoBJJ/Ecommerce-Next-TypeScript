@@ -161,7 +161,7 @@ export const registerData: FormInputProps<RegisterData>[] = [
   },
   {
     id: "specialization",
-    label: "Specjalization",
+    label: "Specialization",
     placeholder: "AI Developer"
   },
   {

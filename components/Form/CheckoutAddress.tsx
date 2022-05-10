@@ -15,7 +15,7 @@ import { personalData, shippingAddress, billingData } from "./FormAreaData";
 import { FormData, schema } from "./FormAreaType";
 
 export const CheckoutAddress = () => {
-  const { setClientID, orderID } = UseClientContext();
+  const { setClientStripeID, orderID } = UseClientContext();
 
   const router = useRouter();
   const {
@@ -28,15 +28,27 @@ export const CheckoutAddress = () => {
 
   const [
     createShipping,
-    { loading, error }
+    { loading, error: ShippingError }
   ] = useCreateShippingAddressMutation();
   const [
     publishShippingAddress,
     { error: publishError, loading: publishLoading }
   ] = usePublishShippingAddressMutation();
 
-  if (error) return <InfoPopup status="cancell" />;
-  if (publishError) return <InfoPopup status="cancell" />;
+  if (ShippingError)
+    return (
+      <InfoPopup
+        status="cancell"
+        description="Error with your Shipping create"
+      />
+    );
+  if (publishError)
+    return (
+      <InfoPopup
+        status="cancell"
+        description="Error with your Shipping publish"
+      />
+    );
 
   if (loading || publishLoading) return <Spinner />;
 
@@ -56,8 +68,8 @@ export const CheckoutAddress = () => {
     if (!shippingData || !orderID) return;
     await publishShippingAddress();
     const { clientSecret } = await createStripePayment(orderID);
-    if (!clientSecret || !setClientID) return;
-    setClientID(clientSecret);
+    if (!clientSecret || !setClientStripeID) return;
+    setClientStripeID(clientSecret);
     router.push({
       pathname: "/checkout/payment"
     });

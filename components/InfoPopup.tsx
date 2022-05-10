@@ -4,16 +4,18 @@ import { Fade } from "react-awesome-reveal";
 
 type StatusProps = {
   status: "success" | "cancell";
+  description?: string;
+  image?: "string";
 };
 
-export const InfoPopup = memo(({ status }: StatusProps) => {
+export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
   return (
     <Fade triggerOnce>
-      <div className="flex flex-col my-4 mx-auto w-full h-full max-w-[350px]   sm:max-w-[400px] max-h-[450px]  lg:max-w-[500px] lg:max-h-[500px] bg-[#E1B989] rounded-xl shadow-2xl">
+      <div className="flex flex-col my-4 mx-auto w-full h-full max-w-[350px]   sm:max-w-[400px] max-h-[450px]  lg:max-w-[550px] lg:max-h-[550px] bg-[#E1B989] rounded-xl shadow-2xl">
         <div className="w-full mt-4">
           <Image
             priority={true}
-            src={`/${status === "success" ? "stripe.svg" : "cancell.svg"}`}
+            src={image ? `/${image}.svg` : `/cancell.svg`}
             height={16 / 12}
             width={16 / 9}
             layout="responsive"
@@ -27,7 +29,7 @@ export const InfoPopup = memo(({ status }: StatusProps) => {
               : "text-[#EA604D]"
           }`}
         >
-          {status === "success" ? "Success !" : "You have some Error :("}
+          {description ? description : "Access Denied :("}
         </h1>
       </div>
     </Fade>

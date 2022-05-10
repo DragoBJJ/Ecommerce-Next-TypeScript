@@ -1,27 +1,31 @@
 import { CartContent } from "../components/CartBar/CartContent";
 import { CartSummary } from "../components/CartBar/CartSummary";
 import { UseCartContext } from "../components/context/CartContext";
-import Image from "next/image";
 import { Spinner } from "../components/Spinner";
 
 import { useRouter } from "next/router";
 import { UseClientContext } from "../components/context/ClientContext";
 import {
+  useConnectOrderToUserMutation,
   useCreateOrderMutation,
   usePublishOrdersMutation as UsePublishOrders
 } from "../generated/graphql";
 import { InfoPopup } from "../components/InfoPopup";
+import { useSession } from "next-auth/react";
 
 const CartPage = () => {
   const { orderID, setOrderID } = UseClientContext();
-
+  const { cartItems } = UseCartContext();
+  const { data: session } = useSession();
   const route = useRouter();
-  const { cartItems, setCartItems } = UseCartContext();
-  const [sendOrder, { loading, error }] = useCreateOrderMutation();
+  const [createOrderMutation, { loading, error }] = useCreateOrderMutation();
   const [
     publishOrders,
     { loading: publishLoading, error: publishError }
   ] = UsePublishOrders();
+  const [connectOrderToUser] = useConnectOrderToUserMutation();
+
+  console.log("session", session);
 
   if (error) return <InfoPopup status="cancell" />;
   if (publishError) return <InfoPopup status="cancell" />;
@@ -29,11 +33,12 @@ const CartPage = () => {
   if (loading || publishLoading) return <Spinner />;
 
   const createOrder = async () => {
-    if (!setOrderID) return;
+    if (!setOrderID || !session?.user.id || !session?.user.email) return;
     if (orderID || !cartItems.length) return;
-    const { data } = await sendOrder({
+
+    const { data: orderData } = await createOrderMutation({
       variables: {
-        email: "j.pawelski.it@gmail.com",
+        email: session.user.email,
         total: 1,
         stripeCheckoutId: (-Math.random()).toString(25),
         orderItems: {
@@ -51,12 +56,18 @@ const CartPage = () => {
         }
       }
     });
-    if (!data?.createOrder) return;
+    if (!orderData?.createOrder) return;
+    await connectOrderToUser({
+      variables: {
+        userID: session?.user.id,
+        orderID: orderData.createOrder.id
+      }
+    });
     await publishOrders();
     route.push({
       pathname: "/checkout/address"
     });
-    setOrderID(data.createOrder?.id);
+    setOrderID(orderData.createOrder?.id);
   };
 
   return (

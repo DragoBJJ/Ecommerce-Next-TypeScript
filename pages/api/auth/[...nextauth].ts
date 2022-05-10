@@ -8,7 +8,9 @@ import {
   GetUserByEmailQueryVariables,
   GetUserByEmailDocument
 } from "../../../generated/graphql";
-import { callbackify } from "util";
+
+import { ApolloQueryResult } from "@apollo/client";
+import { User } from "next-auth/core/types";
 
 export default NextAuth({
   providers: [
@@ -25,7 +27,9 @@ export default NextAuth({
 
       async authorize(credentials, req) {
         if (!credentials) return null;
-        const { data: userData } = await apolloAuthorizedClient.query<
+        const {
+          data
+        }: ApolloQueryResult<GetUserByEmailQuery> = await apolloAuthorizedClient.query<
           GetUserByEmailQuery,
           GetUserByEmailQueryVariables
         >({
@@ -35,21 +39,21 @@ export default NextAuth({
           }
         });
 
-        if (!userData.account) return null;
+        if (!data.account) return null;
+        const { account } = data;
         const userExist = await bcrypt.compare(
           credentials.password,
-          userData.account.password
+          account.password
         );
 
         if (!userExist) return null;
-
-        console.log("userData", userData.account);
-
-        return {
-          id: userData.account.id,
-          username: userData.account.username,
-          specialization: userData.account.specialization
+        const user = {
+          id: account.id,
+          username: account.username,
+          email: account.email,
+          specialization: account.specialization
         };
+        return user;
       }
     }),
     GithubProvider({
@@ -58,5 +62,17 @@ export default NextAuth({
     })
   ],
 
+  callbacks: {
+    async session({ session, token }) {
+      session.user = token.user as User;
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    }
+  },
   secret: process.env.NEXTAUTH_TOKEN
 });
