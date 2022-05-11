@@ -13,7 +13,7 @@ export const CartContent: FC<CartContentProps> = ({}) => {
   const { cartItems, removeItemFromCart } = UseCartContext();
 
   return (
-    <div className="flex  h-screen flex-col col-span-1 md:col-span-2  w-full  border-2 border-[#E1B989]">
+    <div className="flex  h-screen flex-col col-span-1 md:col-span-2  w-full  border-[1px] border-[#E1B989]">
       {cartItems.length ? (
         <ul className="w-full">
           {cartItems.map((item, index) => {
@@ -21,7 +21,7 @@ export const CartContent: FC<CartContentProps> = ({}) => {
             return (
               <li
                 key={`${item.title}_${index}`}
-                className="flex justify-between items-center w-full p-4 border-b-2 border-[#E1B989]"
+                className="flex justify-between items-center w-full p-4 border-b-[1px] border-[#E1B989]"
               >
                 <div className="text-xl">{item.title}</div>
                 <div className="relative  w-1/3 h-[100px]">
@@ -42,7 +42,7 @@ export const CartContent: FC<CartContentProps> = ({}) => {
                     amount: {item.count}
                   </p>
                   <AiOutlineDelete
-                    className="hover:text-[#E1B989]"
+                    className="hover:scale-125 easy-in-out duration-300"
                     size="30px"
                     cursor="pointer"
                     onClick={() => removeItemFromCart(item.id)}

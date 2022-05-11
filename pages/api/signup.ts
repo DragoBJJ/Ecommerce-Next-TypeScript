@@ -1,10 +1,7 @@
 import { NextApiHandler } from "next";
 import { RegisterData } from "../../components/Form/FormAreaType";
 import * as bcrypt from "bcrypt";
-import {
-  apolloClient,
-  apolloAuthorizedClient
-} from "../../graphql/apolloClient";
+import { apolloAuthorizedClient } from "../../graphql/apolloClient";
 import {
   CreateAccountMutation,
   CreateAccountMutationVariables,
@@ -13,8 +10,6 @@ import {
   PublishAccountMutationVariables,
   PublishAccountDocument
 } from "../../generated/graphql";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 const SignUpHandler: NextApiHandler = async (req, res) => {
   const {
@@ -55,7 +50,7 @@ const SignUpHandler: NextApiHandler = async (req, res) => {
       id: createdUser.createAccount.id
     }
   });
-  res.status(200).json({ userID: createdUser.createAccount.id });
+  return res.status(200).json({ userID: createdUser.createAccount.id });
 };
 
 export default SignUpHandler;

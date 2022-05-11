@@ -8,11 +8,12 @@ import {
   GetOrderItemsDocument,
   useRemoveOrderByIdMutation
 } from "../../generated/graphql";
+import { AiOutlineDelete } from "react-icons/ai";
 
 type OrderContentProps = {};
 
 export const OrderContent: FC<OrderContentProps> = ({}) => {
-  const { orderID, setOrderID, setClientID } = UseClientContext();
+  const { orderID, setOrderID, setClientStripeID } = UseClientContext();
   const route = useRouter();
 
   const { data } = useGetOrderItemsQuery({
@@ -126,7 +127,7 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
                   className="hover:text-[#E1B989]"
                   size="30px"
                   cursor="pointer"
-                  onClick={() => removeItemFromCart(item.id)}
+                  onClick={() => removeOrderByID(orderItem.id)}
                 />
               </div>
             </li>

@@ -34,10 +34,6 @@ export const schema = yup
   .required();
 
 export const reviewSchema = yup.object({
-  email: yup
-    .string()
-    .email()
-    .required(),
   headline: yup.string().required(),
   name: yup.string().required(),
   content: yup.string().required(),

@@ -15,12 +15,6 @@ export const reviewInputData: FormInputProps<ReviewData>[] = [
     label: "Name"
   },
   {
-    id: "email",
-    type: "email",
-    placeholder: " Aleksander@gmai.com",
-    label: "E-mail"
-  },
-  {
     id: "content",
     type: "text",
     placeholder: " review Content",

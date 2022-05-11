@@ -13,6 +13,9 @@ import {
   usePublishManyReviewsMutation
 } from "../../generated/graphql";
 import { memo } from "react";
+import { useSession } from "next-auth/react";
+import { InfoPopup } from "../InfoPopup";
+import { Spinner } from "../Spinner";
 
 type ReviewFormType = {
   productID: string;
@@ -22,15 +25,14 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<ReviewData>({
     resolver: yupResolver(reviewSchema)
   });
-
+  const { data: session, status } = useSession();
   const [
     createReview,
-    { data, loading, error }
+    { loading: reviewLoading, error }
   ] = useCreateProductReviewMutation({
     update(cache, { data, errors }) {
       const orginalQuery = cache.readQuery<GetReviewsFromProductQuery>({
@@ -49,7 +51,7 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
         !orginalQuery.product?.reviews ||
         !data?.createReview
       ) {
-        return;
+        return null;
       }
 
       const newQuery = {
@@ -68,14 +70,20 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
   });
 
   const [setPublishManyReviews] = usePublishManyReviewsMutation();
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
+  if (reviewLoading) {
+    return <Spinner />;
+  }
+  if (error) {
+    return <InfoPopup status="cancell" description="Error with your review" />;
+  }
 
   const onSubmit = async (data: ReviewData) => {
+    if (!session?.user.id) return;
     await createReview({
       variables: {
         review: {
           ...data,
+          email: session.user.email,
           product: {
             connect: {
               id: productID
@@ -96,25 +104,29 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
   };
   return (
     <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex flex-col justify-center items-center"
-      >
-        <AreaInputs
-          title="Review Section"
-          inputs={reviewInputData}
-          register={register}
-          errors={errors}
-        />
-        <div className=" flex w-full px-3 justify-center items-center">
-          <button
-            type="submit"
-            className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px]"
-          >
-            <p className="text-xl">Submit</p>
-          </button>
-        </div>
-      </form>
+      {status === "unauthenticated" ? (
+        <div className="text-xl text-center">Sign in to add reviews</div>
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full flex flex-col justify-center items-center"
+        >
+          <AreaInputs
+            title="Review Section"
+            inputs={reviewInputData}
+            register={register}
+            errors={errors}
+          />
+          <div className=" flex w-full px-3 justify-center items-center">
+            <button
+              type="submit"
+              className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px]"
+            >
+              <p className="text-xl">Submit</p>
+            </button>
+          </div>
+        </form>
+      )}
     </>
   );
 });

@@ -23,7 +23,7 @@ const ProductID = ({
   return (
     <GridTemplate>
       <Fade triggerOnce direction="down">
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-[550px] lg:h-[480px] w-11/12 mx-auto bg-white  rounded-xl overflow-hidden py-8  shadow-lg   shadow-neutral-800">
+        <div className="grid grid-cols-1 lg:grid-cols-2 h-[550px] lg:h-[480px] w-11/12 mx-auto bg-white  rounded-xl overflow-hidden py-8  shadow-md shadow-[#1d1d1d]">
           {product.images[0]?.url && (
             <div className=" h-[180px] mb-4 lg:h-full w-full relative">
               <Image
