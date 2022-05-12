@@ -12,30 +12,45 @@ import {
 } from "../generated/graphql";
 import { InfoPopup } from "../components/InfoPopup";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { getClientOrderID } from "../utils/storage";
 
 const CartPage = () => {
   const { orderID, setOrderID } = UseClientContext();
   const { cartItems } = UseCartContext();
   const { data: session } = useSession();
   const route = useRouter();
-  const [createOrderMutation, { loading, error }] = useCreateOrderMutation();
+
+  // useEffect(() => {
+  //   if (!setOrderID) return;
+  //   setOrderID(getClientOrderID());
+  // }, []);
+
+  const [
+    createOrderMutation,
+    { loading: createOrderLoading, error: createOrderError }
+  ] = useCreateOrderMutation();
   const [
     publishOrders,
     { loading: publishLoading, error: publishError }
   ] = UsePublishOrders();
   const [connectOrderToUser] = useConnectOrderToUserMutation();
 
-  console.log("session", session);
-
-  if (error) return <InfoPopup status="cancell" />;
-  if (publishError) return <InfoPopup status="cancell" />;
-
-  if (loading || publishLoading) return <Spinner />;
+  if (createOrderError) {
+    return (
+      <InfoPopup status="cancell" description={createOrderError.message} />
+    );
+  }
+  if (publishError) {
+    return <InfoPopup status="cancell" description={publishError.message} />;
+  }
+  if (createOrderLoading || publishLoading) return <Spinner />;
 
   const createOrder = async () => {
     if (!setOrderID || !session?.user.id || !session?.user.email) return;
-    if (orderID || !cartItems.length) return;
-
+    if (orderID) {
+      route.push("/checkout/address");
+    }
     const { data: orderData } = await createOrderMutation({
       variables: {
         email: session.user.email,
@@ -64,10 +79,10 @@ const CartPage = () => {
       }
     });
     await publishOrders();
+    setOrderID(orderData.createOrder?.id);
     route.push({
       pathname: "/checkout/address"
     });
-    setOrderID(orderData.createOrder?.id);
   };
 
   return (

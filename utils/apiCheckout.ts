@@ -5,25 +5,13 @@ import {
   OrderItem
 } from "../generated/graphql";
 import { apolloClient } from "../graphql/apolloClient";
+import { deleteOrderAndStripeFromLocalStorage } from "./storage";
 import { ProductCalculate } from "./type";
 
 // const SUCCESS_STRIPE_URL =
 //   "http://localhost:3000/checkout/success?session_id={CHECKOUT_SESSION_ID}";
 
 // const CANCEL_URL = "http://localhost:3000/checkout/cancel";
-
-export const getOrderItems = async (orderID: string) => {
-  const { data } = await apolloClient.query<
-    GetOrderItemsQuery,
-    GetOrderItemsQueryVariables
-  >({
-    query: GetOrderItemsDocument,
-    variables: {
-      id: orderID
-    }
-  });
-  return data;
-};
 
 // export const updateOrderStripeIDMutation = async (
 //   orderID: string,
@@ -79,6 +67,19 @@ export const getOrderItems = async (orderID: string) => {
 //     };
 //   });
 // };
+
+export const getOrderItems = async (orderID: string) => {
+  const { data } = await apolloClient.query<
+    GetOrderItemsQuery,
+    GetOrderItemsQueryVariables
+  >({
+    query: GetOrderItemsDocument,
+    variables: {
+      id: orderID
+    }
+  });
+  return data;
+};
 
 export const createStripePayment = async (orderID: string) => {
   return await fetch("/api/create-payment-intent", {

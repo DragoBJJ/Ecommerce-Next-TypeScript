@@ -11,25 +11,29 @@ type StatusProps = {
 export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
   return (
     <Fade triggerOnce>
-      <div className="flex flex-col my-4 mx-auto w-full h-full max-w-[350px]   sm:max-w-[400px] max-h-[450px]  lg:max-w-[550px] lg:max-h-[550px] bg-[#E1B989] rounded-xl shadow-2xl">
+      <div
+        className="flex flex-col my-4 mx-auto w-full h-full max-w-[380px] sm:max-w-[400px] sm:max-h-[400px] 
+      md:max-w-[500px] md:max-h-[500px] lg:max-w-[550px]
+        lg:max-h-[550px] bg-[#E1B989] rounded-xl shadow-2xl"
+      >
         <div className="w-full mt-4">
           <Image
             priority={true}
             src={image ? `/${image}.svg` : `/cancell.svg`}
-            height={16 / 12}
+            height={5 / 4}
             width={16 / 9}
             layout="responsive"
             objectFit="contain"
           />
         </div>
         <h1
-          className={`mx-auto my-[2rem] tracking-widest text-4xl ${
+          className={`mx-auto my-[2rem] w-full text-center tracking-widest text-2xl ${
             status === "success"
               ? "text-[rgba(108,99,255,255)]"
               : "text-[#EA604D]"
           }`}
         >
-          {description ? description : "Access Denied :("}
+          {description ? description : "Access Denied"}
         </h1>
       </div>
     </Fade>

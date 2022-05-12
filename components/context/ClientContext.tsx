@@ -10,7 +10,7 @@ import {
   getClientOrderID,
   getClientStripeID,
   setClientOrderID,
-  setClientStripeID
+  setClientStripeIDInLocal
 } from "../../utils/storage";
 
 export type Client = {
@@ -38,14 +38,14 @@ export const ClientContextProvider = ({
   const [orderID, setOrderID] = useState<Client["orderID"]>(undefined);
 
   useEffect(() => {
-    setClientStripeID(getClientStripeID());
-    setOrderID(getClientOrderID());
-  }, [orderID, setOrderID]);
+    if (orderID) setClientOrderID(orderID);
+    if (clientStripeID) setClientStripeIDInLocal(clientStripeID);
+  }, [orderID, clientStripeID]);
 
   useEffect(() => {
-    if (orderID) setClientOrderID(orderID);
-    if (clientStripeID) setClientStripeID(clientStripeID);
-  }, [clientStripeID, orderID]);
+    setClientStripeID(getClientStripeID());
+    setOrderID(getClientOrderID());
+  }, [orderID, clientStripeID]);
 
   return (
     <ClientContext.Provider

@@ -10,7 +10,6 @@ export const NavPayment = () => {
   const payment = router.asPath.includes("payment")!!;
   const summary = router.asPath.includes("summary")!!;
 
-  console.log("router", router);
   return (
     <>
       <div className="flex w-full h-[100px] bg-neutral-800   justify-center  items-center">

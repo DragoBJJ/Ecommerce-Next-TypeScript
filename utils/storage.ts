@@ -17,7 +17,9 @@ export const SetItemInLocalStorage = (cartItems: CartType[]) => {
   localStorage.setItem("Zaiste", JSON.stringify(cartItems));
 };
 
-export const setClientStripeID = (stripeID: Client["clientID"]) => {
+export const setClientStripeIDInLocal = (
+  stripeID: Client["clientStripeID"]
+) => {
   localStorage.setItem("StripeID", JSON.stringify(stripeID));
 };
 
@@ -29,7 +31,7 @@ export const getClientStripeID = () => {
   const localStripeID = localStorage.getItem("StripeID");
   if (!localStripeID) return undefined;
   try {
-    const clientStripeID: Client["clientID"] = JSON.parse(localStripeID);
+    const clientStripeID: Client["clientStripeID"] = JSON.parse(localStripeID);
     if (!clientStripeID) return;
     return clientStripeID;
   } catch (error) {

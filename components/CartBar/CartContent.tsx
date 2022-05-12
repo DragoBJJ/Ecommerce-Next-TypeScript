@@ -9,7 +9,6 @@ import Image from "next/image";
 type CartContentProps = {};
 
 export const CartContent: FC<CartContentProps> = ({}) => {
-  const { orderID } = UseClientContext();
   const { cartItems, removeItemFromCart } = UseCartContext();
 
   return (

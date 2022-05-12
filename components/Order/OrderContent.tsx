@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { UseClientContext } from "../context/ClientContext";
 import { useRouter } from "next/router";
 import {
@@ -9,27 +9,34 @@ import {
   useRemoveOrderByIdMutation
 } from "../../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
+import { InfoPopup } from "../InfoPopup";
+import {
+  deleteOrderAndStripeFromLocalStorage,
+  getClientOrderID
+} from "../../utils/storage";
+import { Spinner } from "../Spinner";
+import { UseCartContext } from "../context/CartContext";
 
 type OrderContentProps = {};
 
 export const OrderContent: FC<OrderContentProps> = ({}) => {
-  const { orderID, setOrderID, setClientStripeID } = UseClientContext();
+  const { orderID, setOrderID } = UseClientContext();
+  const { setCartItems } = UseCartContext();
   const route = useRouter();
 
-  const { data } = useGetOrderItemsQuery({
+  const {
+    data: dataGetOrderItems,
+    loading: loadingOrderItems,
+    error: getOrderItemsError
+  } = useGetOrderItemsQuery({
     variables: {
       id: orderID
     }
   });
-  const [
-    removeOrder,
-    { data: dataRemovedOrder, error }
-  ] = useRemoveOrderByIdMutation();
 
-  const [
-    removeOrderItem,
-    { data: removedOrderData }
-  ] = useRemoveOrderItemFromOrderMutation({
+  const [removeOrder] = useRemoveOrderByIdMutation();
+
+  const [removeOrderItem] = useRemoveOrderItemFromOrderMutation({
     update(cache, { data, errors }) {
       const orginalQuery = cache.readQuery<GetOrderItemsQuery>({
         query: GetOrderItemsDocument,
@@ -70,33 +77,10 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
       });
     }
   });
-
-  const removeOrderByID = async (orderID: string) => {
-    const removeOrderData = await removeOrder({
-      variables: {
-        orderID: orderID
-      }
-    });
-
-    if (removeOrderData && setOrderID) {
-      setOrderID(undefined);
-    }
-  };
-
-  if (!data || !data.order || !data.order.orderItems || error) {
-    return <div>Error...</div>;
-  }
-  if (data!.order!.orderItems.length === 0 && orderID) {
-    removeOrderByID(orderID);
-    route.push({
-      pathname: "/Cart"
-    });
-  }
-
   const deleteOrderItem = async (orderItemID: string) => {
     await removeOrderItem({
       variables: {
-        orderItemID
+        orderItemID: orderItemID
       },
       optimisticResponse: {
         __typename: "Mutation",
@@ -109,14 +93,48 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     });
   };
 
+  const removeOrderByID = async (orderID: string) => {
+    const { data } = await removeOrder({
+      variables: {
+        orderID: orderID
+      }
+    });
+
+    if (data?.deleteOrder?.id) {
+      setOrderID(undefined);
+      deleteOrderAndStripeFromLocalStorage();
+      setCartItems([]);
+      route.push({
+        pathname: "/Cart"
+      });
+    }
+  };
+
+  if (loadingOrderItems) return <Spinner />;
+
+  if (
+    !dataGetOrderItems ||
+    !dataGetOrderItems.order ||
+    !dataGetOrderItems.order.orderItems ||
+    getOrderItemsError
+  ) {
+    return <InfoPopup status="cancell" description="Error with your Order" />;
+  }
+  console.log("length", dataGetOrderItems!.order!.orderItems.length);
+  if (!dataGetOrderItems!.order!.orderItems.length && orderID) {
+    removeOrderByID(orderID);
+  }
+
   return (
-    <div className="flex flex-col h-screen flex-grow w-full  border-2 border-[#E1B989]">
+    <div className="flex flex-col h-auto  w-full mt-2  border-[1px] border-[#E1B989]">
       <ul className="bg-scroll">
-        {data.order.orderItems.map((orderItem, index) => {
+        {dataGetOrderItems.order.orderItems.map((orderItem, index) => {
           return (
             <li
               key={`${orderItem.product!.name}_${index}`}
-              className="flex justify-between p-4 border-b-2 border-[#E1B989]"
+              className={`flex justify-between p-4 ${index !==
+                dataGetOrderItems.order!.orderItems.length - 1 &&
+                "border-b-[1px]"} border-[#E1B989]`}
             >
               <div>{orderItem.product!.name}</div>
               <div className="flex w-[180px] justify-end   items-center">
@@ -127,7 +145,7 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
                   className="hover:text-[#E1B989]"
                   size="30px"
                   cursor="pointer"
-                  onClick={() => removeOrderByID(orderItem.id)}
+                  onClick={() => deleteOrderItem(orderItem.id)}
                 />
               </div>
             </li>
