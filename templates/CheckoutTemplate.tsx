@@ -13,7 +13,7 @@ type TemplateType = {
 };
 
 export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
-  const { orderID } = UseClientContext();
+  const { orderID, clientStripeID } = UseClientContext();
   const [showOrder, setShowOrder] = useState<boolean>(false);
 
   return (
@@ -25,13 +25,16 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
             <div className="flex w-full h-full">{children}</div>
 
             <div className="md:flex flex-col w-full h-full mx-auto justify-center items-center">
-              <button
-                onClick={() => setShowOrder(prev => !prev)}
-                className="h-[48px]   w-[200px] mt-2 border-[1px] hover:bg-[#E1B989] border-[#E1B989] rounded-xl ease-in-out duration-300"
-              >
-                {showOrder ? "hidden Order" : "Show Order"}
-              </button>
-              {showOrder && (
+              {!clientStripeID && (
+                <button
+                  onClick={() => setShowOrder(prev => !prev)}
+                  className="h-[48px]   w-[200px] mt-2 border-[1px] hover:bg-[#E1B989] border-[#E1B989] rounded-xl ease-in-out duration-300"
+                >
+                  {showOrder ? "hidden Order" : "Show Order"}
+                </button>
+              )}
+
+              {showOrder && !clientStripeID && (
                 <Fade className="w-full h-auto">
                   <OrderContent />
                 </Fade>

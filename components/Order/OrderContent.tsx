@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { UseClientContext } from "../context/ClientContext";
 import { useRouter } from "next/router";
 import {
@@ -100,7 +100,7 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
       }
     });
 
-    if (data?.deleteOrder?.id) {
+    if (data?.deleteOrder?.id && setOrderID) {
       setOrderID(undefined);
       deleteOrderAndStripeFromLocalStorage();
       setCartItems([]);

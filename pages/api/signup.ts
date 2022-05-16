@@ -1,4 +1,4 @@
-import { NextApiHandler } from "next";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { RegisterData } from "../../components/Form/FormAreaType";
 import * as bcrypt from "bcrypt";
 import { apolloAuthorizedClient } from "../../graphql/apolloClient";
@@ -11,7 +11,12 @@ import {
   PublishAccountDocument
 } from "../../generated/graphql";
 
-const SignUpHandler: NextApiHandler = async (req, res) => {
+type ApiType = {
+  req: NextApiRequest;
+  res: NextApiResponse;
+};
+
+const SignUpHandler = async ({ req, res }: ApiType) => {
   const {
     username,
     email,

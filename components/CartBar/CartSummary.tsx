@@ -17,15 +17,19 @@ export const CartSummary = memo<CartSummaryType>(({ itemsAmount, pay }) => {
   console.log("orderID", orderID);
   return (
     <div className="flex flex-col py-4 px-2 col-span-1 w-full items-center">
-      <h1 className="text-2xl ">Basket Summary</h1>
-      <h2 className="text-xl my-4">Items amount: {itemsAmount}</h2>
+      {cartItems.length > 0 && (
+        <>
+          <h1 className="text-2xl ">Basket Summary</h1>
+          <h2 className="text-xl my-4">Items amount: {itemsAmount}</h2>
+        </>
+      )}
 
       {status === "unauthenticated" ? (
         <>
           <p className="mt-4 text-xl">Sign in to place an order</p> <br />
-          <Link href="/register">
+          <Link href="/register" passHref={true}>
             <p className="mt-4 text-sm border-b-[1px] ease-in-out duration-300 hover:scale-125 cursor-pointer border-[#1d1d1d]">
-              Don't have an account yet ? Sign up !
+              Dont have an account yet ? Sign up !
             </p>
           </Link>
         </>
@@ -40,7 +44,7 @@ export const CartSummary = memo<CartSummaryType>(({ itemsAmount, pay }) => {
               {orderID ? "Continue order" : "Confirm Order"}
             </button>
           ) : (
-            <Link href="/products/1">
+            <Link href="/products/1" passHref={true}>
               <p className="mt-4 text-sm border-b-[1px] ease-in-out duration-300 hover:scale-125 cursor-pointer border-[#1d1d1d]">
                 Add items to your Cart !
               </p>

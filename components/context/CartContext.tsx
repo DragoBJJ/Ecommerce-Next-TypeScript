@@ -35,7 +35,7 @@ export const CartContextProvider = ({
 
   useEffect(() => {
     SetItemInLocalStorage(cartItems);
-  }, []);
+  }, [cartItems]);
 
   const addItemToCart = (item: CartType) =>
     setCartItems(prevState => addItem(prevState, item));

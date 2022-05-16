@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { randomProducts } from "../../utils/randomProducts";
 
-export default async ({ body }: NextApiRequest, res: NextApiResponse) => {
+const addProduct = async ({ body }: NextApiRequest, res: NextApiResponse) => {
   const graphCMS = new GraphQLClient(process.env.NEXT_PUBLIC_ENDPOINT!, {
     headers: {
       authorization: `Bearer ${process.env.NEXT_MUTATION_TOKEN}`
@@ -49,3 +49,5 @@ export default async ({ body }: NextApiRequest, res: NextApiResponse) => {
     result: finish
   });
 };
+
+export default addProduct;

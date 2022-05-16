@@ -12,7 +12,7 @@ export const CartContent: FC<CartContentProps> = ({}) => {
   const { cartItems, removeItemFromCart } = UseCartContext();
 
   return (
-    <div className="flex  h-screen flex-col col-span-1 md:col-span-2  w-full  border-[1px] border-[#E1B989]">
+    <div className="flex  h-full flex-col col-span-1 md:col-span-2  w-full  border-[1px] border-[#E1B989]">
       {cartItems.length ? (
         <ul className="w-full">
           {cartItems.map((item, index) => {
@@ -53,7 +53,7 @@ export const CartContent: FC<CartContentProps> = ({}) => {
         </ul>
       ) : (
         <h2 className="text-[#1d1d1d]  mt-10 text-center text-2xl">
-          You don't have any products in your shopping cart
+          You dont have any products in your shopping cart
         </h2>
       )}
     </div>

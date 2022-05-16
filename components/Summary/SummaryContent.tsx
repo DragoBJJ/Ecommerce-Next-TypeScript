@@ -5,6 +5,7 @@ import { Fade } from "react-awesome-reveal";
 import { InfoPopup } from "../InfoPopup";
 import { deleteOrderAndStripeFromLocalStorage } from "../../utils/storage";
 import { UseCartContext } from "../context/CartContext";
+import { UseClientContext } from "../context/ClientContext";
 
 export const SummaryContent = ({
   data
@@ -13,6 +14,7 @@ export const SummaryContent = ({
 }) => {
   const router = useRouter();
   const { setCartItems } = UseCartContext();
+  const { setOrderID, setClientStripeID } = UseClientContext();
 
   if (
     !data ||
@@ -26,6 +28,9 @@ export const SummaryContent = ({
 
   const clearLocalData = () => {
     deleteOrderAndStripeFromLocalStorage();
+    if (!setOrderID || !setClientStripeID) return;
+    setOrderID(undefined);
+    setClientStripeID(undefined);
     setCartItems([]);
     router.push({
       pathname: "/products/1"
@@ -35,7 +40,7 @@ export const SummaryContent = ({
   return (
     <div className="w-full h-auto">
       <Fade triggerOnce>
-        <div className="flex-col w-full h-full p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-lg shadow-neutral-800">
+        <div className="flex-col w-full h-full p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
           <h1 className="text-2xl mb-4 tracking-widest text-center">
             Shipping Address
           </h1>
@@ -52,7 +57,7 @@ export const SummaryContent = ({
         </div>
       </Fade>
       <Fade triggerOnce>
-        <div className="overflow-y-auto flex-col w-full mt-4 h-[400px] p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-lg shadow-neutral-800">
+        <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
           <h1 className="text-2xl tracking-widest text-center">Order Items</h1>
           <ul>
             {orderItems.map((item, index) => {
@@ -79,6 +84,7 @@ export const SummaryContent = ({
                       <Image
                         src={item.product?.images[0].url}
                         layout="fill"
+                        alt="orderImage"
                         objectFit="contain"
                       />
                     )}

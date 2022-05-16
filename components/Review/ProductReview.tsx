@@ -45,7 +45,7 @@ export const ProductReview = ({ productID }: ProductReviewProps) => {
           })
         ) : (
           <div className="text-2xl text-center">
-            This product doesn't have any reviews...
+            This product doesnt have any reviews...
           </div>
         )}
       </ul>

@@ -19,7 +19,7 @@ export const ProductDetails = ({
   const { addItemToCart } = UseCartContext();
   return (
     <div className="relative cursor-pointer grid border-[1px] border-[#E1B989]  max-w-[350px]  md:max-w-xs  xl:max-w-lg  h-96 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-sky-700/50  ease-in-out duration-300  bg-white justify-center items-center overflow-hidden rounded-xl">
-      <Link href={`/products/details/${id}/`}>
+      <Link href={`/products/details/${id}/`} passHref={true}>
         <div className="absolute top-0 left-0 flex w-full h-2/3 opacity-90 hover:opacity-100">
           <Image
             layout="fill"
@@ -35,7 +35,7 @@ export const ProductDetails = ({
       </Link>
 
       <div className="flex-col items-center justify-center  mt-auto  w-96 h-[140px] hover:bg-[#E1B989]  ease-in-out duration-500">
-        <Link href={`/products/details/${id}/`}>
+        <Link href={`/products/details/${id}/`} passHref={true}>
           <h3 className="text-center h-full w-full  my-2 text-neutral-800  ease-in-out duration-500 hover:scale-125 h-max text-lg">
             {title} <br />
             {price} $

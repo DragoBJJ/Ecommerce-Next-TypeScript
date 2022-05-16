@@ -5,7 +5,7 @@ import { Fade } from "react-awesome-reveal";
 type StatusProps = {
   status: "success" | "cancell";
   description?: string;
-  image?: "string";
+  image?: string;
 };
 
 export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
@@ -20,6 +20,7 @@ export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
           <Image
             priority={true}
             src={image ? `/${image}.svg` : `/cancell.svg`}
+            alt="resultImage"
             height={5 / 4}
             width={16 / 9}
             layout="responsive"

@@ -1,11 +1,3 @@
-import { Main } from "next/document";
-import { useEffect } from "react";
-import {
-  useCreateProductMutation,
-  usePublishManyProductsMutation
-} from "../generated/graphql";
-import { randomProducts } from "../utils/randomProducts";
-
 const Home = () => {
   // const [createProduct, { data, loading, error }] = useCreateProductMutation();
   // const [publishProduct] = usePublishManyProductsMutation();

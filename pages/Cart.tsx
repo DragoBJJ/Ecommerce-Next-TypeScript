@@ -86,7 +86,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center  h-full min-h-screen w-screen">
+    <div className="flex justify-center items-center   h-screen w-screen">
       <div className="grid  place-items-stretch grid-cols-1  md:grid-cols-3 h-full w-full">
         <CartContent />
         <CartSummary pay={createOrder} itemsAmount={cartItems.length} />
