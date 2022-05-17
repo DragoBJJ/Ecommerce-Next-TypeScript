@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Image from "next/image";
 import { UseClientContext } from "../context/ClientContext";
 import { useRouter } from "next/router";
 import {
@@ -10,10 +11,7 @@ import {
 } from "../../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import { InfoPopup } from "../InfoPopup";
-import {
-  deleteOrderAndStripeFromLocalStorage,
-  getClientOrderID
-} from "../../utils/storage";
+import { deleteOrderAndStripeFromLocalStorage } from "../../utils/storage";
 import { Spinner } from "../Spinner";
 import { UseCartContext } from "../context/CartContext";
 
@@ -34,7 +32,10 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     }
   });
 
-  const [removeOrder] = useRemoveOrderByIdMutation();
+  const [
+    removeOrder,
+    { loading: removeOrderLoading, error: removeOrderError }
+  ] = useRemoveOrderByIdMutation();
 
   const [removeOrderItem] = useRemoveOrderItemFromOrderMutation({
     update(cache, { data, errors }) {
@@ -110,7 +111,7 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     }
   };
 
-  if (loadingOrderItems) return <Spinner />;
+  if (loadingOrderItems || removeOrderLoading) return <Spinner />;
 
   if (
     !dataGetOrderItems ||
@@ -120,7 +121,7 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
   ) {
     return <InfoPopup status="cancell" description="Error with your Order" />;
   }
-  console.log("length", dataGetOrderItems!.order!.orderItems.length);
+
   if (!dataGetOrderItems!.order!.orderItems.length && orderID) {
     removeOrderByID(orderID);
   }
@@ -137,10 +138,19 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
                 "border-b-[1px]"} border-[#E1B989]`}
             >
               <div>{orderItem.product!.name}</div>
+              <div className="relative  w-1/3 h-[60px] mb-2">
+                {orderItem.product?.images[0].url && (
+                  <Image
+                    src={orderItem.product?.images[0].url}
+                    layout="fill"
+                    alt="orderImage"
+                    objectFit="contain"
+                  />
+                )}
+              </div>
               <div className="flex w-[180px] justify-end   items-center">
-                <p>
-                  {orderItem.product!.price}$ {orderItem.quantity}
-                </p>
+                <p className="mx-4"> {orderItem.product!.price}$</p>
+                <p className="mx-4">Qty: {orderItem.quantity}</p>
                 <AiOutlineDelete
                   className="hover:text-[#E1B989]"
                   size="30px"

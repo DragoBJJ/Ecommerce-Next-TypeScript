@@ -6,6 +6,7 @@ import { NavPayment } from "../components/NavPayment";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { OrderContent } from "../components/Order/OrderContent";
+import { useSession } from "next-auth/react";
 
 type TemplateType = {
   children: JSX.Element;
@@ -15,10 +16,11 @@ type TemplateType = {
 export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
   const { orderID, clientStripeID } = UseClientContext();
   const [showOrder, setShowOrder] = useState<boolean>(false);
+  const { status } = useSession();
 
   return (
     <div className="w-screen min-h-screen border-red-600">
-      {orderID ? (
+      {status === "authenticated" ? (
         <>
           <NavPayment />
           <div className="flex-column md:flex justify-center p-4">

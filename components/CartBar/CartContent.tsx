@@ -16,7 +16,6 @@ export const CartContent: FC<CartContentProps> = ({}) => {
       {cartItems.length ? (
         <ul className="w-full">
           {cartItems.map((item, index) => {
-            console.log("item_CARD", item);
             return (
               <li
                 key={`${item.title}_${index}`}

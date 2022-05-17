@@ -12206,6 +12206,12 @@ export type ReviewContentFragment = { __typename?: 'Review', id: string, name: s
 
 export type UserContentFragment = { __typename?: 'Account', id: string, username: string, email: string, specialization: string, password: string };
 
+export type UserWithoutPasswordFragment = { __typename?: 'Account', id: string, createdAt: any, email: string, username: string, specialization: string };
+
+export type ShippingAddressFragment = { __typename?: 'ShippingAddress', id: string, email: string, firstName: string, lastName: string, state: string, city: string, streetAddress: string, postalCode: string };
+
+export type OrderItemsFragment = { __typename?: 'OrderItem', quantity: number, product?: { __typename?: 'Product', name: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null };
+
 export type GetReviewsFromProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
@@ -12227,6 +12233,13 @@ export type GetUserByEmailQueryVariables = Exact<{
 
 export type GetUserByEmailQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, username: string, email: string, specialization: string, password: string } | null };
 
+export type GetAccountDataQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type GetAccountDataQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, createdAt: any, email: string, username: string, specialization: string, orders: Array<{ __typename?: 'Order', createdAt: any, stripeCheckoutId: string, shippingAddress?: { __typename?: 'ShippingAddress', id: string, email: string, firstName: string, lastName: string, state: string, city: string, streetAddress: string, postalCode: string } | null, orderItems: Array<{ __typename?: 'OrderItem', quantity: number, product?: { __typename?: 'Product', name: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }> }> } | null };
+
 export const ReviewContentFragmentDoc = gql`
     fragment ReviewContent on Review {
   id
@@ -12243,6 +12256,39 @@ export const UserContentFragmentDoc = gql`
   email
   specialization
   password
+}
+    `;
+export const UserWithoutPasswordFragmentDoc = gql`
+    fragment UserWithoutPassword on Account {
+  id
+  createdAt
+  email
+  username
+  specialization
+}
+    `;
+export const ShippingAddressFragmentDoc = gql`
+    fragment ShippingAddress on ShippingAddress {
+  id
+  email
+  firstName
+  lastName
+  state
+  city
+  streetAddress
+  postalCode
+}
+    `;
+export const OrderItemsFragmentDoc = gql`
+    fragment OrderItems on OrderItem {
+  quantity
+  product {
+    name
+    price
+    images {
+      url
+    }
+  }
 }
     `;
 export const CreateProductReviewDocument = gql`
@@ -12998,18 +13044,11 @@ export const GetOrderAndShippingAddressDocument = gql`
       }
     }
     shippingAddress {
-      id
-      email
-      firstName
-      lastName
-      state
-      city
-      streetAddress
-      postalCode
+      ...ShippingAddress
     }
   }
 }
-    `;
+    ${ShippingAddressFragmentDoc}`;
 
 /**
  * __useGetOrderAndShippingAddressQuery__
@@ -13041,14 +13080,10 @@ export type GetOrderAndShippingAddressQueryResult = Apollo.QueryResult<GetOrderA
 export const GetUserByEmailDocument = gql`
     query GetUserByEmail($email: String!) {
   account(where: {email: $email}) {
-    id
-    username
-    email
-    specialization
-    password
+    ...UserContent
   }
 }
-    `;
+    ${UserContentFragmentDoc}`;
 
 /**
  * __useGetUserByEmailQuery__
@@ -13077,3 +13112,50 @@ export function useGetUserByEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetUserByEmailQueryHookResult = ReturnType<typeof useGetUserByEmailQuery>;
 export type GetUserByEmailLazyQueryHookResult = ReturnType<typeof useGetUserByEmailLazyQuery>;
 export type GetUserByEmailQueryResult = Apollo.QueryResult<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetAccountDataDocument = gql`
+    query GetAccountData($id: ID) {
+  account(where: {id: $id}) {
+    ...UserWithoutPassword
+    orders {
+      createdAt
+      stripeCheckoutId
+      shippingAddress {
+        ...ShippingAddress
+      }
+      orderItems {
+        ...OrderItems
+      }
+    }
+  }
+}
+    ${UserWithoutPasswordFragmentDoc}
+${ShippingAddressFragmentDoc}
+${OrderItemsFragmentDoc}`;
+
+/**
+ * __useGetAccountDataQuery__
+ *
+ * To run a query within a React component, call `useGetAccountDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountDataQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetAccountDataQuery(baseOptions?: Apollo.QueryHookOptions<GetAccountDataQuery, GetAccountDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountDataQuery, GetAccountDataQueryVariables>(GetAccountDataDocument, options);
+      }
+export function useGetAccountDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountDataQuery, GetAccountDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountDataQuery, GetAccountDataQueryVariables>(GetAccountDataDocument, options);
+        }
+export type GetAccountDataQueryHookResult = ReturnType<typeof useGetAccountDataQuery>;
+export type GetAccountDataLazyQueryHookResult = ReturnType<typeof useGetAccountDataLazyQuery>;
+export type GetAccountDataQueryResult = Apollo.QueryResult<GetAccountDataQuery, GetAccountDataQueryVariables>;

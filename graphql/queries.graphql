@@ -45,6 +45,36 @@ fragment UserContent on Account {
   password
 }
 
+fragment UserWithoutPassword on Account {
+  id
+  createdAt
+  email
+  username
+  specialization
+}
+
+fragment ShippingAddress on ShippingAddress {
+  id
+  email
+  firstName
+  lastName
+  state
+  city
+  streetAddress
+  postalCode
+}
+
+fragment OrderItems on OrderItem {
+  quantity
+  product {
+    name
+    price
+    images {
+      url
+    }
+  }
+}
+
 query getReviewsFromProduct($id: ID) {
   product(where: { id: $id }) {
     reviews {
@@ -66,24 +96,29 @@ query GetOrderAndShippingAddress($orderID: ID) {
       }
     }
     shippingAddress {
-      id
-      email
-      firstName
-      lastName
-      state
-      city
-      streetAddress
-      postalCode
+      ...ShippingAddress
     }
   }
 }
 
 query GetUserByEmail($email: String!) {
   account(where: { email: $email }) {
-    id
-    username
-    email
-    specialization
-    password
+    ...UserContent
+  }
+}
+
+query GetAccountData($id: ID) {
+  account(where: { id: $id }) {
+    ...UserWithoutPassword
+    orders {
+      createdAt
+      stripeCheckoutId
+      shippingAddress {
+        ...ShippingAddress
+      }
+      orderItems {
+        ...OrderItems
+      }
+    }
   }
 }
