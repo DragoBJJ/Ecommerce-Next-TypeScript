@@ -52,3 +52,15 @@ export type OrderItemsType = {
 export type ProductCalculate = {
   price: number;
 }[];
+
+export type ShippingAddressType = {
+  __typename?: "ShippingAddress" | undefined;
+  id?: string | undefined;
+  email?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  state?: string | undefined;
+  city?: string | undefined;
+  streetAddress?: string | undefined;
+  postalCode?: string | undefined;
+};

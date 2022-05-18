@@ -9,10 +9,15 @@ import {
   StripeCardElementOptions,
   StripeElements
 } from "@stripe/stripe-js";
-import { useUpdateOrderMutation } from "../../generated/graphql";
+import {
+  GetAccountDataDocument,
+  useUpdateOrderMutation
+} from "../../generated/graphql";
+
 import { getClientStripeID } from "../../utils/storage";
 import { Spinner } from "../Spinner";
 import { InfoPopup } from "../InfoPopup";
+import { useSession } from "next-auth/react";
 
 type PaymentType = {
   stripe: Stripe;
@@ -20,17 +25,29 @@ type PaymentType = {
 };
 
 export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
+  const { data: sessionData } = useSession();
+  const { orderID, clientStripeID, setClientStripeID } = UseClientContext();
+  const router = useRouter();
+
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState(true);
+
+  if (!sessionData?.user) return;
   const [
     UseUpdateStripeID,
     { error: errorUpdateID, loading: loadingUpdateID }
-  ] = useUpdateOrderMutation();
-
-  const { orderID, clientStripeID, setClientStripeID } = UseClientContext();
-  const router = useRouter();
+  ] = useUpdateOrderMutation({
+    refetchQueries: [
+      {
+        query: GetAccountDataDocument,
+        variables: {
+          id: sessionData.user.id
+        }
+      }
+    ]
+  });
 
   useLayoutEffect(() => {
     if (clientStripeID || !setClientStripeID) return;

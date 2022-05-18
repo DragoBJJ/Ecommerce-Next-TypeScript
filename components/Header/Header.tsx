@@ -35,7 +35,7 @@ export const Header = () => {
       className={`flex ${orderPaths.filter(path => router.asPath.includes(path))
         .length && "hidden"} w-screen ${isOpen &&
         "fixed t-0 b-0 l-0 min-h-screen opacity-95 ease-in-out duration-500"} h-[120px]
-      p-4  lg:justify-center items-center bg-neutral-800  `}
+      p-4  lg:justify-center items-center bg-neutral-800`}
     >
       <div
         className={` ${isOpen &&
