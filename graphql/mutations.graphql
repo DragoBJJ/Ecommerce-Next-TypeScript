@@ -24,6 +24,7 @@ mutation createOrder(
   $total: Int!
   $stripeCheckoutId: String!
   $orderItems: OrderItemCreateManyInlineInput!
+  $account: AccountCreateOneInlineInput!
 ) {
   createOrder(
     data: {
@@ -31,6 +32,7 @@ mutation createOrder(
       total: $total
       stripeCheckoutId: $stripeCheckoutId
       orderItems: $orderItems
+      account: $account
     }
   ) {
     id
@@ -44,6 +46,29 @@ mutation createOrder(
       }
     }
   }
+  publishManyOrdersConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+  publishManyOrderItemsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+mutation PublishOrders {
+  publishManyOrdersConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+
+  publishManyOrderItemsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
 }
 
 mutation updateOrder($orderID: ID, $stripID: String!) {
@@ -52,15 +77,11 @@ mutation updateOrder($orderID: ID, $stripID: String!) {
     updatedAt
     stripeCheckoutId
   }
-}
-
-mutation PublishOrders {
   publishManyOrdersConnection {
     pageInfo {
       pageSize
     }
   }
-
   publishManyOrderItemsConnection {
     pageInfo {
       pageSize

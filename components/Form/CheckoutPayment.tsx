@@ -34,20 +34,10 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState(true);
 
-  if (!sessionData?.user) return;
   const [
     UseUpdateStripeID,
     { error: errorUpdateID, loading: loadingUpdateID }
-  ] = useUpdateOrderMutation({
-    refetchQueries: [
-      {
-        query: GetAccountDataDocument,
-        variables: {
-          id: sessionData.user.id
-        }
-      }
-    ]
-  });
+  ] = useUpdateOrderMutation();
 
   useLayoutEffect(() => {
     if (clientStripeID || !setClientStripeID) return;
@@ -55,15 +45,16 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
   }, [clientStripeID, setClientStripeID]);
 
   if (loadingUpdateID) return <Spinner />;
-  if (!clientStripeID)
+  if (!clientStripeID) {
     return (
       <InfoPopup status="cancell" description="Error with your clientID" />
     );
-  if (errorUpdateID)
+  }
+  if (errorUpdateID) {
     return (
       <InfoPopup status="cancell" description="Error with  your payment" />
     );
-
+  }
   const cardStyle: StripeCardElementOptions = {
     style: {
       base: {
@@ -94,6 +85,7 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
     setError(event.error ? event.error.message : "");
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    if (!sessionData?.user) return null;
     e.preventDefault();
 
     const card = elements.getElement(CardElement);
@@ -117,7 +109,15 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
         variables: {
           orderID,
           stripID: payload.paymentIntent.id
-        }
+        },
+        refetchQueries: [
+          {
+            query: GetAccountDataDocument,
+            variables: {
+              id: sessionData.user.id
+            }
+          }
+        ]
       });
       router.push({
         pathname: "/checkout/summary"

@@ -11,16 +11,15 @@ type ProfileOrdersType = {
 export const ProfileOrders = ({ accountData }: ProfileOrdersType) => {
   return (
     <ul
-      className="flex flex-col w-full overflow-y-auto
+      className="flex flex-col w-full
           shadow-md shadow-stone-700 rounded-xl p-4 bg-[#E1B989]"
     >
       {accountData!.orders.map((order, index) => {
-        console.log("order", order);
         return (
           <li key={order.createdAt} className="flex flex-col my-8">
             <div className="flex w-full items-center py-1 justify-start  border-y-[1px] border-neutral-800">
               <p className="text-3xl text-neutral-800 mx-4">#{index + 1}</p>
-              <p className="text-xl text-neutral-800 mr-4">
+              <p className=" text-md md:text-xl text-neutral-800 mr-4">
                 {getClearFormatData(order.createdAt)}
               </p>
               <p

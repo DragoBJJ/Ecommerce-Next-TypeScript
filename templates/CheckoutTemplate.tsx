@@ -58,7 +58,7 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
           </div>
         </>
       ) : (
-        <InfoPopup status="cancell" description="You don't have Order" />
+        <InfoPopup status="cancell" description="You dont have access" />
       )}
     </div>
   );

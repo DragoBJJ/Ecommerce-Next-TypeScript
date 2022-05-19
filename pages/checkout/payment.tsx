@@ -14,7 +14,12 @@ const PaymentForm = () => {
                 <CheckoutPaymentForm stripe={stripe} elements={elements} />
               );
             }
-            return <InfoPopup status="cancell" />;
+            return (
+              <InfoPopup
+                status="cancell"
+                description="You dont have stripe Elements"
+              />
+            );
           }}
         </ElementsConsumer>
       </CheckoutTemplate>

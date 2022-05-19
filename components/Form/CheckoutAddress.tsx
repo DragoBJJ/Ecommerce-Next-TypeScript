@@ -35,20 +35,9 @@ export const CheckoutAddress = () => {
     { error: publishError, loading: publishLoading }
   ] = usePublishShippingAddressMutation();
 
-  if (ShippingError) {
+  if (ShippingError || publishError) {
     return (
-      <InfoPopup
-        status="cancell"
-        description="Error with your Shipping create"
-      />
-    );
-  }
-  if (publishError) {
-    return (
-      <InfoPopup
-        status="cancell"
-        description="Error with your Shipping publish"
-      />
+      <InfoPopup status="cancell" description="Error with your Shipping" />
     );
   }
 

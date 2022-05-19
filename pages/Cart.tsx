@@ -6,14 +6,11 @@ import { Spinner } from "../components/Spinner";
 import { useRouter } from "next/router";
 import { UseClientContext } from "../components/context/ClientContext";
 import {
-  useConnectOrderToUserMutation,
   useCreateOrderMutation,
   usePublishOrdersMutation as UsePublishOrders
 } from "../generated/graphql";
 import { InfoPopup } from "../components/InfoPopup";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { getClientOrderID } from "../utils/storage";
 
 const CartPage = () => {
   const { orderID, setOrderID } = UseClientContext();
@@ -21,41 +18,39 @@ const CartPage = () => {
   const { data: session } = useSession();
   const route = useRouter();
 
-  // useEffect(() => {
-  //   if (!setOrderID) return;
-  //   setOrderID(getClientOrderID());
-  // }, []);
-
   const [
     createOrderMutation,
     { loading: createOrderLoading, error: createOrderError }
   ] = useCreateOrderMutation();
-  const [
-    publishOrders,
-    { loading: publishLoading, error: publishError }
-  ] = UsePublishOrders();
-  const [connectOrderToUser] = useConnectOrderToUserMutation();
+  // const [
+  //   publishOrders,
+  //   { loading: publishLoading, error: publishError }
+  // ] = UsePublishOrders();
 
   if (createOrderError) {
     return (
       <InfoPopup status="cancell" description={createOrderError.message} />
     );
   }
-  if (publishError) {
-    return <InfoPopup status="cancell" description={publishError.message} />;
-  }
-  if (createOrderLoading || publishLoading) return <Spinner />;
+
+  if (createOrderLoading) return <Spinner />;
 
   const createOrder = async () => {
     if (!setOrderID || !session?.user.id || !session?.user.email) return;
     if (orderID) {
       route.push("/checkout/address");
+      return;
     }
     const { data: orderData } = await createOrderMutation({
       variables: {
         email: session.user.email,
         total: 1,
         stripeCheckoutId: (-Math.random()).toString(25),
+        account: {
+          connect: {
+            id: session.user.id
+          }
+        },
         orderItems: {
           create: cartItems.map(product => {
             return {
@@ -72,13 +67,6 @@ const CartPage = () => {
       }
     });
     if (!orderData?.createOrder) return;
-    await connectOrderToUser({
-      variables: {
-        userID: session?.user.id,
-        orderID: orderData.createOrder.id
-      }
-    });
-    await publishOrders();
     setOrderID(orderData.createOrder?.id);
     route.push({
       pathname: "/checkout/address"

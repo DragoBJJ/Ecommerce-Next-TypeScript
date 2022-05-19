@@ -25,6 +25,15 @@ export const SummaryContent = ({
     return <InfoPopup status="cancell" description="Error with your Order" />;
   }
   const { orderItems } = data.order;
+  const {
+    email,
+    firstName,
+    lastName,
+    state,
+    streetAddress,
+    city,
+    postalCode
+  } = data.order.shippingAddress;
 
   const clearLocalData = () => {
     deleteOrderAndStripeFromLocalStorage();
@@ -40,24 +49,29 @@ export const SummaryContent = ({
   return (
     <div className="w-full h-auto">
       <Fade triggerOnce>
-        <div className="flex-col w-full h-full p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
+        <div className="flex-col  w-full md:w-3/4 h-full p-4 text-[#E1B989] bg-neutral-800 mx-auto  justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
           <h1 className="text-2xl mb-4 tracking-widest text-center">
             Shipping Address
           </h1>
-          <ul>
-            {Object.values(data.order.shippingAddress).map((item, index) => {
-              if (index === 0 || index === 1) return;
-              return (
-                <li key={index} className="text-lg text-[#1d1d1d]">
-                  {item}
-                </li>
-              );
-            })}
-          </ul>
+          <div className="flex justify-around w-full h-full text-center">
+            <div>
+              <p>{email}</p>
+              <p>
+                {firstName} {lastName}
+              </p>
+            </div>
+            <div className="">
+              <p>{state}</p>
+              <p>{city}</p>
+              <p>
+                {streetAddress} / {postalCode}
+              </p>
+            </div>
+          </div>
         </div>
       </Fade>
       <Fade triggerOnce>
-        <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 border-2 border-[#E1B989] mx-auto  justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
+        <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 bg-[#E1B989] mx-auto justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
           <h1 className="text-2xl tracking-widest text-center">Order Items</h1>
           <ul>
             {orderItems.map((item, index) => {
@@ -68,8 +82,8 @@ export const SummaryContent = ({
                   ${
                     orderItems.length - 1 === index
                       ? "border-b-0"
-                      : "border-b-2"
-                  } border-[#E1B989] mb-2 py-2`}
+                      : "border-b-[1px]"
+                  } border-neutral-800 mb-2 py-2`}
                 >
                   <div className="flex-col">
                     <li className="text-xl text-[#1d1d1d]">
@@ -79,7 +93,7 @@ export const SummaryContent = ({
                       {item.product?.price} $
                     </li>
                   </div>
-                  <div className="relative  w-1/3 h-[120px] mb-2">
+                  <div className="relative ml-auto  w-1/3 h-[120px]">
                     {item.product?.images[0].url && (
                       <Image
                         src={item.product?.images[0].url}

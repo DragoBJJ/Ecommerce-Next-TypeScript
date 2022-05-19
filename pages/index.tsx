@@ -3,8 +3,9 @@ import { InfoPopup } from "../components/InfoPopup";
 import { Spinner } from "../components/Spinner";
 import { useGetAccountDataQuery } from "../generated/graphql";
 import { Profile } from "../components/Profile/Profile";
-import { getClearFormatData, getShippingAddress } from "../utils/common";
+import { getClearFormatData } from "../utils/common";
 import { Fade } from "react-awesome-reveal";
+import Image from "next/image";
 
 import { useState } from "react";
 import { ProfileOrders } from "../components/Profile/ProfileOrders";
@@ -23,7 +24,13 @@ const Home = () => {
     }
   });
 
-  if (status === "loading") return <Spinner />;
+  if (status === "loading" || LoadingAccountData) {
+    return (
+      <div className="flex flex-col h-screen w-screen justify-center">
+        <Spinner />;
+      </div>
+    );
+  }
   if (status === "unauthenticated") {
     return (
       <div className="flex flex-col mx-auto  w-full h-full justify-center p-2">
@@ -35,13 +42,6 @@ const Home = () => {
     );
   }
 
-  if (LoadingAccountData) {
-    return (
-      <div className="flex flex-col h-screen w-screen justify-center">
-        <Spinner />;
-      </div>
-    );
-  }
   if (ErrorAccountData || !AccountData || !AccountData.account) {
     return (
       <div className="flex flex-col h-screen w-screen justify-center p-2">
@@ -52,20 +52,39 @@ const Home = () => {
       </div>
     );
   }
-  3;
 
   return (
     <div className="flex flex-col w-full min-h-screen min-w-screen justify-start p-2">
-      <Fade triggerOnce direction="top-left" style={{ height: "100%" }}>
-        <Profile
-          dateTime={getClearFormatData(AccountData.account.createdAt)}
-          setOrderVisible={setOrdersVisible}
-        />
-      </Fade>
+      <div className="flex flex-col  lg:flex-row">
+        <Fade
+          triggerOnce
+          direction="top-left"
+          style={{ width: "100%", height: "100%" }}
+        >
+          <Profile
+            dateTime={getClearFormatData(AccountData.account.createdAt)}
+            setOrderVisible={setOrdersVisible}
+          />
+        </Fade>
 
-      <div className="mt-4 w-full h-full ">
+        <div className="ml-auto mr-4 relative  mt-4 items-center  w-2/3">
+          {!ordersVisible && (
+            <Fade triggerOnce direction="top-right">
+              <Image
+                src="/code.svg"
+                height={16 / 16}
+                width={16 / 8}
+                layout="responsive"
+                objectFit="contain"
+              />
+            </Fade>
+          )}
+        </div>
+      </div>
+
+      <div className="w-full h-full mt-4">
         {ordersVisible && (
-          <Fade triggerOnce style={{ height: "100%" }}>
+          <Fade triggerOnce>
             <ProfileOrders accountData={AccountData.account} />
           </Fade>
         )}
