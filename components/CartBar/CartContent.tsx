@@ -5,6 +5,7 @@ import { UseClientContext } from "../context/ClientContext";
 import { usePublishOrdersMutation } from "../../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import Image from "next/image";
+import { InfoPopup } from "../InfoPopup";
 
 type CartContentProps = {};
 
@@ -51,9 +52,11 @@ export const CartContent: FC<CartContentProps> = ({}) => {
           })}
         </ul>
       ) : (
-        <h2 className="text-[#1d1d1d]  mt-10 text-center text-2xl">
-          You dont have any products in your shopping cart
-        </h2>
+        <InfoPopup
+          image="empty"
+          status="info"
+          description="you dont have products"
+        />
       )}
     </div>
   );

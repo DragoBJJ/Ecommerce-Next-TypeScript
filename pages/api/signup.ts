@@ -12,11 +12,12 @@ import {
 } from "../../generated/graphql";
 
 type ApiType = {
-  req: NextApiRequest;
-  res: NextApiResponse;
+  userID?: string;
+  message?: string;
 };
 
-const SignUpHandler = async ({ req, res }: ApiType) => {
+const SignUpHandler: NextApiHandler<ApiType> = async (req, res) => {
+  console.log("req.body", req);
   const {
     username,
     email,
@@ -44,7 +45,8 @@ const SignUpHandler = async ({ req, res }: ApiType) => {
       }
     }
   });
-  if (!createdUser || !createdUser.createAccount) return null;
+  if (!createdUser || !createdUser.createAccount)
+    return res.status(400).json({ message: "Error" });
 
   await apolloAuthorizedClient.mutate<
     PublishAccountMutation,

@@ -26,7 +26,7 @@ export const FormSelect = <TFormData extends FieldValues>({
   return (
     <>
       <label
-        className="block uppercase tracking-wide text-gray-700 text-xs font-bold my-2"
+        className="block uppercase tracking-wide text-[#E1B989] text-xs font-bold my-2"
         htmlFor={id}
       >
         {label}

@@ -1,8 +1,18 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { memo } from "react";
 
-export const Spinner = () => {
+type SpinnerType = {
+  isSmaller?: boolean;
+};
+
+export const Spinner = memo<SpinnerType>(({ isSmaller }) => {
   return (
-    <div className="w-full h-screen m-auto bg-neutral-800 border-2 border-[#E1B989]">
+    <div
+      className={`${
+        isSmaller ? "w-full h-full" : "w-screen h-screen"
+      } bg-neutral-800 border-2 border-[#E1B989]`}
+    >
       <div className="relative w-1/3 mx-auto h-[400px]  rounded-xl">
         <Image
           priority={true}
@@ -16,4 +26,4 @@ export const Spinner = () => {
       </div>
     </div>
   );
-};
+});

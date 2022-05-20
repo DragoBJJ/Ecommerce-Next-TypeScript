@@ -137,7 +137,7 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
             />
           </div>
           <button
-            className="mx-auto flex bg-[#E1B989] w-full cursor-pointer h-[38px] items-center justify-center rounded-b-lg"
+            className="mx-auto flex bg-[#E1B989] w-full cursor-pointer h-[38px] items-center justify-center rounded-b-lg hover:bg-neutral-800 hover:text-[#E1B989] ease-in-out duration-300"
             disabled={processing || disabled || succeeded}
             id="submit"
           >

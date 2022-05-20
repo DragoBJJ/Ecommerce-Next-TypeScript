@@ -3,7 +3,7 @@ import { ShippingAddressType } from "./type";
 
 export const getShippingAddress = (
   AccountData: GetAccountDataQuery["account"]
-): ShippingAddressType | null => {
+): ShippingAddressType[] | null => {
   if (!AccountData) return null;
   return AccountData?.orders.map(order => {
     return {

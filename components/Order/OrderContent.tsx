@@ -79,9 +79,9 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     }
   });
   const deleteOrderItem = async (orderItemID: string) => {
-    await removeOrderItem({
+    const orderItemData = await removeOrderItem({
       variables: {
-        orderItemID: orderItemID
+        orderItemID
       },
       optimisticResponse: {
         __typename: "Mutation",
@@ -111,7 +111,7 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     }
   };
 
-  if (loadingOrderItems || removeOrderLoading) return <Spinner />;
+  if (loadingOrderItems || removeOrderLoading) return <Spinner isSmaller />;
 
   if (
     !dataGetOrderItems ||
@@ -122,12 +122,20 @@ export const OrderContent: FC<OrderContentProps> = ({}) => {
     return <InfoPopup status="cancell" description="Error with your Order" />;
   }
 
+  if (removeOrderError) {
+    return (
+      <InfoPopup
+        status="cancell"
+        description="Problem with deleting your order"
+      />
+    );
+  }
   if (!dataGetOrderItems!.order!.orderItems.length && orderID) {
     removeOrderByID(orderID);
+    return <Spinner isSmaller />;
   }
-
   return (
-    <div className="flex flex-col h-auto  w-full mt-2  border-[1px] border-[#E1B989]">
+    <div className="flex flex-col h-auto  w-full mt-2 border-[1px] border-[#E1B989]">
       <ul className="bg-scroll">
         {dataGetOrderItems.order.orderItems.map((orderItem, index) => {
           return (

@@ -6,9 +6,7 @@ import { registerSchema } from "../components/Form/FormAreaType";
 import { registerData } from "../components/Form/FormAreaData";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { InfoPopup } from "../components/InfoPopup";
-import { Fade } from "react-awesome-reveal";
 
 const RegisterForm = () => {
   const { status } = useSession();
@@ -25,9 +23,8 @@ const RegisterForm = () => {
 
   if (status === "authenticated") router.push("/");
 
-  console.log("isSubmitSuccessful", isSubmitSuccessful);
-
   const onSubmit = async (data: RegisterData) => {
+    console.log("DATA", data);
     const response = await fetch("/api/signup", {
       method: "POST",
       headers: {
@@ -51,7 +48,7 @@ const RegisterForm = () => {
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-5/6 mt-4 p-2 sm:4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 border-[#1d1d1d] rounded-xl"
+          className="flex flex-col w-5/6 mt-4 p-2 sm:4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
         >
           <AreaInputs
             title="Register Form"
@@ -71,7 +68,7 @@ const RegisterForm = () => {
             type="submit"
             className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px] mb-4"
           >
-            <p className="text-xl">Submit</p>
+            <p className="text-xl text-neutral-800">Submit</p>
           </button>
         </form>
       )}

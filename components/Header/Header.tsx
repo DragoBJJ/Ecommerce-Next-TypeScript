@@ -34,16 +34,17 @@ export const Header = () => {
       style={{ zIndex: 9999 }}
       className={`flex ${orderPaths.filter(path => router.asPath.includes(path))
         .length && "hidden"} w-screen ${isOpen &&
-        "fixed t-0 b-0 l-0 min-h-screen opacity-95 ease-in-out duration-500"} h-[120px]
-      p-4  lg:justify-center items-center bg-neutral-800`}
+        "fixed t-0 b-0 l-0 min-h-screen opacity-95 ease-in-out duration-500"} h-[100px] md:h-[120px]
+      px-4 justify-center items-center bg-neutral-800`}
     >
       <div
-        className={` ${isOpen &&
-          "hidden"} relative h-28  w-28 mr-4 shadow-2xl shadow-stone-700 rounded-full`}
+        className={` ${isOpen && "hidden"} relative  h-28 w-28 my-auto mt-1`}
       >
         <Image
           priority={true}
-          layout="fill"
+          width={16 / 9}
+          height={16 / 9}
+          layout="responsive"
           className="inline rounded-full"
           objectFit="cover"
           src="/Mathilda1.png"

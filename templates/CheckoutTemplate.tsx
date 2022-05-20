@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { OrderContent } from "../components/Order/OrderContent";
 import { useSession } from "next-auth/react";
+import { Spinner } from "../components/Spinner";
 
 type TemplateType = {
   children: JSX.Element;
@@ -17,6 +18,8 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
   const { orderID, clientStripeID } = UseClientContext();
   const [showOrder, setShowOrder] = useState<boolean>(false);
   const { status } = useSession();
+
+  if (status === "loading") return <Spinner />;
 
   return (
     <div className="w-screen min-h-screen border-red-600">
@@ -37,7 +40,7 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
               )}
 
               {showOrder && !clientStripeID && (
-                <Fade className="w-full h-auto">
+                <Fade className="w-full h-full">
                   <OrderContent />
                 </Fade>
               )}

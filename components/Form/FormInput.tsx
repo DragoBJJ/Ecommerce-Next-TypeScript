@@ -39,7 +39,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
   return (
     <>
       <label
-        className="block uppercase w-100 tracking-wide text-gray-700 text-xs font-bold my-2 tracking-wider"
+        className="block uppercase w-100 tracking-wide text-[#E1B989] text-xs font-bold my-2 tracking-wider"
         htmlFor={id}
       >
         {label}

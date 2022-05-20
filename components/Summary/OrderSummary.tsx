@@ -1,5 +1,6 @@
 import { useGetOrderAndShippingAddressQuery } from "../../generated/graphql";
 import { UseClientContext } from "../context/ClientContext";
+import { InfoPopup } from "../InfoPopup";
 import { Spinner } from "../Spinner";
 import { SummaryContent } from "./SummaryContent";
 
@@ -13,7 +14,14 @@ export const OrderSummary = () => {
   });
 
   if (loading) return <Spinner />;
-  if (error) return <div>you have some error with your OrderSummary</div>;
+  if (error || !data) {
+    return (
+      <InfoPopup
+        status="cancell"
+        description="you have error with your OrderSummary"
+      />
+    );
+  }
 
   return <SummaryContent data={data} />;
 };

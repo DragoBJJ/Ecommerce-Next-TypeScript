@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { UseCartContext } from "../context/CartContext";
-import Image from "next/image";
 
 export const CartBar = () => {
   const { cartItems } = UseCartContext();
   return (
     <Link href="/Cart">
-      <a className="justify-center items-center ml-8 hidden md:flex">
-        <span className="text-white text-[#E1B989] mr-2">
-          {cartItems.length ? cartItems.length : 0}
-        </span>
+      <a className="relative justify-center items-center ml-8 hidden md:flex">
+        {cartItems.length ? (
+          <span className="absolute top-5 -left-6 text-white text-[#E1B989] border-2 boredr-2 border-[#E1B989] w-[25px] h-[25px] p-2 rounded-full flex justify-center items-center transition duration-300 ease-in-out">
+            {cartItems.length}
+          </span>
+        ) : null}
 
         <svg
           className="w-10 h-10 text-[#E1B989] cursor-pointer hover:scale-125 ease-in-out duration-500"

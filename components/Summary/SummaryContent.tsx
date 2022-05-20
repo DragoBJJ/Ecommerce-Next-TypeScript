@@ -10,7 +10,7 @@ import { UseClientContext } from "../context/ClientContext";
 export const SummaryContent = ({
   data
 }: {
-  data: GetOrderAndShippingAddressQuery | undefined;
+  data: GetOrderAndShippingAddressQuery;
 }) => {
   const router = useRouter();
   const { setCartItems } = UseCartContext();
@@ -36,20 +36,20 @@ export const SummaryContent = ({
   } = data.order.shippingAddress;
 
   const clearLocalData = () => {
-    deleteOrderAndStripeFromLocalStorage();
-    if (!setOrderID || !setClientStripeID) return;
-    setOrderID(undefined);
-    setClientStripeID(undefined);
-    setCartItems([]);
     router.push({
       pathname: "/products/1"
     });
+    deleteOrderAndStripeFromLocalStorage();
+    if (!setOrderID || !setClientStripeID) return;
+    setCartItems([]);
+    setOrderID(undefined);
+    setClientStripeID(undefined);
   };
 
   return (
     <div className="w-full h-auto">
       <Fade triggerOnce>
-        <div className="flex-col  w-full md:w-3/4 h-full p-4 text-[#E1B989] bg-neutral-800 mx-auto  justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
+        <div className="flex-col  w-full md:w-3/4 h-full p-4 text-[#E1B989] bg-neutral-800 mx-auto  justify-center  items-center rounded-xl shadow-md shadow-neutral-800">
           <h1 className="text-2xl mb-4 tracking-widest text-center">
             Shipping Address
           </h1>
@@ -71,7 +71,7 @@ export const SummaryContent = ({
         </div>
       </Fade>
       <Fade triggerOnce>
-        <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 bg-[#E1B989] mx-auto justify-center  items-center rounded-xl shadow-sm shadow-neutral-800">
+        <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 bg-[#E1B989] mx-auto justify-center  items-center rounded-xl shadow-md shadow-neutral-800">
           <h1 className="text-2xl tracking-widest text-center">Order Items</h1>
           <ul>
             {orderItems.map((item, index) => {

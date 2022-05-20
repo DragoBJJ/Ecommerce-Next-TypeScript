@@ -72,6 +72,7 @@ const Home = () => {
             <Fade triggerOnce direction="top-right">
               <Image
                 src="/code.svg"
+                alt="code"
                 height={16 / 16}
                 width={16 / 8}
                 layout="responsive"

@@ -17,7 +17,7 @@ export const ProfileOrders = ({ accountData }: ProfileOrdersType) => {
       {accountData!.orders.map((order, index) => {
         return (
           <li key={order.createdAt} className="flex flex-col my-8">
-            <div className="flex w-full items-center py-1 justify-start  border-y-[1px] border-neutral-800">
+            <div className="flex w-full items-center py-1 justify-start  border-y-2 border-neutral-800">
               <p className="text-3xl text-neutral-800 mx-4">#{index + 1}</p>
               <p className=" text-md md:text-xl text-neutral-800 mr-4">
                 {getClearFormatData(order.createdAt)}
