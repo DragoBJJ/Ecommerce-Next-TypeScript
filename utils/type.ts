@@ -1,5 +1,13 @@
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 
+import {
+  DeepMap,
+  FieldError,
+  FieldValues,
+  UseFormRegister
+} from "react-hook-form";
+import { FormInputProps } from "../components/Form/FormInput";
+
 export type InferGetStaticPaths<T> = T extends () => Promise<{
   paths: Array<{ params: infer R }>;
 }>
@@ -64,3 +72,26 @@ export type ShippingAddressType = {
   streetAddress?: string | undefined;
   postalCode?: string | undefined;
 };
+
+export type StringKeys<T> = {
+  [P in keyof T]: T[P] extends string ? T[P] : never;
+}[keyof T];
+
+export type AreaType<FormData extends FieldValues> = {
+  inputs:
+    | FormInputProps<Pick<FormData, StringKeys<FormData>>>[]
+    | FormInputProps<FormData>[];
+  register: UseFormRegister<FormData>;
+  errors: Partial<DeepMap<FormData, FieldError>>;
+  title: string;
+  selectOptions?: string[];
+};
+
+export type ResSignInType =
+  | {
+      error: string | undefined;
+      status: number;
+      ok: boolean;
+      url: string | null;
+    }
+  | undefined;

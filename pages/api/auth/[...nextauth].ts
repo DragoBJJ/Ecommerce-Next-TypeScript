@@ -13,6 +13,10 @@ import { ApolloQueryResult } from "@apollo/client";
 import { User } from "next-auth/core/types";
 
 export default NextAuth({
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error"
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -25,7 +29,8 @@ export default NextAuth({
         password: { label: "Password", type: "password" }
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
+        console.log("credentials", credentials);
         if (!credentials) return null;
         const {
           data
@@ -63,6 +68,13 @@ export default NextAuth({
   ],
 
   callbacks: {
+    async signIn({ user, account, credentials }) {
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     async session({ session, token }) {
       session.user = token.user as User;
       return session;
@@ -71,7 +83,12 @@ export default NextAuth({
       if (user) {
         token.user = user;
       }
+
       return token;
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      return url;
     }
   },
   secret: process.env.NEXTAUTH_TOKEN

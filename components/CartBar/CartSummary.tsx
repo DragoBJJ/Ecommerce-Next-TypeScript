@@ -27,7 +27,7 @@ export const CartSummary = memo<CartSummaryType>(({ itemsAmount, pay }) => {
       {status === "unauthenticated" ? (
         <>
           <p className="mt-4 text-xl">Sign in to place an order</p> <br />
-          <Link href="/register" passHref={true}>
+          <Link href="/auth/register" passHref={true}>
             <p className="mt-4 text-sm border-b-[1px] ease-in-out duration-300 hover:scale-125 cursor-pointer border-[#1d1d1d]">
               Dont have an account yet ? Sign up !
             </p>

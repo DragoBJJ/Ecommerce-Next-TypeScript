@@ -1,5 +1,5 @@
-import { ReviewData, FormData, RegisterData } from "./FormAreaType";
-import { FormInputProps } from "./FormInput";
+import { ReviewData, FormData, RegisterData, LoginData } from "./FormAreaType";
+import { FormInput, FormInputProps } from "./FormInput";
 
 export const reviewInputData: FormInputProps<ReviewData>[] = [
   {
@@ -168,6 +168,21 @@ export const registerData: FormInputProps<RegisterData>[] = [
     id: "confirmPassword",
     label: "confirmPassword",
     placeholder: "********",
+    type: "password"
+  }
+];
+
+export const loginDataInputs: FormInputProps<LoginData>[] = [
+  {
+    id: "email",
+    placeholder: "Aleksander@gmail.com",
+    label: "E-mail",
+    type: "email"
+  },
+  {
+    id: "password",
+    placeholder: "********",
+    label: "Password",
     type: "password"
   }
 ];

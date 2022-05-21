@@ -17,7 +17,6 @@ type ApiType = {
 };
 
 const SignUpHandler: NextApiHandler<ApiType> = async (req, res) => {
-  console.log("req.body", req);
   const {
     username,
     email,
@@ -46,7 +45,7 @@ const SignUpHandler: NextApiHandler<ApiType> = async (req, res) => {
     }
   });
   if (!createdUser || !createdUser.createAccount)
-    return res.status(400).json({ message: "Error" });
+    return res.status(400).json({ message: "Error with your creating User" });
 
   await apolloAuthorizedClient.mutate<
     PublishAccountMutation,

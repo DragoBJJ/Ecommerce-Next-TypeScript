@@ -61,7 +61,20 @@ export const registerSchema = yup.object({
     .required()
 });
 
+export const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  password: yup
+    .string()
+    .min(8)
+    .required()
+});
+
 export type RegisterData = yup.InferType<typeof registerSchema>;
+
+export type LoginData = yup.InferType<typeof loginSchema>;
 
 export type FormData = yup.InferType<typeof schema>;
 
