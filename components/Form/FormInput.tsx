@@ -1,29 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
-
-import {
-  UseFormRegister,
-  Path,
-  FieldValues,
-  DeepMap,
-  FieldError
-} from "react-hook-form";
-
-type InputType = {
-  text: number;
-  email: string;
-  password: string;
-  date: string;
-  checkbox: string;
-};
-
-export type FormInputProps<TFormData extends FieldValues> = {
-  register?: UseFormRegister<TFormData>;
-  id: Path<TFormData>;
-  type?: Path<InputType>;
-  placeholder?: string;
-  label: string;
-  errors?: Partial<DeepMap<TFormData, FieldError>>;
-};
+import { Fade } from "react-awesome-reveal";
+import { FormInputProps } from "../../utils/type";
 
 export const FormInput = <TFormData extends Record<string, unknown>>({
   register,
@@ -59,15 +36,17 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         {...register(id)}
       />
       <div className="w-full mt-2 h-[25px]">
-        {errors[id]?.ref && (
-          <ErrorMessage
-            errors={errors}
-            name={id as any}
-            render={({ message }) => (
-              <span className={`text-red-500`}>{message}</span>
-            )}
-          />
-        )}
+        <Fade triggerOnce>
+          {errors[id]?.ref && (
+            <ErrorMessage
+              errors={errors}
+              name={id as any}
+              render={({ message }) => (
+                <span className={`text-red-500`}>{message}</span>
+              )}
+            />
+          )}
+        </Fade>
       </div>
     </>
   );

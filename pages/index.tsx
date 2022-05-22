@@ -31,6 +31,7 @@ const Home = () => {
       </div>
     );
   }
+  console.log("status", status);
   if (status === "unauthenticated") {
     return (
       <div className="flex flex-col mx-auto  w-full h-full justify-center p-2">

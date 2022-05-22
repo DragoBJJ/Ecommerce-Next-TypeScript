@@ -1,6 +1,5 @@
 import { Path } from "react-hook-form";
 import { AreaType } from "../../utils/type";
-import { FormData } from "./FormAreaType";
 import { FormInput } from "./FormInput";
 import { FormSelect } from "./FormSelect";
 
@@ -12,7 +11,7 @@ export const AreaInputs = <FormData extends Record<string, unknown>>({
   selectOptions
 }: AreaType<FormData>) => {
   return (
-    <div className="flex flex-col w-full h-auto lg:w-5/6 my-4">
+    <div className="flex flex-col w-full  h-full min-h-[400px] lg:w-5/6 my-4">
       <h1 className="text-xl mx-left my-2 tracking-widest">{title}</h1>
       <div
         className={`w-full grid grid-cols-1 gap-x-4   ${

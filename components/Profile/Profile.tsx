@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Dispatch, memo, SetStateAction } from "react";
 
@@ -52,6 +52,12 @@ export const Profile = memo<ProfileType>(({ dateTime, setOrderVisible }) => {
         >
           Orders History
         </div>
+        <button
+          onClick={() => signOut()}
+          className="text-[#E1B989] hidden md:flex text-xl mr-4"
+        >
+          Log Out
+        </button>
       </div>
     </div>
   );

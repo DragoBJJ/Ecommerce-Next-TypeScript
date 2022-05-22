@@ -43,7 +43,7 @@ const SignInForm = () => {
       password
     })
       .then((res: ResSignInType) => {
-        if (res && res.ok) {
+        if (res?.ok) {
           router.push({
             pathname: "/products/1"
           });
@@ -63,7 +63,7 @@ const SignInForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         action="/api/auth/callback/credentials"
-        className="flex flex-col w-5/6 mt-4 p-2 sm:4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
+        className="flex flex-col w-5/6 mt-4 p-2 sm:w-4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
       >
         <AreaInputs
           title="Login Form"

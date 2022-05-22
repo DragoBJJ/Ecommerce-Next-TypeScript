@@ -1,14 +1,15 @@
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import Link from "next/link";
-import { MDXRemote } from "next-mdx-remote";
-import { MarkDownResult } from "../utils/type";
-import ReactMarkdown from "react-markdown";
-import { ReactChild, ReactNode } from "react";
 
-export const MarkDownNext = ({ children }: { children: string }) => {
+export const MarkDownNext = ({
+  children
+}: {
+  children: MDXRemoteSerializeResult<Record<string, unknown>>;
+}) => {
   const domain = process.env.LOCAL_DOMAIN;
-  console.log("DOMAIN", domain);
   return (
-    <ReactMarkdown
+    <MDXRemote
+      {...children}
       components={{
         a: ({ href, ...props }) => {
           if (!href) return <a {...props}></a>;
@@ -24,9 +25,7 @@ export const MarkDownNext = ({ children }: { children: string }) => {
           );
         }
       }}
-    >
-      {children}
-    </ReactMarkdown>
+    ></MDXRemote>
   );
 };
 

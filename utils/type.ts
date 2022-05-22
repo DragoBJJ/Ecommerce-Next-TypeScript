@@ -4,9 +4,9 @@ import {
   DeepMap,
   FieldError,
   FieldValues,
+  Path,
   UseFormRegister
 } from "react-hook-form";
-import { FormInputProps } from "../components/Form/FormInput";
 
 export type InferGetStaticPaths<T> = T extends () => Promise<{
   paths: Array<{ params: infer R }>;
@@ -85,6 +85,31 @@ export type AreaType<FormData extends FieldValues> = {
   errors: Partial<DeepMap<FormData, FieldError>>;
   title: string;
   selectOptions?: string[];
+};
+
+export type InputType = {
+  text: number;
+  email: string;
+  password: string;
+  date: string;
+  checkbox: string;
+};
+
+export type FormInputProps<TFormData extends FieldValues> = {
+  register?: UseFormRegister<TFormData>;
+  id: Path<TFormData>;
+  type?: Path<InputType>;
+  placeholder?: string;
+  label: string;
+  errors?: Partial<DeepMap<TFormData, FieldError>>;
+};
+
+export type FormSelectProps<TFormData extends FieldValues> = {
+  register: UseFormRegister<TFormData>;
+  id: Path<TFormData>;
+  label: string;
+  errors: Partial<DeepMap<TFormData, FieldError>>;
+  options: string[];
 };
 
 export type ResSignInType =
