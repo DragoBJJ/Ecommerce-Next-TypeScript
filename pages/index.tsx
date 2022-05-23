@@ -24,15 +24,15 @@ const Home = () => {
     }
   });
 
-  if (status === "loading" || LoadingAccountData) {
+  if (LoadingAccountData) {
     return (
       <div className="flex flex-col h-screen w-screen justify-center">
         <Spinner />;
       </div>
     );
   }
-  console.log("status", status);
-  if (status === "unauthenticated") {
+
+  if (status === "authenticated") {
     return (
       <div className="flex flex-col mx-auto  w-full h-full justify-center p-2">
         <InfoPopup

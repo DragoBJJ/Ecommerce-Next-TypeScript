@@ -1,15 +1,11 @@
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
-export const MarkDownNext = ({
-  children
-}: {
-  children: MDXRemoteSerializeResult<Record<string, unknown>>;
-}) => {
+export const MarkDownNext = ({ children }: { children: string }) => {
   const domain = process.env.LOCAL_DOMAIN;
   return (
-    <MDXRemote
-      {...children}
+    <ReactMarkdown
       components={{
         a: ({ href, ...props }) => {
           if (!href) return <a {...props}></a>;
@@ -25,14 +21,8 @@ export const MarkDownNext = ({
           );
         }
       }}
-    ></MDXRemote>
+    >
+      {children}
+    </ReactMarkdown>
   );
 };
-
-{
-  /* <article className=" w-auto h-auto prose lg">
-            <ReactMarkdown>
-              {`[link do produktu ${product.id}](/products/${product.id})`}
-            </ReactMarkdown>
-          </article> */
-}

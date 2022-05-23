@@ -59,19 +59,18 @@ export const Header = () => {
 
       <MobileNav linksArray={MobileLinks} isOpen={isOpen} setOpen={setOpen} />
 
-      <Fade triggerOnce direction="right">
-        {status === "unauthenticated" && (
-          <>
-            <UserStatus />
-            <button
-              onClick={() => signIn()}
-              className="text-[#E1B989] text-xl mr-4 hidden md:flex"
-            >
-              Log In
-            </button>
-          </>
-        )}
-      </Fade>
+      {status === "unauthenticated" && (
+        <Fade triggerOnce direction="right">
+          <UserStatus />
+          <button
+            onClick={() => signIn()}
+            className="text-[#E1B989] text-xl mr-4 hidden md:flex"
+          >
+            Log In
+          </button>
+        </Fade>
+      )}
+
       <MobileIcon isOpen={isOpen} setOpen={setOpen} />
       <CartBar />
     </header>

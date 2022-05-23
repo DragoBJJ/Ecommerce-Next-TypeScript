@@ -7,9 +7,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import Image from "next/image";
 import { InfoPopup } from "../InfoPopup";
 
-type CartContentProps = {};
-
-export const CartContent: FC<CartContentProps> = ({}) => {
+export const CartContent = () => {
   const { cartItems, removeItemFromCart } = UseCartContext();
 
   return (

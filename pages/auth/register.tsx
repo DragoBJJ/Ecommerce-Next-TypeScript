@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterData } from "../../components/Form/FormAreaType";
 import { registerSchema } from "../../components/Form/FormAreaType";
 import { registerData } from "../../components/Form/FormAreaData";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { InfoPopup } from "../../components/InfoPopup";
 import { Spinner } from "../../components/Spinner";
@@ -54,9 +53,9 @@ const RegisterForm = () => {
         />
       );
     }
-    setTimeout(() => {
-      router.push("/auth/signin");
-    }, 3000);
+    // setTimeout(() => {
+    //   router.push("/auth/signin");
+    // }, 3000);
   };
 
   return (

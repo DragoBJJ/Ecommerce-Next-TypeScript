@@ -1,5 +1,5 @@
+import { FormInputProps } from "../../utils/type";
 import { ReviewData, FormData, RegisterData, LoginData } from "./FormAreaType";
-import { FormInput, FormInputProps } from "./FormInput";
 
 export const reviewInputData: FormInputProps<ReviewData>[] = [
   {

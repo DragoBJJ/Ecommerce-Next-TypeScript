@@ -30,8 +30,6 @@ export const NavPayment = () => {
         <div className="flex mx-4 w-[60px] cursor-pointer h-[60px] items-center justify-center rounded-full border-[1px] border-[#E1B989]">
           <BsCartCheck color={summary ? "#E1B989" : "#fff"} size="40px" />
         </div>
-        {/* <div className="inline-block border-[1px] border-[#E1B989] w-[3rem] lg:w-[6rem]"></div>
-        <div className="inline-block mx-4 w-[60px] h-[60px] rounded-full border-[1px] border-[#E1B989]"></div> */}
       </div>
     </>
   );

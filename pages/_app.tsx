@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps: {session, ...pageProps}}: AppProps) {
           <DefaultSeo {...NextSeo}/>
     <QueryClientProvider client={client}>
         <Elements stripe={promise}>
-       <Component  {...pageProps}  />
+             <Component  {...pageProps}  />
        </Elements>
     </QueryClientProvider>
        </LayoutTemplate>

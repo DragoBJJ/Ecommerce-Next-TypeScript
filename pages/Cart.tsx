@@ -5,10 +5,7 @@ import { Spinner } from "../components/Spinner";
 
 import { useRouter } from "next/router";
 import { UseClientContext } from "../components/context/ClientContext";
-import {
-  useCreateOrderMutation,
-  usePublishOrdersMutation as UsePublishOrders
-} from "../generated/graphql";
+import { useCreateOrderMutation } from "../generated/graphql";
 import { InfoPopup } from "../components/InfoPopup";
 import { useSession } from "next-auth/react";
 
@@ -22,10 +19,6 @@ const CartPage = () => {
     createOrderMutation,
     { loading: createOrderLoading, error: createOrderError }
   ] = useCreateOrderMutation();
-  // const [
-  //   publishOrders,
-  //   { loading: publishLoading, error: publishError }
-  // ] = UsePublishOrders();
 
   if (createOrderError) {
     return (
