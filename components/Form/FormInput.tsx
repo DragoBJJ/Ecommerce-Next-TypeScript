@@ -1,4 +1,5 @@
 import { ErrorMessage } from "@hookform/error-message";
+import { Fade } from "react-awesome-reveal";
 import { FormInputProps } from "../../utils/type";
 
 export const FormInput = <TFormData extends Record<string, unknown>>({
@@ -36,13 +37,15 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
       />
       <div className="w-full mt-2 h-[25px]">
         {errors[id]?.ref && (
-          <ErrorMessage
-            errors={errors}
-            name={id as any}
-            render={({ message }) => (
-              <span className={`text-red-500`}>{message}</span>
-            )}
-          />
+          <Fade triggerOnce>
+            <ErrorMessage
+              errors={errors}
+              name={id as any}
+              render={({ message }) => (
+                <span className={`text-red-500`}>{message}</span>
+              )}
+            />
+          </Fade>
         )}
       </div>
     </>
