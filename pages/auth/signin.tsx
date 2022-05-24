@@ -59,7 +59,7 @@ const SignInForm = () => {
         }
       })
       .catch(error => {
-        throw new Error("Error", error);
+        throw new Error(error);
       });
   };
 

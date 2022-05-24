@@ -36,17 +36,15 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         {...register(id)}
       />
       <div className="w-full mt-2 h-[25px]">
-        <Fade triggerOnce>
-          {errors[id]?.ref && (
-            <ErrorMessage
-              errors={errors}
-              name={id as any}
-              render={({ message }) => (
-                <span className={`text-red-500`}>{message}</span>
-              )}
-            />
-          )}
-        </Fade>
+        {errors[id]?.ref && (
+          <ErrorMessage
+            errors={errors}
+            name={id as any}
+            render={({ message }) => (
+              <span className={`text-red-500`}>{message}</span>
+            )}
+          />
+        )}
       </div>
     </>
   );

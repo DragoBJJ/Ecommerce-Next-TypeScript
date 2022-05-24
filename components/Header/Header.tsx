@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, FC } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { UserStatus } from "./UserStatus";
-import { Fade } from "react-awesome-reveal";
+import { Fade, FadeProps } from "react-awesome-reveal";
 import { CartBar } from "../CartBar/CartBar";
 import { MobileIcon } from "./MobileIcon";
 import { MobileNav } from "./MobileNav";

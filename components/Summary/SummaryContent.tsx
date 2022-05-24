@@ -71,49 +71,53 @@ export const SummaryContent = ({
         </div>
       </Fade>
       <Fade triggerOnce>
-        <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 bg-[#E1B989] mx-auto justify-center  items-center rounded-xl shadow-md shadow-neutral-800">
-          <h1 className="text-2xl tracking-widest text-center">Order Items</h1>
-          <ul>
-            {orderItems.map((item, index) => {
-              return (
-                <div
-                  key={`${item.id + index}`}
-                  className={`flex w-full h-full 
+        <>
+          <div className="overflow-y-auto flex-col w-full mt-8 h-[400px] p-4 bg-[#E1B989] mx-auto justify-center  items-center rounded-xl shadow-md shadow-neutral-800">
+            <h1 className="text-2xl tracking-widest text-center">
+              Order Items
+            </h1>
+            <ul>
+              {orderItems.map((item, index) => {
+                return (
+                  <div
+                    key={`${item.id + index}`}
+                    className={`flex w-full h-full 
                   ${
                     orderItems.length - 1 === index
                       ? "border-b-0"
                       : "border-b-[1px]"
                   } border-neutral-800 mb-2 py-2`}
-                >
-                  <div className="flex-col">
-                    <li className="text-xl text-[#1d1d1d]">
-                      {item.product?.name}
-                    </li>
-                    <li className="text-xl text-[#1d1d1d]">
-                      {item.product?.price} $
-                    </li>
+                  >
+                    <div className="flex-col">
+                      <li className="text-xl text-[#1d1d1d]">
+                        {item.product?.name}
+                      </li>
+                      <li className="text-xl text-[#1d1d1d]">
+                        {item.product?.price} $
+                      </li>
+                    </div>
+                    <div className="relative ml-auto  w-1/3 h-[120px]">
+                      {item.product?.images[0].url && (
+                        <Image
+                          src={item.product?.images[0].url}
+                          layout="fill"
+                          alt="orderImage"
+                          objectFit="contain"
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div className="relative ml-auto  w-1/3 h-[120px]">
-                    {item.product?.images[0].url && (
-                      <Image
-                        src={item.product?.images[0].url}
-                        layout="fill"
-                        alt="orderImage"
-                        objectFit="contain"
-                      />
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </ul>
-        </div>
-        <button
-          onClick={clearLocalData}
-          className="flex w-[180px] my-10 h-[48px] ease-in duration-300 cursor-pointer hover:bg-[#E1B989] border-2 border-[#E1B989] mx-auto justify-center items-center rounded-xl"
-        >
-          <p className="text-lg"> Go to Shop</p>
-        </button>
+                );
+              })}
+            </ul>
+          </div>
+          <button
+            onClick={clearLocalData}
+            className="flex w-[180px] my-10 h-[48px] ease-in duration-300 cursor-pointer hover:bg-[#E1B989] border-2 border-[#E1B989] mx-auto justify-center items-center rounded-xl"
+          >
+            <p className="text-lg"> Go to Shop</p>
+          </button>
+        </>
       </Fade>
     </div>
   );
