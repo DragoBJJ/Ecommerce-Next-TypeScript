@@ -33,13 +33,15 @@ export const FormSelect = <TFormData extends FieldValues>({
       </select>
       <div className="w-full mt-2 h-[25px]">
         {errors[id]?.ref && (
-          <ErrorMessage
-            errors={errors}
-            name={id as any}
-            render={({ message }) => (
-              <span className={`text-red-500`}>{message}</span>
-            )}
-          />
+          <Fade triggerOnce>
+            <ErrorMessage
+              errors={errors}
+              name={id as any}
+              render={({ message }) => (
+                <span className={`text-red-500`}>{message}</span>
+              )}
+            />
+          </Fade>
         )}
       </div>
     </>

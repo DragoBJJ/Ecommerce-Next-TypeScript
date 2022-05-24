@@ -75,33 +75,31 @@ const RegisterForm = () => {
 
   return (
     <div className="w-screen h-full pb-5 md:pb-0 min-h-screen min-h-screen">
-      <Fade triggerOnce>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-5/6 mt-4 p-2 sm:4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-5/6 mt-4 p-2 sm:4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
+      >
+        <AreaInputs
+          title="Register Form"
+          register={register}
+          errors={errors}
+          inputs={registerData}
+          selectOptions={[
+            "Frontend Developer",
+            "Backend Developer",
+            "DevOps",
+            "BlockChain Developer",
+            "Cloud Architect",
+            "AI Developer"
+          ]}
+        />
+        <button
+          type="submit"
+          className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px] mb-4"
         >
-          <AreaInputs
-            title="Register Form"
-            register={register}
-            errors={errors}
-            inputs={registerData}
-            selectOptions={[
-              "Frontend Developer",
-              "Backend Developer",
-              "DevOps",
-              "BlockChain Developer",
-              "Cloud Architect",
-              "AI Developer"
-            ]}
-          />
-          <button
-            type="submit"
-            className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px] mb-4"
-          >
-            <p className="text-xl text-neutral-800">Submit</p>
-          </button>
-        </form>
-      </Fade>
+          <p className="text-xl text-neutral-800">Submit</p>
+        </button>
+      </form>
     </div>
   );
 };
