@@ -9,12 +9,16 @@ type ProfileOrdersType = {
 };
 
 export const ProfileOrders = ({ accountData }: ProfileOrdersType) => {
+  let filteredOrders = [...accountData!.orders].sort(
+    (a, b) => a.createdAt - b.createdAt
+  );
+
   return (
     <ul
       className="flex flex-col w-full
           shadow-md shadow-stone-700 rounded-xl p-4 bg-[#E1B989]"
     >
-      {accountData!.orders.map((order, index) => {
+      {filteredOrders.map((order, index) => {
         return (
           <li key={order.createdAt} className="flex flex-col my-8">
             <div className="flex w-full items-center py-1 justify-start  border-y-2 border-neutral-800">
