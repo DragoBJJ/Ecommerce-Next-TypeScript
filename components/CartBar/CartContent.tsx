@@ -1,8 +1,4 @@
-import React, { FC, useEffect } from "react";
-import { CartType } from "../../utils/type";
 import { UseCartContext } from "../context/CartContext";
-import { UseClientContext } from "../context/ClientContext";
-import { usePublishOrdersMutation } from "../../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import Image from "next/image";
 import { InfoPopup } from "../InfoPopup";

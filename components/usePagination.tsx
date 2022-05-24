@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 type usePaginationType = {
   totalCount: number;
   pageSize: number;

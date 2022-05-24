@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useGetReviewsFromProductQuery } from "../../generated/graphql";
 import { InfoPopup } from "../InfoPopup";
 import { Spinner } from "../Spinner";
@@ -6,7 +7,7 @@ type ProductReviewProps = {
   productID: string;
 };
 
-export const ProductReview = ({ productID }: ProductReviewProps) => {
+export const ProductReview = memo<ProductReviewProps>(({ productID }) => {
   const { data, loading, error } = useGetReviewsFromProductQuery({
     variables: {
       id: productID
@@ -44,11 +45,11 @@ export const ProductReview = ({ productID }: ProductReviewProps) => {
             );
           })
         ) : (
-          <div className="text-2xl text-center">
+          <div className="text-xl text-center">
             This product doesnt have any reviews...
           </div>
         )}
       </ul>
     </div>
   );
-};
+});

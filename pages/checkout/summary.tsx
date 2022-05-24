@@ -3,11 +3,9 @@ import { CheckoutTemplate } from "../../templates/CheckoutTemplate";
 
 const PaymentForm = () => {
   return (
-    <>
-      <CheckoutTemplate imageName="celebrating">
-        <OrderSummary />
-      </CheckoutTemplate>
-    </>
+    <CheckoutTemplate imageName="celebrating">
+      <OrderSummary />
+    </CheckoutTemplate>
   );
 };
 

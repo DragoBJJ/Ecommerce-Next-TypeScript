@@ -70,6 +70,10 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
   });
 
   const [setPublishManyReviews] = usePublishManyReviewsMutation();
+
+  if (status === "unauthenticated") {
+    return <div className="text-xl text-center">Sign in to add reviews</div>;
+  }
   if (reviewLoading) {
     return <Spinner />;
   }
@@ -104,29 +108,25 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
   };
   return (
     <>
-      {status === "unauthenticated" ? (
-        <div className="text-xl text-center">Sign in to add reviews</div>
-      ) : (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="w-full flex flex-col justify-center items-center"
-        >
-          <AreaInputs
-            title="Review Section"
-            inputs={reviewInputData}
-            register={register}
-            errors={errors}
-          />
-          <div className=" flex w-full px-3 justify-center items-center">
-            <button
-              type="submit"
-              className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px]"
-            >
-              <p className="text-xl">Submit</p>
-            </button>
-          </div>
-        </form>
-      )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full flex flex-col justify-center items-center"
+      >
+        <AreaInputs
+          title="Review Section"
+          inputs={reviewInputData}
+          register={register}
+          errors={errors}
+        />
+        <div className=" flex w-full px-3 justify-center items-center">
+          <button
+            type="submit"
+            className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px]"
+          >
+            <p className="text-xl">Submit</p>
+          </button>
+        </div>
+      </form>
     </>
   );
 });

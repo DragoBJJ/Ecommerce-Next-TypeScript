@@ -9,12 +9,14 @@ export const Footer = () => {
           href="https://linkedin.com/in/jakub-pawelski-885559228/"
           passHref={true}
         >
-          <FaLinkedinIn
-            color="#E1B989"
-            cursor="pointer"
-            size="30px"
-            className="ease-in-out duration-300 hover:scale-125"
-          />
+          <a>
+            <FaLinkedinIn
+              color="#E1B989"
+              cursor="pointer"
+              size="30px"
+              className="ease-in-out duration-300 hover:scale-125"
+            />
+          </a>
         </Link>
       </div>
     </footer>

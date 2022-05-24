@@ -1,6 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Dispatch, memo, SetStateAction } from "react";
+import { InfoPopup } from "../InfoPopup";
 
 type ProfileType = {
   dateTime: string;
@@ -10,7 +11,9 @@ type ProfileType = {
 export const Profile = memo<ProfileType>(({ dateTime, setOrderVisible }) => {
   const { data: session } = useSession();
 
-  if (!session) return null;
+  if (!session) {
+    return <InfoPopup status="cancell" description="You dont have access" />;
+  }
 
   return (
     <div

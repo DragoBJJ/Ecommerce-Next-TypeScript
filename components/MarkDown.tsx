@@ -1,4 +1,3 @@
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 

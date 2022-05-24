@@ -5,25 +5,21 @@ import { InfoPopup } from "../../components/InfoPopup";
 
 const PaymentForm = () => {
   return (
-    <>
-      <CheckoutTemplate imageName="card">
-        <ElementsConsumer>
-          {({ stripe, elements }) => {
-            if (stripe && elements) {
-              return (
-                <CheckoutPaymentForm stripe={stripe} elements={elements} />
-              );
-            }
-            return (
-              <InfoPopup
-                status="cancell"
-                description="You dont have stripe Elements"
-              />
-            );
-          }}
-        </ElementsConsumer>
-      </CheckoutTemplate>
-    </>
+    <CheckoutTemplate imageName="card">
+      <ElementsConsumer>
+        {({ stripe, elements }) => {
+          if (stripe && elements) {
+            return <CheckoutPaymentForm stripe={stripe} elements={elements} />;
+          }
+          return (
+            <InfoPopup
+              status="cancell"
+              description="You dont have stripe Elements"
+            />
+          );
+        }}
+      </ElementsConsumer>
+    </CheckoutTemplate>
   );
 };
 

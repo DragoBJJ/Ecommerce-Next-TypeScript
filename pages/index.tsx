@@ -45,7 +45,7 @@ const Home = () => {
 
   if (ErrorAccountData || !AccountData || !AccountData.account) {
     return (
-      <div className="flex flex-col h-screen w-screen justify-center p-2">
+      <div className="flex flex-col h-screen w-screen justify-start p-2">
         <InfoPopup
           status="cancell"
           description="Error with your Account Data"
@@ -68,8 +68,8 @@ const Home = () => {
           />
         </Fade>
 
-        <div className="ml-auto mr-4 relative  mt-4 items-center  w-2/3">
-          {!ordersVisible && (
+        {!ordersVisible && (
+          <div className="ml-auto mr-4 relative  mt-4 items-center  w-2/3">
             <Fade triggerOnce direction="top-right">
               <Image
                 src="/code.svg"
@@ -80,17 +80,17 @@ const Home = () => {
                 objectFit="contain"
               />
             </Fade>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      <div className="w-full h-full mt-4">
-        {ordersVisible && (
+      {ordersVisible && (
+        <div className="w-full h-full mt-4">
           <Fade triggerOnce>
             <ProfileOrders accountData={AccountData.account} />
           </Fade>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -13,12 +13,11 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import {SessionProvider} from "next-auth/react"
 
-
-
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
 
 function MyApp({ Component, pageProps: {session, ...pageProps}}: AppProps) {
   const client = new QueryClient()
+
   return  (
      <SessionProvider session={session}>
      <ApolloProvider client={apolloClient}>
@@ -28,7 +27,7 @@ function MyApp({ Component, pageProps: {session, ...pageProps}}: AppProps) {
           <DefaultSeo {...NextSeo}/>
     <QueryClientProvider client={client}>
         <Elements stripe={promise}>
-             <Component  {...pageProps}  />
+              <Component  {...pageProps}  /> 
        </Elements>
     </QueryClientProvider>
        </LayoutTemplate>

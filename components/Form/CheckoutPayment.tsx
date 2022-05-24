@@ -61,7 +61,7 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
         color: "#1d1d1d",
         fontFamily: "Arial, sans-serif",
         fontSmoothing: "antialiased",
-        fontSize: "16px",
+        fontSize: "12px",
         "::placeholder": {
           color: "#1d1d1d"
         },

@@ -8,6 +8,7 @@ import { InfoPopup } from "../../components/InfoPopup";
 import { Spinner } from "../../components/Spinner";
 import { useRouter } from "next/router";
 import { ResSignInType } from "../../utils/type";
+import { Fade } from "react-awesome-reveal";
 
 const SignInForm = () => {
   const { status } = useSession();
@@ -22,7 +23,11 @@ const SignInForm = () => {
   });
 
   if (isSubmitting || status === "loading") {
-    return <Spinner />;
+    return (
+      <div className="w-screen h-full pb-5 md:pb-0 min-h-screen min-h-screen">
+        <Spinner />;
+      </div>
+    );
   }
 
   if (status === "authenticated") {
@@ -60,24 +65,26 @@ const SignInForm = () => {
 
   return (
     <div className="w-screen h-full pb-5 md:pb-0 min-h-screen min-h-screen">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        action="/api/auth/callback/credentials"
-        className="flex flex-col w-5/6 mt-4 p-2 sm:w-4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
-      >
-        <AreaInputs
-          title="Login Form"
-          register={register}
-          errors={errors}
-          inputs={loginDataInputs}
-        />
-        <button
-          type="submit"
-          className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px] mb-4"
+      <Fade triggerOnce direction="down">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          action="/api/auth/callback/credentials"
+          className="flex flex-col w-5/6 mt-4 p-2 sm:w-4/5 md:w-3/5 lg:w-2/5 mx-auto justify-center items-center border-2 bg-neutral-800 rounded-xl text-[#E1B989] p-4"
         >
-          <p className="text-xl text-neutral-800">Submit</p>
-        </button>
-      </form>
+          <AreaInputs
+            title="Login Form"
+            register={register}
+            errors={errors}
+            inputs={loginDataInputs}
+          />
+          <button
+            type="submit"
+            className=" ease-in-out duration-500 bg-white border-2 border-[#E1B989] hover:bg-[#E1B989] rounded-2xl  w-full  max-w-[180px]  h-[48px] mb-4"
+          >
+            <p className="text-xl text-neutral-800">Submit</p>
+          </button>
+        </form>
+      </Fade>
     </div>
   );
 };

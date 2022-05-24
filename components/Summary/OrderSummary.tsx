@@ -9,11 +9,13 @@ export const OrderSummary = () => {
 
   const { data, loading, error } = useGetOrderAndShippingAddressQuery({
     variables: {
-      orderID: orderID
+      orderID
     }
   });
 
-  if (loading) return <Spinner />;
+  if (loading || !orderID) {
+    return <Spinner isSmaller />;
+  }
   if (error || !data) {
     return (
       <InfoPopup

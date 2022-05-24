@@ -3,11 +3,9 @@ import { CheckoutTemplate } from "../../templates/CheckoutTemplate";
 
 const AddressForm = () => {
   return (
-    <>
-      <CheckoutTemplate imageName="spaceX">
-        <CheckoutAddress />
-      </CheckoutTemplate>
-    </>
+    <CheckoutTemplate imageName="spaceX">
+      <CheckoutAddress />
+    </CheckoutTemplate>
   );
 };
 
