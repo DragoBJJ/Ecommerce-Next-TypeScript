@@ -75,7 +75,7 @@ export const ReviewForm = memo<ReviewFormType>(({ productID }) => {
     return <div className="text-xl text-center">Sign in to add reviews</div>;
   }
   if (reviewLoading) {
-    return <Spinner />;
+    return <Spinner isSmaller />;
   }
   if (error) {
     return <InfoPopup status="cancell" description="Error with your review" />;

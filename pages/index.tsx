@@ -32,7 +32,7 @@ const Home = () => {
     );
   }
 
-  if (status === "authenticated") {
+  if (status === "unauthenticated") {
     return (
       <div className="flex flex-col mx-auto  w-full h-full justify-center p-2">
         <InfoPopup
@@ -68,8 +68,8 @@ const Home = () => {
           />
         </Fade>
 
-        {!ordersVisible && (
-          <div className="ml-auto mr-4 relative  mt-4 items-center  w-2/3">
+        <div className="ml-auto mr-4 relative  mt-4 items-center  w-2/3">
+          {!ordersVisible && (
             <Fade triggerOnce direction="top-right">
               <Image
                 src="/code.svg"
@@ -80,8 +80,8 @@ const Home = () => {
                 objectFit="contain"
               />
             </Fade>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {ordersVisible && (

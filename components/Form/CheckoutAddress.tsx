@@ -21,7 +21,7 @@ export const CheckoutAddress = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitted }
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   });
@@ -35,7 +35,9 @@ export const CheckoutAddress = () => {
     { error: publishError, loading: publishLoading }
   ] = usePublishShippingAddressMutation();
 
-  if (loading || publishLoading) <Spinner />;
+  if (loading || publishLoading || isSubmitted) {
+    return <Spinner isSmaller />;
+  }
 
   if (ShippingError || publishError) {
     return (
