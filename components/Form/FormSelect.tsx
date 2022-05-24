@@ -1,5 +1,4 @@
 import { ErrorMessage } from "@hookform/error-message";
-import { Fade } from "react-awesome-reveal";
 
 import { FieldValues } from "react-hook-form";
 import { FormSelectProps } from "../../utils/type";
@@ -33,15 +32,13 @@ export const FormSelect = <TFormData extends FieldValues>({
       </select>
       <div className="w-full mt-2 h-[25px]">
         {errors[id]?.ref && (
-          <Fade triggerOnce>
-            <ErrorMessage
-              errors={errors}
-              name={id as any}
-              render={({ message }) => (
-                <span className={`text-red-500`}>{message}</span>
-              )}
-            />
-          </Fade>
+          <ErrorMessage
+            errors={errors}
+            name={id as any}
+            render={({ message }) => (
+              <span className={`text-red-500`}>{message}</span>
+            )}
+          />
         )}
       </div>
     </>
