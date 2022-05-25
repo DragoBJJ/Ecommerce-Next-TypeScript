@@ -14,6 +14,13 @@ const Home = () => {
   const { status, data: sessionData } = useSession();
   const [ordersVisible, setOrdersVisible] = useState(false);
 
+  const URL = `https://api.vercel.com/v1/integrations/deploy/prj_Fd9TXQM4aBPqfa2AXG7PXm3hqy6h/N1cI1JF6sZ`;
+
+  const deployHook = async () => {
+    const res = await fetch(URL).then(res => res.json());
+    console.log("RES", res);
+  };
+
   const {
     data: AccountData,
     loading: LoadingAccountData,
