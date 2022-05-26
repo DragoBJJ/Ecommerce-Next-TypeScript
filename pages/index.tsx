@@ -34,7 +34,7 @@ const Home = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div className="flex flex-col mx-auto  w-full h-full justify-center p-2">
+      <div className="flex flex-col mx-auto w-screen h-screen justify-start">
         <InfoPopup
           status="cancell"
           description="Please, Log In to see details"
