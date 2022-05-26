@@ -32,7 +32,7 @@ const SignInForm = () => {
 
   if (status === "authenticated") {
     return (
-      <div className="w-screen h-full pb-5 md:pb-0 min-h-screen min-h-screen">
+      <div className="w-screen h-screen">
         <InfoPopup
           image="nasa"
           status="success"
