@@ -5,8 +5,6 @@ import { GridTemplate } from "../../../templates/GridTemplate";
 import Image from "next/image";
 import { UseCartContext } from "../../../components/context/CartContext";
 
-import { MarkDownNext } from "../../../components/MarkDown";
-
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 
@@ -111,6 +109,6 @@ export const getStaticProps = async ({
         description
       }
     },
-    revalidate: 60 * 60
+    revalidate: 60 * 60 * 24
   };
 };

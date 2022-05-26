@@ -17,10 +17,22 @@ export const ProductDetails = ({
   title
 }: PickProductDetails) => {
   const { addItemToCart } = UseCartContext();
+
+  const revalidate = async (productID: string) => {
+    await fetch("/api/revalidate", {
+      method: "POST",
+      body: productID
+    })
+      .then(res => res.json())
+      .catch(error => console.log("ERROR", error));
+  };
   return (
     <div className="relative cursor-pointer grid border-[1px] border-[#E1B989]  max-w-[350px]  md:max-w-xs  xl:max-w-lg  h-96 hover:scale-105 shadow-xl hover:shadow-2xl hover:shadow-sky-700/50  ease-in-out duration-300  bg-white justify-center items-center overflow-hidden rounded-xl">
       <Link href={`/products/details/${id}/`} passHref={true}>
-        <div className="absolute top-0 left-0 flex w-full h-2/3 opacity-90 hover:opacity-100">
+        <div
+          onClick={() => revalidate(id)}
+          className="absolute top-0 left-0 flex w-full h-2/3 opacity-90 hover:opacity-100"
+        >
           <Image
             layout="fill"
             objectFit="contain"
@@ -41,7 +53,7 @@ export const ProductDetails = ({
             {price} $
           </h3>
         </Link>
-        <div
+        {/* <div
           onClick={() =>
             addItemToCart({
               price,
@@ -57,6 +69,12 @@ export const ProductDetails = ({
           className="flex my-4 justify-center items-center w-full max-w-[160px]  ease-in-out duration-300 hover:bg-neutral-800  hover:text-white  hover:border-none h-[48px] border-[1px] border-neutral-800  text-black rounded-lg cursor-pointer mx-auto"
         >
           BUY
+        </div> */}
+        <div
+          onClick={async () => revalidate(id)}
+          className="flex my-4 justify-center items-center w-full max-w-[160px]  ease-in-out duration-300 hover:bg-neutral-800  hover:text-white  hover:border-none h-[48px] border-[1px] border-neutral-800  text-black rounded-lg cursor-pointer mx-auto"
+        >
+          Revalidate
         </div>
       </div>
     </div>
