@@ -1,6 +1,8 @@
 import { GetAccountDataQuery } from "../generated/graphql";
 import { ShippingAddressType } from "./type";
 
+const DEPLOY_URL = `https://api.vercel.com/v1/integrations/deploy/prj_Fd9TXQM4aBPqfa2AXG7PXm3hqy6h/N1cI1JF6sZ`;
+
 export const getShippingAddress = (
   AccountData: GetAccountDataQuery["account"]
 ): ShippingAddressType[] | null => {
@@ -34,4 +36,11 @@ export const getClearFormatData = (isoFormat: number) => {
     newMonth = "0" + newMonth;
   }
   return `${year}-${newMonth}-${day}: ${newTime}`;
+};
+
+export const deployHook = async () => {
+  const res = await fetch(DEPLOY_URL)
+    .then(res => res.json())
+    .catch(error => alert(error));
+  console.log("RES", res);
 };

@@ -1,6 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Dispatch, memo, SetStateAction } from "react";
+import { deployHook } from "../../utils/common";
 import { InfoPopup } from "../InfoPopup";
 
 type ProfileType = {
@@ -14,10 +15,10 @@ export const Profile = memo<ProfileType>(({ dateTime, setOrderVisible }) => {
   if (!session) {
     return <InfoPopup status="cancell" description="You dont have access" />;
   }
-
+  console.log("session", session);
   return (
     <div
-      className={`relative flex md:flex w-full  lg:w-5/6 h-[250px] 
+      className={`relative flex md:flex w-full mt-4 lg:w-5/6 h-[250px] 
        md:flex flex-col text-black items-end py-4 px-4 rounded-xl   h-20 hover:pb-10 overflow-hidden 
        bg-[#E1B989] 
        shadow-2xl shadow-stone-700  ease-in-out duration-300 cursor-pointer`}
@@ -55,12 +56,15 @@ export const Profile = memo<ProfileType>(({ dateTime, setOrderVisible }) => {
         >
           Orders History
         </div>
-        <button
-          onClick={() => signOut()}
-          className="text-[#E1B989] hidden md:flex text-xl mr-4"
-        >
-          Log Out
-        </button>
+
+        {session.user.id === process.env.NEXT_PUBLIC_DRAGO_ID && (
+          <button
+            onClick={deployHook}
+            className="flex my-4 justify-center items-center w-full max-w-[160px]  ease-in-out duration-300 hover:bg-neutral-800  hover:text-white  hover:border-none h-[48px] border-[1px] border-neutral-800  text-black rounded-lg cursor-pointer mr-2"
+          >
+            Deploy
+          </button>
+        )}
       </div>
     </div>
   );

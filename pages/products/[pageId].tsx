@@ -43,12 +43,13 @@ export default pageId;
 export const getStaticProps = async ({
   params
 }: InferGetStaticPaths<typeof getStaticPaths>) => {
-  if (!params?.pageId)
+  if (!params?.pageId) {
     return {
       props: {
         data: null
       }
     };
+  }
 
   const data = await getPaginationData(params.pageId);
 
@@ -59,12 +60,13 @@ export const getStaticProps = async ({
       }
     };
   }
+  const { pageProducts, paginationRange, currentPage } = data;
 
   return {
     props: {
-      pageProducts: data.pageProducts,
-      paginationRange: data.paginationRange,
-      currentPage: data.currentPage
+      pageProducts,
+      paginationRange,
+      currentPage
     },
     revalidate: 86400
   };
