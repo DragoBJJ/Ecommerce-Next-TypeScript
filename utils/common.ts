@@ -1,7 +1,7 @@
 import { GetAccountDataQuery } from "../generated/graphql";
 import { ShippingAddressType } from "./type";
 
-const DEPLOY_URL = `https://api.vercel.com/v1/integrations/deploy/prj_Fd9TXQM4aBPqfa2AXG7PXm3hqy6h/N1cI1JF6sZ`;
+const DEPLOY_URL = `https://api.vercel.com/v1/integrations/deploy/prj_zqzfDobEJdHtaq05s2AM0RNQh95h/1OwgK1EQuQ`;
 
 export const getShippingAddress = (
   AccountData: GetAccountDataQuery["account"]
