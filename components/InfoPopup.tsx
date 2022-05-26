@@ -22,13 +22,13 @@ export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
             src={image ? `/${image}.svg` : `/cancell.svg`}
             alt="resultImage"
             height={5 / 4}
-            width={16 / 9}
+            width={16 / 7}
             layout="responsive"
             objectFit="contain"
           />
         </div>
         <h1
-          className={`mx-auto my-[2rem] w-full text-center tracking-widest text-2xl 
+          className={`mx-auto my-[2rem] w-full text-center tracking-widest text-md md:text-2xl 
           ${status === "success" ||
             (status === "info" && "text-[rgba(108,99,255,255)]")}
             ${status === "cancell" && "text-[#EA604D]"}

@@ -87,7 +87,15 @@ const Home = () => {
       {ordersVisible && (
         <div className="w-full h-full mt-4">
           <Fade triggerOnce>
-            <ProfileOrders accountData={AccountData.account} />
+            {AccountData.account.orders.length ? (
+              <ProfileOrders accountData={AccountData.account} />
+            ) : (
+              <InfoPopup
+                image="empty"
+                status="info"
+                description={`${sessionData?.user.username}, you dont have history orders yet`}
+              />
+            )}
           </Fade>
         </div>
       )}
