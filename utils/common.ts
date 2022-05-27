@@ -42,5 +42,13 @@ export const deployHook = async () => {
   const res = await fetch(DEPLOY_URL)
     .then(res => res.json())
     .catch(error => alert(error));
-  console.log("RES", res);
+};
+
+export const revalidatePageID = async (productID: string) => {
+  await fetch("/api/revalidate", {
+    method: "POST",
+    body: productID
+  })
+    .then(res => res.json())
+    .catch(error => console.log("ERROR", error));
 };

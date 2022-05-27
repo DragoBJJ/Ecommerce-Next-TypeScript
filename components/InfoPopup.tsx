@@ -29,8 +29,7 @@ export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
         </div>
         <h1
           className={`mx-auto my-[2rem] w-full text-center tracking-widest text-md md:text-2xl 
-          ${status === "success" ||
-            (status === "info" && "text-[rgba(108,99,255,255)]")}
+          ${status === "success" && "text-[rgba(108,99,255,255)]"}
             ${status === "cancell" && "text-[#EA604D]"}
             `}
         >

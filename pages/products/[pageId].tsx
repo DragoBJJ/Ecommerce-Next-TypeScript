@@ -6,15 +6,20 @@ import { getPaths, getPaginationData } from "../../utils/getData";
 import { InferGetStaticPaths } from "../../utils/type";
 
 import { Fade } from "react-awesome-reveal";
+import { InfoPopup } from "../../components/InfoPopup";
 
 const pageId = ({
   pageProducts,
   paginationRange,
   currentPage
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (!paginationRange) return <div>you dont have paginationData</div>;
-  if (!pageProducts) return <div>you dont have pageProducts</div>;
-  if (!currentPage) return <div>Error with your CurrentPage</div>;
+  if (!paginationRange || !pageProducts || !currentPage) {
+    return (
+      <div className="flex w-screen h-screen justify-center items-center">
+        <InfoPopup status="cancell" description="Error with your pagination" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -77,8 +82,7 @@ export const getStaticPaths = async () => {
 
   if (!paths) {
     return {
-      paths: [],
-      fallback: false
+      paths: []
     };
   }
 

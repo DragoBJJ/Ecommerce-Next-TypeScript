@@ -15,7 +15,7 @@ export const Profile = memo<ProfileType>(({ dateTime, setOrderVisible }) => {
   if (!session) {
     return <InfoPopup status="cancell" description="You dont have access" />;
   }
-  console.log("session", session);
+
   return (
     <div
       className={`relative flex md:flex w-full mt-4 lg:w-5/6 h-[250px] 
