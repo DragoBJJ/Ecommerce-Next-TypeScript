@@ -14,7 +14,6 @@ export const CartSummary = memo<CartSummaryType>(({ itemsAmount, pay }) => {
   const { cartItems } = UseCartContext();
   const { status } = useSession();
 
-  console.log("orderID", orderID);
   return (
     <div className="flex flex-col py-4 px-2 col-span-1 w-full items-center">
       {cartItems.length > 0 && (

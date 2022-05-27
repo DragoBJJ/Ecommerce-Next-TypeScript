@@ -2,10 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import {
-  useCreateShippingAddressMutation,
-  usePublishShippingAddressMutation
-} from "../../generated/graphql";
+import { useCreateShippingAddressMutation } from "../../generated/graphql";
 import { createStripePayment } from "../../utils/apiCheckout";
 import { UseClientContext } from "../context/ClientContext";
 import { InfoPopup } from "../InfoPopup";
@@ -21,25 +18,21 @@ export const CheckoutAddress = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted }
+    formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   });
 
   const [
     createShipping,
-    { loading, error: ShippingError }
+    { loading: ShippingLoading, error: ShippingError }
   ] = useCreateShippingAddressMutation();
-  const [
-    publishShippingAddress,
-    { error: publishError, loading: publishLoading }
-  ] = usePublishShippingAddressMutation();
 
-  if (loading || publishLoading || isSubmitted) {
-    return <Spinner isSmaller />;
+  if (ShippingLoading) {
+    <Spinner isSmaller />;
   }
 
-  if (ShippingError || publishError) {
+  if (ShippingError) {
     return (
       <InfoPopup status="cancell" description="Error with your Shipping" />
     );
@@ -59,7 +52,6 @@ export const CheckoutAddress = () => {
       }
     });
     if (!shippingData || !orderID) return;
-    await publishShippingAddress();
     const { clientSecret } = await createStripePayment(orderID);
     if (!clientSecret || !setClientStripeID) return;
     setClientStripeID(clientSecret);

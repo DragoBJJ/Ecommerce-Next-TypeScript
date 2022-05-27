@@ -8,9 +8,14 @@ type StatusProps = {
   image?: string;
 };
 
-export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
+export const InfoPopup = memo<StatusProps>(({ status, description, image }) => {
+  const logicCss = `${
+    status === "success" || status === "info"
+      ? "text-[rgba(108,99,255,255)]"
+      : "text-[#EA604D]"
+  }`;
   return (
-    <Fade triggerOnce>
+    <Fade triggerOnce style={{ width: "100%" }}>
       <div
         className="flex flex-col my-4 mx-auto w-full h-full max-w-[380px] max-h-[380px] sm:max-w-[400px] sm:max-h-[400px] 
       md:max-w-[500px] md:max-h-[500px] lg:max-w-[550px]
@@ -28,10 +33,7 @@ export const InfoPopup = memo(({ status, description, image }: StatusProps) => {
           />
         </div>
         <h1
-          className={`mx-auto my-[2rem] w-full text-center tracking-widest text-md md:text-2xl 
-          ${status === "success" && "text-[rgba(108,99,255,255)]"}
-            ${status === "cancell" && "text-[#EA604D]"}
-            `}
+          className={`mx-auto my-[2rem] w-full text-center tracking-widest text-md md:text-2xl ${logicCss}`}
         >
           {description ? description : "Access Denied"}
         </h1>

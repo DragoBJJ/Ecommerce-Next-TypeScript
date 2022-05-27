@@ -7,19 +7,28 @@ import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { OrderContent } from "../components/Order/OrderContent";
 import { useSession } from "next-auth/react";
+import { memo } from "react";
 import { Spinner } from "../components/Spinner";
+import { useRouter } from "next/router";
 
 type TemplateType = {
   children: JSX.Element;
   imageName: string;
 };
 
-export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
-  const { orderID, clientStripeID } = UseClientContext();
+export const CheckoutTemplate = memo<TemplateType>(({children,imageName}) => {
+  const { orderID } = UseClientContext();
+  const { pathname } = useRouter();
   const [showOrder, setShowOrder] = useState<boolean>(false);
   const { status } = useSession();
 
+   if(status === "unauthenticated") {
+     return (
+       <InfoPopup status="cancell" description="You dont have access"/>
+     )
+   }
   if (status === "loading") return <Spinner />;
+
 
   return (
     <div className="w-screen min-h-screen border-red-600">
@@ -30,7 +39,7 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
             <div className="flex w-full h-full">{children}</div>
 
             <div className="md:flex flex-col w-full h-full mx-auto justify-center items-center">
-              {!clientStripeID && (
+              {orderID && pathname.includes("address") && (
                 <button
                   onClick={() => setShowOrder(prev => !prev)}
                   className="h-[48px]   w-[200px] mt-2 border-[1px] hover:bg-[#E1B989] border-[#E1B989] rounded-xl ease-in-out duration-300"
@@ -39,12 +48,11 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
                 </button>
               )}
 
-              {showOrder && !clientStripeID && (
+              {showOrder ? (
                 <Fade className="w-full h-full">
                   <OrderContent />
                 </Fade>
-              )}
-              {!showOrder && (
+              ) : (
                 <div className="w-full h-full mx-auto justify-center items-center">
                   <Fade>
                     <Image
@@ -65,4 +73,4 @@ export const CheckoutTemplate = ({ children, imageName }: TemplateType) => {
       )}
     </div>
   );
-};
+}

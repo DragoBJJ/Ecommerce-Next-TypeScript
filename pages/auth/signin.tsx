@@ -12,7 +12,7 @@ import { Fade } from "react-awesome-reveal";
 import Link from "next/link";
 
 const SignInForm = () => {
-  const { status } = useSession();
+  const { status, data: sessionData } = useSession();
   const router = useRouter();
 
   const {
@@ -37,7 +37,7 @@ const SignInForm = () => {
         <InfoPopup
           image="nasa"
           status="success"
-          description="Welcome on board !"
+          description={`${sessionData.user.username}, Welcome on board !`}
         />
       </div>
     );

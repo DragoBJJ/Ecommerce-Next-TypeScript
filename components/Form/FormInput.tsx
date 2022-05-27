@@ -31,6 +31,7 @@ export const FormInput = <TFormData extends Record<string, unknown>>({
         ${errors[id]?.ref &&
           "bg-red-500"}  rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ease-in-out duration-500 `}
         id={id}
+        defaultValue={id === "rating" ? 5 : ""}
         type={type && type}
         placeholder={placeholder}
         {...register(id)}

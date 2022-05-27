@@ -109,16 +109,12 @@ mutation CreateShippingAddress($data: ShippingAddressCreateInput!) {
     email
     streetAddress
   }
-}
-
-mutation PublishShippingAddress {
   publishManyShippingAddressesConnection {
     pageInfo {
       pageSize
     }
   }
 }
-
 mutation PublishManyProducts {
   publishManyProductsConnection {
     pageInfo {

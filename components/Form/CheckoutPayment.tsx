@@ -1,4 +1,4 @@
-import { FormEvent, useLayoutEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { CardElement } from "@stripe/react-stripe-js";
 import { useRouter } from "next/router";
 
@@ -14,7 +14,6 @@ import {
   useUpdateOrderMutation
 } from "../../generated/graphql";
 
-import { getClientStripeID } from "../../utils/storage";
 import { Spinner } from "../Spinner";
 import { InfoPopup } from "../InfoPopup";
 import { useSession } from "next-auth/react";
@@ -39,15 +38,12 @@ export const CheckoutPaymentForm = ({ stripe, elements }: PaymentType) => {
     { error: errorUpdateID, loading: loadingUpdateID }
   ] = useUpdateOrderMutation();
 
-  useLayoutEffect(() => {
-    if (clientStripeID || !setClientStripeID) return;
-    setClientStripeID(getClientStripeID());
-  }, [clientStripeID, setClientStripeID]);
-
   if (loadingUpdateID) return <Spinner />;
   if (!clientStripeID) {
     return (
-      <InfoPopup status="cancell" description="Error with your clientID" />
+      <div className="flex w-full h-full justify-start">
+        <InfoPopup status="cancell" description="Error with your clientID" />
+      </div>
     );
   }
   if (errorUpdateID) {

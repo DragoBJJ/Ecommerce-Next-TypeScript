@@ -17,28 +17,28 @@ export const SetItemInLocalStorage = (cartItems: CartType[]) => {
   localStorage.setItem("Zaiste", JSON.stringify(cartItems));
 };
 
-export const setClientStripeIDInLocal = (
-  stripeID: Client["clientStripeID"]
-) => {
-  localStorage.setItem("StripeID", JSON.stringify(stripeID));
-};
+// export const setClientStripeIDInLocal = (
+//   stripeID: Client["clientStripeID"]
+// ) => {
+//   localStorage.setItem("StripeID", JSON.stringify(stripeID));
+// };
 
 export const setClientOrderID = (orderID: Client["orderID"]) => {
   localStorage.setItem("OrderID", JSON.stringify(orderID));
 };
 
-export const getClientStripeID = () => {
-  const localStripeID = localStorage.getItem("StripeID");
-  if (!localStripeID) return undefined;
-  try {
-    const clientStripeID: Client["clientStripeID"] = JSON.parse(localStripeID);
-    if (!clientStripeID) return;
-    return clientStripeID;
-  } catch (error) {
-    console.log("Error", error);
-    return undefined;
-  }
-};
+// export const getClientStripeID = () => {
+//   const localStripeID = localStorage.getItem("StripeID");
+//   if (!localStripeID) return undefined;
+//   try {
+//     const clientStripeID: Client["clientStripeID"] = JSON.parse(localStripeID);
+//     if (!clientStripeID) return;
+//     return clientStripeID;
+//   } catch (error) {
+//     console.log("Error", error);
+//     return undefined;
+//   }
+// };
 
 export const getClientOrderID = () => {
   const localOrderID = localStorage.getItem("OrderID");

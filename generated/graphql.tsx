@@ -12138,12 +12138,7 @@ export type CreateShippingAddressMutationVariables = Exact<{
 }>;
 
 
-export type CreateShippingAddressMutation = { __typename?: 'Mutation', createShippingAddress?: { __typename?: 'ShippingAddress', id: string, firstName: string, email: string, streetAddress: string } | null };
-
-export type PublishShippingAddressMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PublishShippingAddressMutation = { __typename?: 'Mutation', publishManyShippingAddressesConnection: { __typename?: 'ShippingAddressConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } } };
+export type CreateShippingAddressMutation = { __typename?: 'Mutation', createShippingAddress?: { __typename?: 'ShippingAddress', id: string, firstName: string, email: string, streetAddress: string } | null, publishManyShippingAddressesConnection: { __typename?: 'ShippingAddressConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null } } };
 
 export type PublishManyProductsMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -12170,13 +12165,6 @@ export type PublishAccountMutationVariables = Exact<{
 
 
 export type PublishAccountMutation = { __typename?: 'Mutation', publishAccount?: { __typename?: 'Account', id: string } | null };
-
-export type GetOrderItemsQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
-}>;
-
-
-export type GetOrderItemsQuery = { __typename?: 'Query', order?: { __typename?: 'Order', orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', id: string, name: string, description: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export type GetProductListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -12232,6 +12220,13 @@ export type GetAccountDataQueryVariables = Exact<{
 
 
 export type GetAccountDataQuery = { __typename?: 'Query', account?: { __typename?: 'Account', id: string, createdAt: any, email: string, username: string, specialization: string, orders: Array<{ __typename?: 'Order', createdAt: any, stripeCheckoutId: string, shippingAddress?: { __typename?: 'ShippingAddress', id: string, email: string, firstName: string, lastName: string, state: string, city: string, streetAddress: string, postalCode: string } | null, orderItems: Array<{ __typename?: 'OrderItem', quantity: number, product?: { __typename?: 'Product', name: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }> }> } | null };
+
+export type GetOrderItemsQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type GetOrderItemsQuery = { __typename?: 'Query', order?: { __typename?: 'Order', orderItems: Array<{ __typename?: 'OrderItem', id: string, quantity: number, product?: { __typename?: 'Product', id: string, name: string, description: string, price: number, images: Array<{ __typename?: 'Asset', url: string }> } | null }> } | null };
 
 export const ReviewContentFragmentDoc = gql`
     fragment ReviewContent on Review {
@@ -12604,6 +12599,11 @@ export const CreateShippingAddressDocument = gql`
     email
     streetAddress
   }
+  publishManyShippingAddressesConnection {
+    pageInfo {
+      pageSize
+    }
+  }
 }
     `;
 export type CreateShippingAddressMutationFn = Apollo.MutationFunction<CreateShippingAddressMutation, CreateShippingAddressMutationVariables>;
@@ -12632,40 +12632,6 @@ export function useCreateShippingAddressMutation(baseOptions?: Apollo.MutationHo
 export type CreateShippingAddressMutationHookResult = ReturnType<typeof useCreateShippingAddressMutation>;
 export type CreateShippingAddressMutationResult = Apollo.MutationResult<CreateShippingAddressMutation>;
 export type CreateShippingAddressMutationOptions = Apollo.BaseMutationOptions<CreateShippingAddressMutation, CreateShippingAddressMutationVariables>;
-export const PublishShippingAddressDocument = gql`
-    mutation PublishShippingAddress {
-  publishManyShippingAddressesConnection {
-    pageInfo {
-      pageSize
-    }
-  }
-}
-    `;
-export type PublishShippingAddressMutationFn = Apollo.MutationFunction<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>;
-
-/**
- * __usePublishShippingAddressMutation__
- *
- * To run a mutation, you first call `usePublishShippingAddressMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePublishShippingAddressMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [publishShippingAddressMutation, { data, loading, error }] = usePublishShippingAddressMutation({
- *   variables: {
- *   },
- * });
- */
-export function usePublishShippingAddressMutation(baseOptions?: Apollo.MutationHookOptions<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>(PublishShippingAddressDocument, options);
-      }
-export type PublishShippingAddressMutationHookResult = ReturnType<typeof usePublishShippingAddressMutation>;
-export type PublishShippingAddressMutationResult = Apollo.MutationResult<PublishShippingAddressMutation>;
-export type PublishShippingAddressMutationOptions = Apollo.BaseMutationOptions<PublishShippingAddressMutation, PublishShippingAddressMutationVariables>;
 export const PublishManyProductsDocument = gql`
     mutation PublishManyProducts {
   publishManyProductsConnection {
@@ -12803,53 +12769,6 @@ export function usePublishAccountMutation(baseOptions?: Apollo.MutationHookOptio
 export type PublishAccountMutationHookResult = ReturnType<typeof usePublishAccountMutation>;
 export type PublishAccountMutationResult = Apollo.MutationResult<PublishAccountMutation>;
 export type PublishAccountMutationOptions = Apollo.BaseMutationOptions<PublishAccountMutation, PublishAccountMutationVariables>;
-export const GetOrderItemsDocument = gql`
-    query GetOrderItems($id: ID) {
-  order(where: {id: $id}) {
-    orderItems {
-      id
-      quantity
-      product {
-        id
-        images {
-          url
-        }
-        name
-        description
-        price
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetOrderItemsQuery__
- *
- * To run a query within a React component, call `useGetOrderItemsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrderItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOrderItemsQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetOrderItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetOrderItemsQuery, GetOrderItemsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrderItemsQuery, GetOrderItemsQueryVariables>(GetOrderItemsDocument, options);
-      }
-export function useGetOrderItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderItemsQuery, GetOrderItemsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrderItemsQuery, GetOrderItemsQueryVariables>(GetOrderItemsDocument, options);
-        }
-export type GetOrderItemsQueryHookResult = ReturnType<typeof useGetOrderItemsQuery>;
-export type GetOrderItemsLazyQueryHookResult = ReturnType<typeof useGetOrderItemsLazyQuery>;
-export type GetOrderItemsQueryResult = Apollo.QueryResult<GetOrderItemsQuery, GetOrderItemsQueryVariables>;
 export const GetProductListDocument = gql`
     query getProductList {
   products {
@@ -13133,3 +13052,50 @@ export function useGetAccountDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAccountDataQueryHookResult = ReturnType<typeof useGetAccountDataQuery>;
 export type GetAccountDataLazyQueryHookResult = ReturnType<typeof useGetAccountDataLazyQuery>;
 export type GetAccountDataQueryResult = Apollo.QueryResult<GetAccountDataQuery, GetAccountDataQueryVariables>;
+export const GetOrderItemsDocument = gql`
+    query GetOrderItems($id: ID) {
+  order(where: {id: $id}) {
+    orderItems {
+      id
+      quantity
+      product {
+        id
+        images {
+          url
+        }
+        name
+        description
+        price
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetOrderItemsQuery__
+ *
+ * To run a query within a React component, call `useGetOrderItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrderItemsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetOrderItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetOrderItemsQuery, GetOrderItemsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrderItemsQuery, GetOrderItemsQueryVariables>(GetOrderItemsDocument, options);
+      }
+export function useGetOrderItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderItemsQuery, GetOrderItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrderItemsQuery, GetOrderItemsQueryVariables>(GetOrderItemsDocument, options);
+        }
+export type GetOrderItemsQueryHookResult = ReturnType<typeof useGetOrderItemsQuery>;
+export type GetOrderItemsLazyQueryHookResult = ReturnType<typeof useGetOrderItemsLazyQuery>;
+export type GetOrderItemsQueryResult = Apollo.QueryResult<GetOrderItemsQuery, GetOrderItemsQueryVariables>;
