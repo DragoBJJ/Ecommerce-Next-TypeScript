@@ -37,7 +37,7 @@ const SignInForm = () => {
         <InfoPopup
           image="nasa"
           status="success"
-          description={`${sessionData.user.username}, Welcome on board !`}
+          description={`${sessionData?.user.username}, Welcome on board !`}
         />
       </div>
     );
