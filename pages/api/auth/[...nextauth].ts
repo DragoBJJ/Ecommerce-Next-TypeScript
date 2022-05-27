@@ -30,7 +30,6 @@ export default NextAuth({
       },
 
       async authorize(credentials) {
-        console.log("credentials", credentials);
         if (!credentials) return null;
         const {
           data

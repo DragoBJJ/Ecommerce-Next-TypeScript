@@ -50,9 +50,11 @@ const SignInForm = () => {
     })
       .then((res: ResSignInType) => {
         if (res?.ok) {
-          router.push({
-            pathname: "/products/1"
-          });
+          setTimeout(() => {
+            router.push({
+              pathname: "/products/1"
+            });
+          }, 3000);
         } else {
           router.push({
             pathname: "/auth/error"

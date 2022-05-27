@@ -6,11 +6,8 @@ import {
   GetProductListDocument,
   GetProductListQuery,
   GetProductsPathDocument,
-  GetProductsPathQuery,
-  useGetProductDetailsQuery
+  GetProductsPathQuery
 } from "../generated/graphql";
-
-const API_URL = `https://naszsklep-api.vercel.app/api/products`;
 
 const currentPageData = (
   product: GetProductListQuery["products"],
@@ -23,20 +20,6 @@ const currentPageData = (
 };
 
 export const getProducts = async () => {
-  // if (!pageId) return null;
-
-  // try {
-  //   const response = await fetch(`${API_URL}?take=350&offset=0`);
-  //   const products: StoreApiResponse[] = await response.json();
-  //   return {
-  //     products
-  //   };
-  // } catch (error) {
-  //   console.log("Error", error);
-  //   return {
-  //     products: []
-  //   };
-  // }
   const { data } = await apolloClient.query<GetProductListQuery>({
     query: GetProductListDocument
   });
@@ -48,16 +31,6 @@ export const getProducts = async () => {
 };
 
 export const getCurrentProduct = async (productId: string) => {
-  // try {
-  //   const response = await fetch(
-  //     `https://naszsklep-api.vercel.app/api/products/${productId}`
-  //   );
-  //   const product: StoreApiResponse = await response.json();
-  //   return product;
-  // } catch (error) {
-  //   console.log("Error", error);
-  //   return null;
-  // }
   const { data } = await apolloClient.query<GetProductDetailsQuery>({
     variables: {
       id: productId
